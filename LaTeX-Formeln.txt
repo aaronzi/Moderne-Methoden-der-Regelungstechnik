@@ -1,0 +1,79 @@
+SCHLITTEN
+
+F_P: F_{\mathrm{P}}=\frac{F^{'}_{\mathrm{P}}}{\cos(\varphi)}=-m\cdot g\cdot\frac{\sin(\varphi)}{\cos(\varphi)}=-m\cdot g\cdot\tan(\varphi)
+
+F_f: F_{\mathrm{f}}=-d\cdot \dot{x}_{\mathrm{M}}+\sgn(\dot{x}_{\mathrm{M}})\cdot F_{\mathrm{C}}
+
+F_ges: M\cdot\ddot{x_{\mathrm{M}}}=\sum{F}=F_{\mathrm{a}}+F_{\mathrm{P}}+F_{\mathrm{f}}
+
+F_ges: M\cdot\ddot{x_{\mathrm{M}}}=F_{\mathrm{a}}-m\cdot g\cdot\tan(\varphi)-d\cdot \dot{x}_{\mathrm{M}}+\sgn(\dot{x}_{\mathrm{M}})\cdot F_{\mathrm{C}}
+
+
+---------------------------------------------------------
+
+
+PENDEL
+
+F_P': F^{'}_{\mathrm{P}}=F_{\mathrm{P}}\cdot \cos(\varphi)=-m\cdot g\cdot\tan(\varphi)\cdot\cos(\varphi)=-m\cdot g\cdot\sin(\varphi)
+
+F_G': F^{'}_{\mathrm{G}}=F_{\mathrm{G}}\cdot \sin(\varphi)=m\cdot g\cdot \sin(\varphi)
+
+M_P: M_{\mathrm{P}}=F^{'}_{\mathrm{P}}\cdot l=-m\cdot g\cdot l\cdot\sin(\varphi)
+
+M_G: M_{\mathrm{G}}=F^{'}_{\mathrm{G}}\cdot l=m\cdot g\cdot l\cdot \sin(\varphi)
+
+M_f: M_{\mathrm{f}}=-d_{\mathrm{Mf}}\cdot\dot{\varphi}
+
+M_ges: m\cdot l^2\cdot\ddot{\varphi}=\sum{M}=M_{\mathrm{G}}+M_{\mathrm{P}}+M_{\mathrm{f}}
+
+M_ges: m\cdot l^2\cdot\ddot{\varphi}=m\cdot g\cdot l\cdot\sin(\varphi)-m\cdot g\cdot l\cdot\sin(\varphi)-d_{\mathrm{Mf}}\cdot\dot{\varphi}=-d_{\mathrm{Mf}}\cdot\dot{\varphi}
+
+
+---------------------------------------------------------
+
+
+ZUSTANDSRAUMMODELL (NICHT LINEAR)
+
+Zustandsvektor: \underline{x} = \begin{bmatrix}\varphi\\ \dot\varphi\\ x_{\mathrm{M}} \\ \dot x_{\mathrm{M}}\end{bmatrix} = \begin{bmatrix} x_{\mathrm{1}}\\ x_{\mathrm{2}}\\ x_{\mathrm{3}}\\ x_{\mathrm{4}}\end{bmatrix}
+
+Vektor Zst.-Änderng.: \dot{\underline{x}}=\begin{bmatrix}\dot x_{\mathrm{1}}\\ \dot x_{\mathrm{2}}\\ \dot x_{\mathrm{3}}\\ \dot x_{\mathrm{4}}\end{bmatrix}=\begin{bmatrix}x_{\mathrm{2}}\\-\frac{d_{\mathrm{Mf}}}{m\cdot l^2}\cdot x_{\mathrm{2}}\\ x_{\mathrm{4}}\\ \frac{F_{\mathrm{a}}}{M}-\frac{m\cdot g}{M}\cdot\tan(x_{\mathrm{1}})-\frac{d}{M}\cdot x_{\mathrm{4}}+\sgn(x_{\mathrm{4}})\cdot\frac{F_{\mathrm{C}}}{M}\end{bmatrix} 
+
+
+---------------------------------------------------------
+
+
+RUHELAGEN
+
+Vorschrift: \dot{\underline{x}}^{*}=\begin{bmatrix}\dot x_{\mathrm{1}}^{*}\\ \dot x_{\mathrm{2}}^{*}\\ \dot x_{\mathrm{3}}^{*}\\ \dot x_{\mathrm{4}}^{*}\end{bmatrix}=\begin{bmatrix}0\\0\\0\\0\end{bmatrix}
+
+
+---------------------------------------------------------
+
+
+ZUSTANDSRAUMMODELL (LINEAR)
+
+Vorschrift: \dot{\underline{x}}^{*}+\diff{\dot{\underline{x}}}=\underline{f}(\underline{x}^{*}+\diff{\underline{x}},\underline{u}^{*}+\diff{\underline{u}})=\underline{f}(\underline{x}^{*},\underline{u}^{*})+\left[\frac{\partial f_{\mathrm{i}}}{\partial x_{\mathrm{j}}}\right]_{(\underline{x}^{*}, \underline{u}^{*})}\cdot\diff{\underline{x}}+\left[\frac{\partial f_{\mathrm{i}}}{\partial u_{\mathrm{j}}}\right]_{(\underline{x}^{*},\underline{u}^{*})}\cdot\diff{\underline{u}}+\underline{R}(\diff{\underline{x}^2}, \diff{\underline{u}^2})
+
+delta_x1: \diff{\dot{x_{\mathrm{1}}}}=0\cdot\diff{x_{\mathrm{1}}}+1\cdot\diff{x_{\mathrm{2}}}+0\cdot\diff{x_{\mathrm{3}}}+0\cdot\diff{x_{\mathrm{4}}}+0\cdot\diff{u}
+
+delta_x1_zusammengefasst: \diff{\dot{x_{\mathrm{1}}}}=\diff{x_{\mathrm{2}}}
+
+delta_x2: \diff{\dot{x}_{\mathrm{2}}}=0\cdot\diff{x_{\mathrm{1}}}-\frac{d_{\mathrm{Mf}}}{m\cdot l^2}\cdot\diff{x_{\mathrm{2}}}+0\cdot\diff{x_{\mathrm{3}}}+0\cdot\diff{x_{\mathrm{4}}}+0\cdot\diff{u}
+
+delta_x2_zusammengefasst: \diff{\dot{x}_{\mathrm{2}}}=-\frac{d_{\mathrm{Mf}}}{m\cdot l^2}\cdot\diff{x_{\mathrm{2}}}
+
+delta_x3: \diff{\dot{x}_{\mathrm{3}}}=0\cdot\diff{x_{\mathrm{1}}}+0\cdot\diff{x_{\mathrm{2}}}+0\cdot\diff{x_{\mathrm{3}}}+1\cdot\diff{x_{\mathrm{4}}}+0\cdot\diff{u}
+
+delta_x3_zusammengefasst: \diff{\dot{x_{\mathrm{3}}}}=\diff{x_{\mathrm{4}}}
+
+delta_x4: \diff{\dot{x_{\mathrm{4}}}}=(\frac{-m\cdot g}{M}\cdot\frac{1}{\cos^2(\varphi)})\cdot\diff{x_{\mathrm{1}}}+0\cdot\diff{x_{\mathrm{2}}}+0\cdot\diff{x_{\mathrm{3}}}-\frac{d}{M}\cdot\diff{x_{\mathrm{4}}}+\frac{1}{M}\cdot\diff{u}
+
+delta_x4_zusammengefasst: \diff{\dot{x_{\mathrm{4}}}}=(\frac{-m\cdot g}{M})\cdot\diff{x_{\mathrm{1}}}-\frac{d}{M}\cdot\diff{x_{\mathrm{4}}}+\frac{1}{M}\cdot\diff{u}
+
+delta_y: \diff{y}=\diff{x_{\mathrm{1}}}
+
+Zustandsgleichungen: \diff{\dot{\underline{x}}}=\begin{bmatrix}0 & 1 & 0 & 0 \\0 & -\frac{d_{\mathrm{Mf}}}{m\cdot l^2} & 0 & 0 \\0 & 0 & 0 & 1 \\-\frac{m\cdot g}{M} & 0 & 0 & -\frac{d}{M}\end{bmatrix}\cdot \begin{bmatrix} \diff{x_{\mathrm{1}}} \\ \diff{x_{\mathrm{2}}} \\ \diff{x_{\mathrm{3}}} \\ \diff{x_{\mathrm{4}}} \\ \end{bmatrix}+\begin{bmatrix}0 \\0 \\0 \\ \frac{1}{M}\end{bmatrix}\cdot F_{\mathrm{a}}
+
+Ausgangsgleichung: \diff{\underline{y}} = \begin{bmatrix}1 & 0 & 0 & 0\end{bmatrix}\cdot\begin{bmatrix}\diff{x_{\mathrm{1}}}\\\diff{x_{\mathrm{2}}}\\\diff{x_{\mathrm{3}}}\\\diff{x_{\mathrm{4}}}\end{bmatrix}+\underline{0}\cdot F_{\mathrm{a}}
+
+
