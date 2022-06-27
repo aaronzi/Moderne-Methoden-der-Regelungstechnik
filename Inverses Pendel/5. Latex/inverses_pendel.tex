@@ -791,17 +791,14 @@ Wird die Eingangkraft $F_{\mathrm{a}}$, welche auf das System wirkt, signifikant
 
 \section{Zustandsreglerentwurf}
 
-\subsection{Ackermann-Formel} \label{sec:Ackermann}
-
+\subsection{Ackermann-Formel} \label{sec:Ackermann-Formel}
+Die erste umgesetzte Regelstrategie ist die Anwendung der Ackermann-Formel. Ziel ist es, das Pendel-System mit einem Anfangswinkel ungleich Null Grad erneut in die instabile Ruhelage zu bringen. Dafür werden mit Hilfe der Ackermann-Formel $"k"$-Faktoren berechnet, welche anschließend mit den Zuständen $x_{\mathrm{1}}$ bis $x_{\mathrm{4}}$ multipliziert und auf den Systemeingang zurückgeführt werden (\autoref{fig:Bild7}). Der Wagen wird dabei immer in den Ausgangszustand von $x_M$ zurück geregelt.
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.3\textwidth]{Bilder/Ackermann.pdf}}
     \caption[Reglerstruktur Ackermann]{Schematische Darstellung der Reglerstruktur des Reglers mit Ackermann-Formel}
     \label{fig:Bild7}
 \end{figure}
-
-Die erste umgesetzte Regelstrategie ist die Anwendung der Ackermann-Formel. Ziel ist es das Pendel-System nach einem Impuls erneut in die instabile Ruhelage zu bringen. Dafür werden mit Hilfe der Ackermann-Formel die $"k"$-Faktoren berechnet, welche anschließend mit den Zuständen $x_{\mathrm{1}}$ bis $x_{\mathrm{4}}$ multipliziert und anschließend auf den Systemeingang zurückgeführt werden. Der Wagen wird dabei immer in den Ausgangszustand von $x_M$ zurück geregelt.\\
-
 Im ersten Schritt wird der Nachweis der Steuerbarkeit des Systems benötigt. Dieser wurde bereits in \autoref{sec:Steuerbarkeit} erbracht.
 Im zweiten Schritt erfolgt die Bestimmung der Eigenwerte der Systemmatrix A. Hierzu wird das charakteristische Polynom benötigt, welches mithilfe der Laplace-Transformation der Vektorzustandsdifferentialgleichungen $\underline{\dot{x}}$ und der anschließenden Umformung hergeleitet wird.\\\\
 Laplace-Transformation und Umformung:
@@ -809,17 +806,17 @@ Laplace-Transformation und Umformung:
     \underline{\dot{x}} &= \underline{A}\cdot\underline{x}+\underline{B}\cdot\underline{u}\quad\laplace \quad s\cdot \underline{X}(s)-\underline{x}_{\mathrm{0}}=\underline{A}\cdot \underline{X}(s)+\underline{B}\cdot \underline{U}(s) \\
     \underline{X}(s) &= (s\cdot \underline{I} - \underline{A})^{-1}\cdot\underline{x}_{\mathrm{0}}+(s\cdot \underline{I} - \underline{A})^{-1}\cdot\underline{B}\cdot\underline{U}(s)
 \end{align*}\\
-Das charakteristische Polynom folgt aus der Determinante von: ($s\cdot\underline{I}-\underline{A}$). Die Matrix $\underline{I}$ stellt die Einheitsmatrix dar. Die Nullstellen des Polynoms gleichen der Eigenwerte der Systemmatrix A.\\\\
+Das charakteristische Polynom folgt aus der Determinante von: ($s\cdot\underline{I}-\underline{A}$). Die Matrix $\underline{I}$ stellt die Einheitsmatrix dar. Die Nullstellen des Polynoms gleichen den Eigenwerte der Systemmatrix A.\\\\
 Charakteristische Polynom und Eigenwertdefinition:
 \begin{align*}
     \underline{P}(s) &= det(s\cdot\underline{I}-\underline{A}) \\
-    P(s_{\mathrm{P}}) &= 0 = eig(\underline{A})
+    \underline{P}(s_{\mathrm{P}}) &= \underline{0} = eig(\underline{A})
 \end{align*}
 
 Allg. Form:
 \begin{align*}
         \underline{P}(s) &= s^n+\alpha_{n-1}\cdot s^{\mathrm{n-1}}+...+\alpha_{\mathrm{1}}\cdot s + \alpha_{\mathrm{0}} \\
-        \underline{P}(s) &= (s-s_{\mathrm{P1}})\cdot(s-s_{\mathrm{P1}})\cdot ... \cdot (s-s_{\mathrm{Pn}})
+        \underline{P}(s) &= (s-s_{\mathrm{P1}})\cdot(s-s_{\mathrm{P2}})\cdot ... \cdot (s-s_{\mathrm{Pn}})
 \end{align*}\\
 Die Berechnung der Eigenwerte der Systemmatrix erfolgt analog zu den vorangegangenen Betrachtungen.\\\\
 Eigenwerte des Systems:
@@ -834,24 +831,24 @@ Eigenwerte des Systems:
     eig(\underline{A}) &=
     \begin{bmatrix}
         0 \\
-        -0.0914 + j 5.1281 \\
-        -0.0914 - j 5.1281 \\
-        -2.1753
+        5.0852 \\
+        -5.3333 \\
+        -2.1100
     \end{bmatrix}
 \end{align}\\
-Die Eigenwerte müssen einen negativen Realteil aufweisen, andernfalls ist das System instabil. Zur Betrachtung des geregelten Systems, werden stabile Polstellen auf $s_{\mathrm{P}} = -1+0j$ festgelegt. Die Lage aller Polstellen ist in \autoref{fig:Bild7} visualisiert.\\\\
-Wunschpolstellen:
+Die Eigenwerte müssen einen negativen Realteil aufweisen, andernfalls ist das System instabil. Die Polstellen des Reglers werden auf $s_{\mathrm{P}} = -4+0j$ festgelegt. Die Lage aller Polstellen ist in \autoref{fig:Bild8} visualisiert.\\\\
+Reglerpolstellen:
 \begin{align}
     \underline{s}_{\mathrm{P}} &= 
     \begin{bmatrix}
-        -1 & -1 & -1 & -1 
+        -4 & -4 & -4 & -4 
     \end{bmatrix}
 \end{align}
 \begin{figure}[H]
     \centering
-    \fbox{\includegraphics[width=0.9\textwidth]{Bilder/Polstellenlage.png}}
-    \caption[Polstellenlage]{Polstellenlagen}
-    \label{fig:Bild7}
+    \fbox{\includegraphics[width=0.75\textwidth]{Bilder/Polstellen_Ackermann.pdf}}
+    \caption[Polstellenlage Ackermann]{Polstellenlage mit Regler mit Ackermann-Formel}
+    \label{fig:Bild8}
 \end{figure}
 
 Zur Bestimmung der Koeffizienten $\alpha_{\mathrm{n}}$ bis $\alpha_{\mathrm{0}}$ des geregelten Systems, wird das charakteristische Polynom ausmultipliziert und die Wunschpolstellen eingesetzt.
@@ -865,10 +862,10 @@ Berechnung der Koeffizienten:
 \end{align*}\\
 Das charakteristische Polynom und die Koeffizienten folgen zu:
 \begin{align}
-    \underline{P}(s) &= s^4+4\cdot s^3+6\cdot s^2+4\cdot s+1 \nonumber \\
+    \underline{P}(s) &= s^4+16\cdot s^3+96\cdot s^2+256\cdot s+256 \nonumber \\
     \underline{\alpha} &=
     \begin{bmatrix}
-        1 & 4 & 6 & 4 & 1
+        256 & 256 & 96 & 16 & 1
     \end{bmatrix} \label{eq:Gleichung38}
 \end{align}\\
 Zur Berechnung der Verstärkungsfaktoren des Reglers wird die letzte Zeile $t_{\mathrm{n}}^T$ der inversen Steuerbarkeitsmatrix $Q_{\mathrm{s}}^{-1}$ benötigt.\\\\
@@ -893,15 +890,15 @@ Letzte Zeile der inversen Matrix:
 \begin{align} \label{eq:Gleichung39}
     \underline{t}_{\mathrm{4}}^T &=
     \begin{bmatrix}
-        -0.0489 & 0 & 0.1223 & -0.0001
+        -0.0489 & 0 & -0.1223 & -0.0001
     \end{bmatrix}
 \end{align}\\
-Die finale Berechnung efolgt auf Grundlage der \autoref{eq:Gleichung40}. Durch das Einsetzen der letzten Zeile der inversen Steuerbarkeitsmatrix (\autoref{eq:Gleichung39}), der Faktoren aus \autoref{eq:Gleichung38} und der Systemmatrix A folgt für die Verstärkungsfaktoren $\underline{k}^T$:
+Die finale Berechnung efolgt auf Grundlage der \autoref{eq:Gleichung40}. Durch das Einsetzen der letzten Zeile der inversen Steuerbarkeitsmatrix (\autoref{eq:Gleichung39}), der Faktoren aus \autoref{eq:Gleichung38} und der Systemmatrix A folgt für die Verstärkungsfaktoren $\underline{k}^T$ der Zustandsrückführung:
 \begin{align}
     \underline{k}^T &= \underline{t}_{\mathrm{n}}^T\cdot(\alpha_{\mathrm{0}}\cdot\underline{I} + \alpha_{\mathrm{1}}\cdot \underline{A} + ... + \alpha_{\mathrm{n-1}}\cdot \underline{A}^{n-1}+\underline{A}^n) \label{eq:Gleichung40}\\
-    \underline{k}^T &=
+    \underline{k}^T_{\mathrm{Acker}} &=
     \begin{bmatrix}
-        -24.8340 & 4.5745 & 0.1223 & -6.5108
+        -159.9929 & -31.7079 & -31.3150 & -38.3441
     \end{bmatrix} \label{eq:Gleichung41}
 \end{align}
 
@@ -911,10 +908,10 @@ Die finale Berechnung efolgt auf Grundlage der \autoref{eq:Gleichung40}. Durch d
     \centering
     \fbox{\includegraphics[width=0.5\textwidth]{Bilder/Vorsteuerung.pdf}}
     \caption[Reglerstruktur Vorsteuerung]{Schematische Darstellung der Reglerstruktur des Reglers mit Vorsteuerung}
-    \label{fig:Bild8}
+    \label{fig:Bild8.5}
 \end{figure}
 
-Mithilfe des Vorfilters können andere Referenzpositionen des Wagens angesteuert werden, d.h. der Wagen fährt während des Pendelschwingens eine Endlage abweichend zum Ursprung an. Die Endlage wird mittels Referenzwert auf den Systemeingang gegeben. Dieser wird anschließend mit dem Vorfilter $\underline{F}$ multipliziert. Weiterhin erfolgt die Verrechnung mit den bereits in \autoref{sec:Ackermann} ermittelten Faktoren $\underline{k}$.\\\\
+Mithilfe des Vorfilters können andere Referenzpositionen des Wagens angesteuert werden, d.h. der Wagen fährt während des Pendelschwingens eine Endlage abweichend zum Ursprung an. Die Endlage wird mittels Referenzwert auf den Systemeingang gegeben. Dieser wird anschließend mit dem Vorfilter $\underline{F}$ multipliziert. Weiterhin erfolgt die Verrechnung mit den bereits in \autoref{sec:Ackermann-Formel} ermittelten Faktoren $\underline{k}$.\\\\
 Eingangsgleichung des Systems:
 \begin{align}\label{eq:Gleichung42}
     \underline{u}(t) &= -\underline{k}\cdot\underline{x}(t)+\underline{F}\cdot\underline{y}_{ref}(t)
@@ -1102,74 +1099,92 @@ Der Faktor $F$ ist ein skalarer Wert, da ein SISO-System vorliegt. Die Ausgangsm
 Das Simulinkmodell der linearen Reglerstrecke ist in \autoref{fig:Bild3} dargestellt.
 
 \subsubsection{Zustandsregler mit Ackermann-Formel}
-% blockdiagramm des reglers
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.7\textwidth]{Bilder/Reglervalidierung/Ackermann_Regler.pdf}}
+    \caption[Ackermann Regler Simulink (linear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit Ackermann-Formel (lineares Zustandsraummodell)}
+    \label{fig:Bild11.5}
+\end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.6\textwidth]{Bilder/Reglervalidierung/linear_ackermann_phi.pdf}}
-    \caption[$\varphi$ für Regler mit Ackermann-Formel]{$\varphi$ für verschiedene Anfangsauslenkungen am Zustandsregler mit Ackermann-Formel}
+    \caption[$\varphi$ für Regler mit Ackermann-Formel (linear)]{$\varphi$ für verschiedene Anfangsauslenkungen am Zustandsregler mit Ackermann-Formel für das lineare Zustandsraummodell}
     \label{fig:Bild12}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.6\textwidth]{Bilder/Reglervalidierung/linear_ackermann_xM.pdf}}
-    \caption[$x_{\mathrm{M}}$ für Regler mit Ackermann-Formel]{$x_{\mathrm{M}}$ für verschiedene Anfangsauslenkungen am Zustandsregler mit Ackermann-Formel}
+    \caption[$x_{\mathrm{M}}$ für Regler mit Ackermann-Formel (linear)]{$x_{\mathrm{M}}$ für verschiedene Anfangsauslenkungen am Zustandsregler mit Ackermann-Formel für das lineare Zustandsraummodell}
     \label{fig:Bild13}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.6\textwidth]{Bilder/Reglervalidierung/linear_ackermann_u.pdf}}
-    \caption[u für Regler mit Ackermann-Formel]{u für verschiedene Anfangsauslenkungen am Zustandsregler mit Ackermann-Formel}
+    \caption[u für Regler mit Ackermann-Formel (linear)]{u für verschiedene Anfangsauslenkungen am Zustandsregler mit Ackermann-Formel für das lineare Zustandsraummodell}
     \label{fig:Bild14}
 \end{figure}
 
 \subsubsection{Zustandsregler mit Vorsteuerung}
-% blockdiagramm des reglers
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=1.0\textwidth]{Bilder/Reglervalidierung/Vorsteuerung_Regler.pdf}}
+    \caption[Regler mit Vorsteuerung Simulink (linear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit Vorsteuerung (lineares Zustandsraummodell)}
+    \label{fig:Bild14.5}
+\end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/linear_vorsteuerung_phi.pdf}}
-    \caption[$\varphi$ für Regler mit Vorsteuerung]{$\varphi$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung}
+    \caption[$\varphi$ für Regler mit Vorsteuerung (linear)]{$\varphi$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung für das lineare Zustandsraummodell}
     \label{fig:Bild15}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \fbox{\includegraphics[width=0.8\textwidth]{Bilder/Reglervalidierung/linear_vorsteuerung_xM.pdf}}
-    \caption[$x_{\mathrm{M}}$ für Regler mit Vorsteuerung]{$x_{\mathrm{M}}$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung}
+    \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/linear_vorsteuerung_xM.pdf}}
+    \caption[$x_{\mathrm{M}}$ für Regler mit Vorsteuerung (linear)]{$x_{\mathrm{M}}$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung für das lineare Zustandsraummodell}
     \label{fig:Bild16}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \fbox{\includegraphics[width=0.8\textwidth]{Bilder/Reglervalidierung/linear_vorsteuerung_u.pdf}}
-    \caption[u für Regler mit Vorsteuerung]{u für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung}
+    \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/linear_vorsteuerung_u.pdf}}
+    \caption[u für Regler mit Vorsteuerung (linear)]{u für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung für das lineare Zustandsraummodell}
     \label{fig:Bild17}
 \end{figure}
 
 \subsubsection{Zustandsregler mit I-Regelung}
-% blockdiagramm des reglers
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=1.0\textwidth]{Bilder/Reglervalidierung/I_Regler.pdf}}
+    \caption[Regler mit I-Regelung Simulink (linear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit I-Regelung (lineares Zustandsraummodell)}
+    \label{fig:Bild17.5}
+\end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/linear_vorsteuerung_phi.pdf}}
-    \caption[$\varphi$ für Regler mit I-Regelung]{$\varphi$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung}
+    \caption[$\varphi$ für Regler mit I-Regelung (linear)]{$\varphi$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung für das lineare Zustandsraummodell}
     \label{fig:Bild18}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \fbox{\includegraphics[width=0.8\textwidth]{Bilder/Reglervalidierung/linear_vorsteuerung_xM.pdf}}
-    \caption[$x_{\mathrm{M}}$ für Regler mit I-Regelung]{$x_{\mathrm{M}}$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung}
+    \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/linear_vorsteuerung_xM.pdf}}
+    \caption[$x_{\mathrm{M}}$ für Regler mit I-Regelung (linear)]{$x_{\mathrm{M}}$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung für das lineare Zustandsraummodell}
     \label{fig:Bild19}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \fbox{\includegraphics[width=0.8\textwidth]{Bilder/Reglervalidierung/linear_vorsteuerung_u.pdf}}
-    \caption[u für Regler mit I-Regelung]{u für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung}
+    \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/linear_vorsteuerung_u.pdf}}
+    \caption[u für Regler mit I-Regelung (linear)]{u für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung für das lineare Zustandsraummodell}
     \label{fig:Bild20}
 \end{figure}
 
@@ -1183,9 +1198,93 @@ Das Simulinkmodell der nicht-linearen Reglerstrecke ist in \autoref{fig:Bild2} d
 
 \subsubsection{Zustandsregler mit Ackermann-Formel}
 
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=1.0\textwidth]{Bilder/Reglervalidierung/Ackermann_Regler_nl.pdf}}
+    \caption[Ackermann Regler Simulink (nicht-linear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit Ackermann-Formel (nicht-lineares Zustandsraummodell)}
+    \label{fig:Bild20.5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.6\textwidth]{Bilder/Reglervalidierung/nichtlinear_ackermann_phi.pdf}}
+    \caption[$\varphi$ für Regler mit Ackermann-Formel (nicht-linear)]{$\varphi$ für verschiedene Anfangsauslenkungen am Zustandsregler mit Ackermann-Formel für das nicht-lineare Zustandsraummodell}
+    \label{fig:Bild21}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.6\textwidth]{Bilder/Reglervalidierung/nichtlinear_ackermann_xM.pdf}}
+    \caption[$x_{\mathrm{M}}$ für Regler mit Ackermann-Formel (nicht-linear)]{$x_{\mathrm{M}}$ für verschiedene Anfangsauslenkungen am Zustandsregler mit Ackermann-Formel für das nicht-lineare Zustandsraummodell}
+    \label{fig:Bild22}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.6\textwidth]{Bilder/Reglervalidierung/nichtlinear_ackermann_u.pdf}}
+    \caption[u für Regler mit Ackermann-Formel (nicht-linear)]{u für verschiedene Anfangsauslenkungen am Zustandsregler mit Ackermann-Formel für das nicht-lineare Zustandsraummodell}
+    \label{fig:Bild23}
+\end{figure}
+
 \subsubsection{Zustandsregler mit Vorsteuerung}
 
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=1.0\textwidth]{Bilder/Reglervalidierung/Vorsteuerung_Regler_nl.pdf}}
+    \caption[Regler mit Vorsteuerung Simulink (nicht-linear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit Vorsteuerung (nicht-lineares Zustandsraummodell)}
+    \label{fig:Bild23.5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/nichtlinear_vorsteuerung_phi.pdf}}
+    \caption[$\varphi$ für Regler mit Vorsteuerung (nicht-linear)]{$\varphi$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung für das nicht-lineare Zustandsraummodell}
+    \label{fig:Bild24}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/nichtlinear_vorsteuerung_xM.pdf}}
+    \caption[$x_{\mathrm{M}}$ für Regler mit Vorsteuerung (nicht-linear)]{$x_{\mathrm{M}}$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung für das nicht-lineare Zustandsraummodell}
+    \label{fig:Bild25}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/nichtlinear_vorsteuerung_u.pdf}}
+    \caption[u für Regler mit Vorsteuerung (nicht-linear)]{u für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung für das nicht-lineare Zustandsraummodell}
+    \label{fig:Bild26}
+\end{figure}
+
 \subsubsection{Zustandsregler mit I-Regelung}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=1.0\textwidth]{Bilder/Reglervalidierung/I_Regler_nl.pdf}}
+    \caption[Regler mit I-Regelung Simulink (nicht-linear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit I-Regelung (nicht-lineares Zustandsraummodell)}
+    \label{fig:Bild26.5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/nichtlinear_vorsteuerung_phi.pdf}}
+    \caption[$\varphi$ für Regler mit I-Regelung (nicht-linear)]{$\varphi$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung für das nicht-lineare Zustandsraummodell}
+    \label{fig:Bild27}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/nichtlinear_vorsteuerung_xM.pdf}}
+    \caption[$x_{\mathrm{M}}$ für Regler mit I-Regelung (nicht-linear)]{$x_{\mathrm{M}}$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung für das nicht-lineare Zustandsraummodell}
+    \label{fig:Bild28}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/nichtlinear_vorsteuerung_u.pdf}}
+    \caption[u für Regler mit I-Regelung (nicht-linear)]{u für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung für das nicht-lineare Zustandsraummodell}
+    \label{fig:Bild29}
+\end{figure}
 
 \subsubsection{Vergleich des Regelverhaltens}
 
