@@ -67,3 +67,23 @@ title("Lokalisierung der Polstellen");
 legend("Eigenwerte der Systemmatrix", "Wunschpolstellen", "Location", "northeast");
 grid on;
 hold off;
+
+%% Beobachtbarkeit
+C = [1 0 0 0; 0 0 1 0; 0 0 0 1]; % Ergibt sich aus den messbaren Zuständen
+[Q_obs, Rang_Q_obs] = Beobachtbarkeit(A, C);
+
+%% Stabilitätsanalyse (LMI's)
+alpha = 10;
+
+% P_asy = func_criteria_asyStability(A);
+% eig(P_asy)
+
+P_exp = func_criteria_expStability(A,alpha);
+eig(P_exp)
+
+%% Beobachterentwurf (LMI's)
+% für exponentielle Stabilität
+alpha = 4;
+
+[L_tranponiert, LMIsys] = func_criteria_Statefeedback_design_exp_dynamic(A',C',alpha);
+L = L_tranponiert';
