@@ -55,7 +55,7 @@ hold off;
 %% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - I-REGELUNG
 sP_I_Regelung = [-3.2 -3.2 -3.2 -3.2 -3.2];                 % Wunschpolstellen für Regelung mit I-Regelung
 C_I_Regelung = [0 0 1 0];                                   % Ausgangsmatrix C für Regelung mit I-Regelung
-k_Tilde = Tilde_Vektor(A, B, C_I_Regelung, sP_I_Regelung);  % Berechnung der Faktoren k_Tilde
+[k_Tilde, A_Tilde, B_Tilde] = Tilde_Vektor(A, B, C_I_Regelung, sP_I_Regelung);  % Berechnung der Faktoren k_Tilde
 
 % Lokalisierung der Polstellen
 hold on;
@@ -81,9 +81,30 @@ alpha = 10;
 P_exp = func_criteria_expStability(A,alpha);
 eig(P_exp)
 
+%% k-Faktoren LMI
+% für exponentielle Stabilität
+alpha = 2;
+
+[k_LMI, LMIsys3] = LMI_Berechnung_k(A,B,alpha);
+eig(A-B.*k_LMI)
+
+% Plot der Polstellen
+plot(eig(A-B.*k_LMI),'*')
+grid on
+%% k-Faktoren LMI (I-Regelung)
+% für exponentielle Stabilität
+alpha = 1.95;
+
+[k_LMI_Tilde, LMIsys1] = LMI_Berechnung_k(A_Tilde,B_Tilde,alpha);
+eig(A_Tilde-B_Tilde.*k_LMI_Tilde)
+
+% Plot der Polstellen
+plot(eig(A_Tilde-B_Tilde.*k_LMI_Tilde),'*')
+grid on
 %% Beobachterentwurf (LMI's)
 % für exponentielle Stabilität
+C = [1 0 0 0; 0 0 0 0; 0 0 1 0; 0 0 0 1];
 alpha = 4;
 
-[L_tranponiert, LMIsys] = func_criteria_Statefeedback_design_exp_dynamic(A',C',alpha);
-L = L_tranponiert';
+[L_LMI, LMIsys2] = LMI_Berechnung_L(A,C,alpha);
+eig(A-L_LMI.*C)

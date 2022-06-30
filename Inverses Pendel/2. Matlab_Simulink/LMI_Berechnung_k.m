@@ -5,7 +5,7 @@
 % Matlab function for solving a LMI design problem for state feedback controller
 % design with guaranteed exponental closed loop dynamics
 %--------------------------------------------------------------------------------
-function [K, LMIsys] = func_criteria_Statefeedback_design_exp_dynamic(A,B,alpha)
+function [K, LMIsys] = LMI_Berechnung_k(A,B,alpha)
 
 
 %-------------------------------------------------------------
@@ -35,7 +35,7 @@ M = lmivar(varType_fullRectangular,[m n]);  % specify variable M as full rectang
 %      TERMID(1) = -n  ->  right-hand side of the n-th LMI
 %-------------------------------------------------------------
 %   X A' + A X  - M'B' - BM + 2 alpha X < 0
-%   X > 0 
+%   X > 0
 %-------------------------------------------------------------
 lmiterm([1 1 1 X],A,1,'s');      
 lmiterm([1 1 1 X],2*alpha,1);
