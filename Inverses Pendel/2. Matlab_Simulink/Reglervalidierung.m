@@ -37,6 +37,19 @@ nichtlinear_i_regler_xM();
 %% I-Regler (nicht-linear) u bei verschiedenen Anfangswinkeln
 nichtlinear_i_regler_u();
 
+%% Vergleich (linear) für Phi
+linear_vergleich_phi();
+%% Vergleich (linear) für xM
+linear_vergleich_xM();
+%% Vergleich (linear) für u
+linear_vergleich_u();
+%% Vergleich (nicht-linear) für Phi
+nichtlinear_vergleich_phi();
+%% Vergleich (nicht-linear) für xM
+nichtlinear_vergleich_xM();
+%% Vergleich (nicht-linear) für u
+nichtlinear_vergleich_u();
+
 %% Regler (linear) mit LMI's für Phi
 linear_lmi_regler_phi();
 %% Regler (linear) mit LMI's für xM

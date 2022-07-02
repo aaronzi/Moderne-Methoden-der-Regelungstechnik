@@ -95,6 +95,18 @@ grid on
 % für exponentielle Stabilität
 alpha = 1.95;
 
+%{
+A_Tilde(5,3) = 0;
+A_Tilde(5,1) = -1;
+A_Tilde = vertcat(A_Tilde,[0 0 -1 0 0]);
+A_Tilde = vertcat(A_Tilde,[0 0 0 -1 0]);
+A_Tilde = horzcat(A_Tilde,[0; 0; 0; 0; 0; 0; 0]);
+A_Tilde = horzcat(A_Tilde,[0; 0; 0; 0; 0; 0; 0]);
+B_Tilde = vertcat(B_Tilde,[0; 0]);
+disp(A_Tilde)
+disp(B_Tilde)
+%}
+
 [k_LMI_Tilde, LMIsys1] = LMI_Berechnung_k(A_Tilde,B_Tilde,alpha);
 eig(A_Tilde-B_Tilde.*k_LMI_Tilde)
 
