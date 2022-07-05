@@ -10,11 +10,6 @@ addpath('./4. Ackermann-Formel/', './5. Tildevektoren_SISO/', './6. Beobachtbark
 addpath('./7. LMI/', './8. Simulationen/', "./9. Reglervalidierung/");
 
 
-%% ORDNER HINZUFÜGEN
-addpath('./1. Konstanten/', './2. Lineares_und_nichtlineares_Modell/', './3. Steuerbarkeit/');
-addpath('./4. Ackermann-Formel/', './5. Tildevektoren_SISO/', './6. Beobachtbarkeit/');
-addpath('./7. LMI/', './8. Simulationen/', "./9. Reglervalidierung/");
-
 %% KONSTANTEN
 global c;                   % Konstanten als global deklarieren
 c = Konstanten();           % Konstanten aufrufen
@@ -38,7 +33,6 @@ x_Ruhe = [0; 0; 0; 0];      % Ruhelage
 %% ZUSTANDSREGELUNG OHNE FOLGEREGELUNG - EINFACHE RÜCKFÜHRUNG
 sP_Acker = [-4 -4 -4 -4];               % Wunschpolstellen für Regelung mit einfacher Rückführung
 k_Acker = Ackermann(A, B, sP_Acker);    % Berechnung der Faktoren k für Regelung mit einfacher Rückführung
-C_Acker = [0 0 1 0];                    % Ausgangsmatrix C für Regelung mit einfacher Rückführung
 
 %{
 % Lokalisierung der Polstellen
@@ -55,10 +49,10 @@ hold off;
 
 
 %% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - VORSTEUERUNG
-sP_Vorsteuerung = [-4.5 -4.5 -4.5 -4.5];            % Wunschpolstellen für Regelung mit Vorsteuerung
-k_Vorsteuerung = Ackermann(A, B, sP_Vorsteuerung);  % Berechnung der Faktoren k für Regelung mit Vorsteuerung
-C_Vorsteuerung = [0 0 1 0];                         % Ausgangsmatrix C für Regelung mit Vorsteuerung
-F = (C_Vorsteuerung*(-A+B*k_Vorsteuerung)^-1*B)^-1; % Berechnung des Faktors F
+sP_Vor = [-4.5 -4.5 -4.5 -4.5];                     % Wunschpolstellen für Regelung mit Vorsteuerung
+k_Vor = Ackermann(A, B, sP_Vor);           % Berechnung der Faktoren k für Regelung mit Vorsteuerung
+C_Vor = [0 0 1 0];                                  % Ausgangsmatrix C für Regelung mit Vorsteuerung
+F = (C_Vor*(-A+B*k_Vor)^-1*B)^-1;                   % Berechnung des Faktors F
 
 %{
 % Lokalisierung der Polstellen
@@ -75,9 +69,9 @@ hold off;
 
 
 %% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - I-REGELUNG
-sP_I_Regelung = [-3.2 -3.2 -3.2 -3.2 -3.2];                                     % Wunschpolstellen für Regelung mit I-Regelung
-C_I_Regelung = [0 0 1 0];                                                       % Ausgangsmatrix C für Regelung mit I-Regelung
-[k_Tilde, A_Tilde, B_Tilde] = Tilde_SISO(A, B, C_I_Regelung, sP_I_Regelung);    % Berechnung der Faktoren k_Tilde
+sP_I_Reg = [-3.2 -3.2 -3.2 -3.2 -3.2];                                     % Wunschpolstellen für Regelung mit I-Regelung
+C_I_Reg = [0 0 1 0];                                                       % Ausgangsmatrix C für Regelung mit I-Regelung
+[k_Tilde, A_Tilde, B_Tilde] = Tilde_SISO(A, B, C_I_Reg, sP_I_Reg);    % Berechnung der Faktoren k_Tilde
 
 %{
 % Lokalisierung der Polstellen
