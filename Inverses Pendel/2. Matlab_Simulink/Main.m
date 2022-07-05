@@ -1,6 +1,13 @@
 %% VOREINSTELLUNGEN
 clear;
 clc;
+warning('off','all')
+
+
+%% ORDNER HINZUFÜGEN
+addpath('./1. Konstanten/', './2. Lineares_und_nichtlineares_Modell/', './3. Steuerbarkeit/');
+addpath('./4. Ackermann-Formel/', './5. Tildevektoren_SISO/', './6. Beobachtbarkeit/');
+addpath('./7. LMI/', './8. Simulationen/', "./9. Reglervalidierung/");
 
 
 %% ORDNER HINZUFÜGEN
@@ -31,7 +38,7 @@ x_Ruhe = [0; 0; 0; 0];      % Ruhelage
 %% ZUSTANDSREGELUNG OHNE FOLGEREGELUNG - EINFACHE RÜCKFÜHRUNG
 sP_Acker = [-4 -4 -4 -4];               % Wunschpolstellen für Regelung mit einfacher Rückführung
 k_Acker = Ackermann(A, B, sP_Acker);    % Berechnung der Faktoren k für Regelung mit einfacher Rückführung
-C_Acker = [0 0 1 0];                    % Ausgangsmatrix C für Regelung mit Vorsteuerung
+C_Acker = [0 0 1 0];                    % Ausgangsmatrix C für Regelung mit einfacher Rückführung
 
 %{
 % Lokalisierung der Polstellen

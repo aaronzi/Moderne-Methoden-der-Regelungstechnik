@@ -106,13 +106,13 @@ nichtlinear_vergleich_u();
 
 %% einfacher Regler (linear) mit LMI's
 % für Phi
-linear_lmi_regler_phi();
+% linear_lmi_regler_phi();
 
 % für xM
-linear_lmi_regler_xM();
+% linear_lmi_regler_xM();
 
 % für u
-linear_lmi_regler_u();
+% linear_lmi_regler_u();
 
 
 %% I-Regler (linear) mit LMI's
