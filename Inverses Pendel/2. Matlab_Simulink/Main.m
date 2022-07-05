@@ -71,6 +71,8 @@ hold off;
 %% Beobachtbarkeit
 C = [1 0 0 0; 0 0 1 0; 0 0 0 1]; % Ergibt sich aus den messbaren Zuständen
 [Q_obs, Rang_Q_obs] = Beobachtbarkeit(A, C);
+disp(Q_obs)
+disp(Rang_Q_obs)
 
 %% Stabilitätsanalyse (LMI's)
 alpha = 10;
