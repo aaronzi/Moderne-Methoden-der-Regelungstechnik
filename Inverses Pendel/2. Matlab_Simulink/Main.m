@@ -9,6 +9,12 @@ addpath('./1. Konstanten/', './2. Lineares_und_nichtlineares_Modell/', './3. Ste
 addpath('./4. Ackermann-Formel/', './5. Tildevektoren_SISO/', './6. Beobachtbarkeit/');
 addpath('./7. LMI/', './8. Simulationen/', "./9. Reglervalidierung/");
 
+
+%% ORDNER HINZUFÜGEN
+addpath('./1. Konstanten/', './2. Lineares_und_nichtlineares_Modell/', './3. Steuerbarkeit/');
+addpath('./4. Ackermann-Formel/', './5. Tildevektoren_SISO/', './6. Beobachtbarkeit/');
+addpath('./7. LMI/', './8. Simulationen/', "./9. Reglervalidierung/");
+
 %% KONSTANTEN
 global c;                   % Konstanten als global deklarieren
 c = Konstanten();           % Konstanten aufrufen
@@ -86,15 +92,15 @@ grid on;
 hold off;
 %}
 
+
 %% Beobachtbarkeit
-C_obs = [1 0 0 0; 0 0 0 0; 0 0 1 0; 0 0 0 1];        % Ergibt sich aus den messbaren Zuständen
-[Q_obs] = Beobachtbarkeit(A, C_obs);
+[Q_obs] = Beobachtbarkeit(A, C);
 
 
 %% k-Faktoren LMI (I-Regelung)
 % für exponentielle Stabilität
 C_k_LMI = [0 0 1 0];
-alpha = 1.95;
+alpha = 0.6;
 
 % A_Tilde_Vektor
 A_Tilde = A;
@@ -104,12 +110,12 @@ A_Tilde = vertcat(A_Tilde, [-C_k_LMI 0]);
 % B_Tilde_Vektor
 B_Tilde = [B; 0];
 
-[k_LMI_Tilde, LMIsys1] = LMI_Berechnung_k(A_Tilde, B_Tilde, alpha);
-% eig(A_Tilde-B_Tilde.*k_LMI_Tilde);
+[k_LMI_Tilde, k_LMIsys] = LMI_Berechnung_k(A_Tilde, B_Tilde, alpha);
+eig(A_Tilde-B_Tilde.*k_LMI_Tilde);
 
-% Plot der Polstellen
 %{
-plot(eig(A_Tilde-B_Tilde.*k_LMI_Tilde),'*')
+% Plot der Polstellen
+plot(eig(A_Tilde-B_Tilde.*k_LMI_Tilde),'*');
 grid on
 %}
 
@@ -118,5 +124,10 @@ grid on
 % für exponentielle Stabilität
 alpha = 4;
 
-[L_LMI, LMIsys2] = LMI_Berechnung_L(A, C_obs ,alpha);
-% eig(A-L_LMI.*C);
+[L_LMI, L_LMIsys] = LMI_Berechnung_L(A, C ,alpha);
+
+%{
+% Plot der Polstellen
+plot(eig(A-L_LMI.*C), '*');
+grid on;
+%}
