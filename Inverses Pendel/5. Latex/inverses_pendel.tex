@@ -729,7 +729,7 @@ Stehendes Pendel:
 \clearpage
 
 \subsection{Überprüfung der Steuerbarkeit} \label{sec:Steuerbarkeit}
-Die Steuerbarkeit eines Systems ist gegeben, wenn unter Berücksichtigung der Eingangsgröße $\underline{u}(t)$ das Sytem von einem Anfangszustand $\underline{x}_{\mathrm{0}}$ in einen beliebigen Endzustand $\underline{x}_{\mathrm{e}}$ gebracht werden kann. Dies wird mathematisch mithilfe der Determinante der Steuerbarkeitsmatrix $Q_{\mathrm{s}}$ bestimmt. Zur Überprüfung der Steuerbarkeit reicht der Nachweis, dass die Determinante ungleich Null ist. Die Berechnung der Steuerbarkeitsmatrix erfolgt durch \autoref{eq:Gleichung34} mit $n\in\mathbb{N}$, $A\in\mathbb{R}^{(nxn)}$, $B\in\mathbb{R}^{(nx1)}$.\\
+Die Steuerbarkeit eines Systems ist gegeben, wenn unter Berücksichtigung der Eingangsgröße $\underline{u}(t)$ das Sytem von einem Anfangszustand $\underline{x}_{\mathrm{0}}$ in einen beliebigen Endzustand $\underline{x}_{\mathrm{e}}$ gebracht werden kann. Dies wird mathematisch mithilfe der Determinante der Steuerbarkeitsmatrix $Q_{\mathrm{s}}$ bestimmt. Zur Überprüfung der Steuerbarkeit reicht der Nachweis, dass die Determinante ungleich Null ist. Die Berechnung der Steuerbarkeitsmatrix erfolgt durch \autoref{eq:Gleichung34} mit $n\in\mathbb{N}$, $A\in\mathbb{R}^{(n\times n)}$, $B\in\mathbb{R}^{(n\times 1)}$.\\
 \begin{align}\label{eq:Gleichung34}
     \underline{Q}_{\mathrm{s}} &= \left(\underline{B} \quad \underline{A}\cdot\underline{B} \quad ... \quad \underline{A}^{(n-1)}\cdot\underline{B}\right)
 \end{align}
@@ -793,12 +793,14 @@ Wird die Eingangkraft $F_{\mathrm{a}}$, welche auf das System wirkt, signifikant
 
 \subsection{Einfache Zustandsrückführung} \label{sec:Ackermann-Formel}
 Die erste umgesetzte Regelstrategie ist die Anwendung der Ackermann-Formel zur Zustandsrückführung. Ziel ist es, das Pendel-System mit einem Anfangswinkel ungleich Null Grad erneut in die instabile Ruhelage zu bringen. Dafür werden mit Hilfe der Ackermann-Formel k-Faktoren berechnet, welche anschließend mit den Zuständen $x_{\mathrm{1}}$ bis $x_{\mathrm{4}}$ multipliziert und auf den Systemeingang zurückgeführt werden (\autoref{fig:Bild7}). Der Wagen wird dabei immer in den Ausgangszustand von $x_{\mathrm{M}}$ zurück geregelt.
+
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.3\textwidth]{Bilder/Ackermann.pdf}}
     \caption[Reglerstruktur Ackermann]{Schematische Darstellung der Reglerstruktur der einfachen Zustandsrückführung}
     \label{fig:Bild7}
 \end{figure}
+
 Im ersten Schritt wird der Nachweis der Steuerbarkeit des Systems benötigt. Dieser wurde bereits in \autoref{sec:Steuerbarkeit} erbracht.
 Im zweiten Schritt erfolgt die Bestimmung der Eigenwerte der Systemmatrix A. Hierzu wird das charakteristische Polynom benötigt, welches mithilfe der Laplace-Transformation der Vektorzustandsdifferentialgleichungen $\underline{\dot{x}}$ und der anschließenden Umformung hergeleitet wird.\\\\
 Laplace-Transformation und Umformung:
@@ -1449,11 +1451,151 @@ Wie im vorangegangenen Unterabschnitt werden Diagramme für den Winkel des Pende
 
 \clearpage
 
-\section{Beobachtbarkeit}
+\section{Beobachter}
+
+Bisher wurde von einer wesentlichen Vereinfachung der Realität ausgegangen. Nämlich dass für Stabilisierung, Zustandsrückführung \etc der gesamte Zustandsvektor des Kontrollsystems zur Verfügung steht. Tatsächlich sind in der Regel nicht alle Zustandsinformationen bekannt. Beispielsweise weil sie technisch überhaupt nicht messbar sind oder nur unter großem technischen beziehungsweise finanziellen Aufwand ermittelt werden könnten. Sprachlich wird
+vereinfacht gesagt, dass die entsprechenden Größen \textit{nicht messbar} sind.
+
+\begin{align*}
+    dim(y) < dim(x)
+\end{align*}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.5\textwidth]{Bilder/Beobachter/System.pdf}}
+    \caption[Allgemeines System im Zustandsraum]{Schematische Darstellung eines allgemeinen Systems im Zustandsraum}
+    \label{fig:Bild33}
+\end{figure}
+
+Da aber dennoch alle Zustände benötigt werden, da die Zustandsregelung darauf basiert, dass zu jedem Zeitpunkt alle Zustände bekannt sind, wird der Beobachter eingeführt.\\
+Mit dessen Hilfe ist es möglich innere Zustände zu rekonstruieren. Dies erfolgt über ein \textbf{Modell} und dem \textbf{Vergleich} der rekonstruierten Zustände mit den gemessenen Ausgängen.\\
+\newline
+Ansatz von Luenberger:
+
+
+\[
+    \underline{\dot{\hat{x}}} = 
+    \underbrace{% 
+        A \cdot \underline{\hat{x}} + B \cdot \underline{u}
+    }_{%
+    Modell
+    }
+    + 
+    \underbrace{%
+    L \left( \underline{y} - \underline{\hat{y}}\right)
+    }_{%
+    Vergleich
+    }
+\]
+\[
+    \underline{\hat{y}} = C \cdot \underline{\hat{x}}
+\]
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.5\textwidth]{Bilder/Beobachter/System_Beobachter.pdf}}
+    \caption[System mit Beobachter]{Schematische Darstellung eines allgemeinen Systems mit Beobachter im Zustandsraum}
+    \label{fig:Bild34}
+\end{figure}
 
 \subsection{Überprüfung der Beobachtbarkeit}
 
+Naheliegend ist zunächst die Überlegung anzustellen, wann sich der Gesamtzustand $\underline{x}$ aus dem Ausgang $\underline{y}$ rekonstruieren lässt. Dies wird auch \textbf{Beobachtbarkeit} des Systems genannt. Konkret gilt der Satz: \\
+\newline
+\textit{Ein System ist beobachtbar, falls mit der Messung von $\underline{u}$ und $\underline{y}$ nach endlicher Zeit $t$ der unbekannte Zustandsvektor $\underline{x}$ vom System rekonstruiert werden kann.} \\
+\newline
+Der Beobachter lässt sich auf die Klasse der linearen zeitinvarianten Systeme (LTI) anwenden:
+
+\begin{align}
+    \underline{\dot{\hat{x}}} = A \cdot \underline{\hat{x}} + B \cdot \underline{u} + L \left( \underline{y} - C \cdot \underline{\hat{x}}\right)
+\end{align}
+
+Ein System ist vollständig beobachtbar, falls für die Beobachtbarkeitsmatrix
+
+\begin{align}
+    Q_{\mathrm{Obs}} =
+    \begin{pmatrix}
+        C \\
+        C \cdot A \\
+        \vdots \\
+        C \cdot A^{n - 1}
+    \end{pmatrix}
+\end{align}
+
+mit $n\in\mathbb{N}$, $p\in\mathbb{N}$, $A\in\mathbb{R}^{(n\times n)}$, $C\in\mathbb{R}^{(p\times n)}$ für SISO Systeme
+
+\begin{align}
+    det(Q_{\mathrm{Obs}}) \neq 0
+\end{align}
+
+und für MIMO \bzw SIMO Systeme
+
+\begin{align}
+    rank(Q_{\mathrm{Obs}}) = n \quad \text{\bzw} \quad m
+\end{align}
+
+gilt, wobei $n$ die Anzahl der linear unabhängigen Zeilen einer Matrix ist und $m$ die Anzahl der linear unabhängigen Spalten. Falls
+
+\begin{align*}
+    n &> m: \\
+    rank(X) &= m
+\end{align*}
+
+und falls
+
+\begin{align*}
+    m &> n: \\
+    rank(X) &= n.
+\end{align*}
+
+Die konkrete C-Matrix für das inverse Pendel
+
+\begin{align}
+    C_{\mathrm{Obs}} = 
+    \begin{bmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{bmatrix}
+\end{align}
+
+besitzt p Zeilen, wobei sich die Anzahl der Zeilen nach den messbaren Zuständen richtet. Zu erkennen ist, dass bei der Betrachtung nicht wie beim Zustandsreglerentwurf ein SISO System angenommen werden kann, sondern ein SIMO System auf Beobachtbarkeit untersucht wird. Somit muss der Rang der Beobachtbarkeitsmatrix bestimmt werden.\\
+Das Aufstellen der Beobachtbarkeitsmatrix führt zu
+
+\begin{align}
+    Q_{\mathrm{Obs}} = 
+    \begin{bmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 1 \\
+        -0.8502 & 0.0008 & 0 & -2.3333 \\
+       26.6505 & -0.0248 & 0 & 5.8333 \\
+       -0.8502 & 0.0008 & 0 & -2.3333 \\
+        2.0049 & -0.8521 & 0 & 5.4491 \\
+       -5.6209 & 26.6557 & 0 & -13.7559 \\
+        2.0049 & -0.8521 & 0 & 5.4491 \\
+      -27.3408 & 2.0304 & 0 & -17.6849
+    \end{bmatrix}.
+\end{align}
+
+Der Rang folgt zu:
+
+\begin{align}
+    rank(Q_{\mathrm{Obs}}) = 4
+\end{align}
+
+Da $m > n$ muss $n = 4$ gelten. Da dies der Fall ist, ist das System beobachtbar.
+
 \subsection{Beobachterentwurf}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=1.0\textwidth]{Bilder/Beobachter/Beobachter_Regler_Strecke.pdf}}
+    \caption[Reglerstruktur mit Beobachter]{Schematische Darstellung des Zustandsreglers mit I-Regelung und Beobachter}
+    \label{fig:Bild35}
+\end{figure}
 
 \subsection{Beobachtervalidierung}
 
@@ -1498,6 +1640,12 @@ Prof.\xspace Dr.\xspace -Ing.\xspace Heide Brandstädter
 \bibitem[\the\Quellennummer]{RegelungBuss}
 Regelungs- und Steuerungstechnik: Polstellenverteilung\par
 Prof.\xspace Dr.\xspace -Ing.\xspace M. Buss
+
+\advance\Quellennummer by 1
+
+\bibitem[\the\Quellennummer]{BeobachterSchmidt}
+Beobachtbarkeit und Beobachter für lineare Kontrollsysteme\par
+Judith Schmidt, Universität Bayreuth
 
 \advance\Quellennummer by 1
 
