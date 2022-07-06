@@ -6,7 +6,7 @@ warning('off','all')
 
 %% ORDNER HINZUFÜGEN
 addpath('./1. Konstanten/', './2. Lineares_und_nichtlineares_Modell/', './3. Steuerbarkeit/');
-addpath('./4. Ackermann-Formel/', './5. Tildevektoren_SISO/', './6. Beobachtbarkeit/');
+addpath('./4. Ackermann-Formel/', './5. Tildevektoren/', './6. Beobachtbarkeit/');
 addpath('./7. LMI/', './8. Simulationen/', "./9. Reglervalidierung/");
 
 
@@ -50,7 +50,7 @@ hold off;
 
 %% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - VORSTEUERUNG
 sP_Vor = [-4.5 -4.5 -4.5 -4.5];                     % Wunschpolstellen für Regelung mit Vorsteuerung
-k_Vor = Ackermann(A, B, sP_Vor);           % Berechnung der Faktoren k für Regelung mit Vorsteuerung
+k_Vor = Ackermann(A, B, sP_Vor);                    % Berechnung der Faktoren k für Regelung mit Vorsteuerung
 C_Vor = [0 0 1 0];                                  % Ausgangsmatrix C für Regelung mit Vorsteuerung
 F = (C_Vor*(-A+B*k_Vor)^-1*B)^-1;                   % Berechnung des Faktors F
 
@@ -71,7 +71,7 @@ hold off;
 %% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - I-REGELUNG
 sP_I_Reg = [-3.2 -3.2 -3.2 -3.2 -3.2];                                     % Wunschpolstellen für Regelung mit I-Regelung
 C_I_Reg = [0 0 1 0];                                                       % Ausgangsmatrix C für Regelung mit I-Regelung
-[k_Tilde, A_Tilde, B_Tilde] = Tilde_SISO(A, B, C_I_Reg, sP_I_Reg);    % Berechnung der Faktoren k_Tilde
+[k_Tilde, A_Tilde, B_Tilde] = Tilde(A, B, C_I_Reg, sP_I_Reg);              % Berechnung der Faktoren k_Tilde
 
 %{
 % Lokalisierung der Polstellen
@@ -93,35 +93,31 @@ hold off;
 
 %% k-Faktoren LMI (I-Regelung)
 % für exponentielle Stabilität
-C_k_LMI = [0 0 1 0];
-alpha = 0.6;
-
-% A_Tilde_Vektor
-A_Tilde = A;
-A_Tilde = horzcat(A_Tilde, zeros(size(A,1),1));
-A_Tilde = vertcat(A_Tilde, [-C_k_LMI 0]);
-    
-% B_Tilde_Vektor
-B_Tilde = [B; 0];
+alpha = 0.6;                    % Decay-Rate
 
 [k_LMI_Tilde, k_LMIsys] = LMI_Berechnung_k(A_Tilde, B_Tilde, alpha);
-eig(A_Tilde-B_Tilde.*k_LMI_Tilde);
 
 %{
+% Eigenwerte berechnen
+eig(A_Tilde-B_Tilde*k_LMI_Tilde);
+
 % Plot der Polstellen
-plot(eig(A_Tilde-B_Tilde.*k_LMI_Tilde),'*');
+plot(eig(A_Tilde-B_Tilde*k_LMI_Tilde),'*');
 grid on
 %}
 
 
 %% Beobachterentwurf (LMI's)
 % für exponentielle Stabilität
-alpha = 4;
+alpha = 4;                      % Decay Rate
 
 [L_LMI, L_LMIsys] = LMI_Berechnung_L(A, C ,alpha);
 
 %{
+% Eigenwerte berechnen
+eig(A-L_LMI*C);
+
 % Plot der Polstellen
-plot(eig(A-L_LMI.*C), '*');
+plot(eig(A-L_LMI*C), '*');
 grid on;
 %}

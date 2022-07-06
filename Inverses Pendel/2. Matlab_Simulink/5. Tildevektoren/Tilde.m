@@ -7,7 +7,7 @@
 % AUSGABEN
 % k_Tilde     Faktoren k
 
-function [k_Tilde, A_Tilde, B_Tilde] = Tilde_SISO(A, B, C, sP)
+function [k_Tilde, A_Tilde, B_Tilde] = Tilde(A, B, C, sP)
     % A_Tilde_Vektor
     A_Tilde = A;
     A_Tilde = horzcat(A_Tilde, zeros(size(A,1),1));
