@@ -1,0 +1,74 @@
+\section{Nichtlineares Zustandsraummodell}
+
+\subsection{Umformungen}
+
+Zum Aufstellen des nichtlinearen Zustandsraummodells werden die \autoref{eq:Gleichung13} und \autoref{eq:Gleichung18} nach den höchsten Ableitungen $\ddot x_{\mathrm{M}}$ und $\ddot \varphi$ umgestellt.
+
+\begin{align}
+    \ddot x_{\mathrm{M}} &= \frac{-d_{\mathrm{Mf}} \cdot \dot \varphi -m \cdot l^2 \cdot \ddot \varphi + m \cdot g \cdot l \cdot \sin({\varphi})}{m \cdot l \cdot \cos({\varphi})} \label{eq:Gleichung19} \\
+    \ddot \varphi &= \frac{F_{\mathrm{a}} - (M+m) \cdot \ddot x_{\mathrm{M}} + m \cdot l \cdot \dot \varphi^2 \cdot \sin({\varphi}) -d \cdot \dot x_{\mathrm{M}}}{m \cdot l \cdot \cos({\varphi})} \label{eq:Gleichung20}
+\end{align}
+
+Beide Gleichungen sind über die Wagenbeschleunigung $\ddot x_{\mathrm{M}}$ und der Winkelbeschleunigung $\ddot \varphi$ miteinander verkoppelt. Durch das gegenseitige Einsetzen werden die Abhängigkeiten eliminiert.
+
+\begin{align}
+    \ddot x_{\mathrm{M}} &= \frac{-d_{\mathrm{Mf}} \cdot \dot \varphi -m \cdot l^2 \cdot \left( \frac{F_{\mathrm{a}} - (M+m) \cdot \ddot x_{\mathrm{M}} + m \cdot l \cdot \dot \varphi^2 \cdot \sin({\varphi}) -d \cdot \dot x_{\mathrm{M}}}{m \cdot l \cdot \cos({\varphi})} \right) + m \cdot g \cdot l \cdot \sin({\varphi})}{m \cdot l \cdot \cos({\varphi})} \label{eq:Gleichung21} \\
+    \ddot \varphi &= \frac{F_{\mathrm{a}} - (M+m) \cdot \left( \frac{-d_{\mathrm{Mf}} \cdot \dot \varphi -m \cdot l^2 \cdot \ddot \varphi + m \cdot g \cdot l \cdot \sin({\varphi})}{m \cdot l \cdot \cos({\varphi})} \right) + m \cdot l \cdot \dot \varphi^2 \cdot \sin({\varphi}) -d \cdot \dot x_{\mathrm{M}}}{m \cdot l \cdot \cos({\varphi})} \label{eq:Gleichung22}
+\end{align}
+
+\subsection{Zustandsraumdarstellung (nichtlinear)}
+
+Das zu untersuchende System weist vier Zustände auf, welche in Form eines Zustandsvektors $\underline{x}$ erfasst werden. Die Dokumentation der zeitlichen Ableitungen erfolgt im Vektor der Zustandsänderungen $\dot{\underline{x}}$. Der Eingangsvektor $\underline{u}$ gleicht der Eingangskraft des Systems $F_{\mathrm{a}}$.\\\\
+Eingangsvektor:
+
+\begin{align}\label{eq:Gleichung23}
+    \underline{u} &= F_{\mathrm{a}}
+\end{align}
+
+Zustandsvektor:
+
+\begin{align}
+    \underline{x} &=
+    \begin{bmatrix}\label{eq:Gleichung24}
+        x_{\mathrm{1}} \\
+        x_{\mathrm{2}} \\
+        x_{\mathrm{3}} \\
+        x_{\mathrm{4}}
+    \end{bmatrix} =
+    \begin{bmatrix}
+        \varphi         \\
+        \dot \varphi    \\
+        x_{\mathrm{M}}  \\
+        \dot x_{\mathrm{M}}
+    \end{bmatrix}
+\end{align}
+
+Vektor der Zustandsänderungen:
+
+\begin{align}\label{eq:Gleichung25}
+    \dot{\underline{x}} &=
+    \begin{bmatrix}
+        \dot x_{\mathrm{1}} \\
+        \dot x_{\mathrm{2}} \\
+        \dot x_{\mathrm{3}} \\
+        \dot x_{\mathrm{4}}
+    \end{bmatrix} =
+    \begin{bmatrix}
+        \dot{\varphi}           \\
+        \ddot{\varphi}          \\
+        \dot{x}_{\mathrm{M}}    \\
+        \ddot{x}_{\mathrm{M}}
+    \end{bmatrix}
+\end{align}
+
+Mithilfe der \autoref{eq:Gleichung23} bis \autoref{eq:Gleichung25}, durch das Einsetzen in \autoref{eq:Gleichung21} und \autoref{eq:Gleichung22}, dem Zusammenfassen und Umstellen nach $\ddot x_{\mathrm{M}}$ und $\ddot \varphi$ folgt das nichtlineare Zustandsraummodell aus \autoref{eq:Gleichung26}.
+
+\begin{align}\label{eq:Gleichung26}
+    \dot{\underline{x}} &=
+    \begin{bmatrix}
+        x_2 \\
+        \frac{\left(\frac{F_{\mathrm{a}} - g \cdot \tan(x_{\mathrm{1}}) \cdot (M + m) - d \cdot x_{\mathrm{4}}}{m \cdot l \cdot \cos(x_{\mathrm{1}})} + d_{\mathrm{Mf}} \cdot x_{\mathrm{2}} \cdot \left(\frac{M}{m^2 \cdot l^2 \cdot \cos^2(x_{\mathrm{1}})} + \frac{1}{m \cdot l^2 \cdot \cos^2(x_{\mathrm{1}})}\right) + x_{\mathrm{2}}^2 \cdot \tan(x_{\mathrm{1}})\right)}{\left(1 - \frac{1}{\cos^2(x_{\mathrm{1}})} - \frac{M}{m \cdot \cos^2(x_{\mathrm{1}})}\right)} \\
+        x_{\mathrm{4}} \\
+        \frac{\left(g \cdot \tan(x_{\mathrm{1}}) - \frac{F_{\mathrm{a}}}{m \cdot \cos^2(x_{\mathrm{1}})} + \frac{d \cdot x_{\mathrm{4}}}{m \cdot \cos^2(x_{\mathrm{1}})} - \frac{l \cdot x_{\mathrm{2}}^2 \cdot \tan(x_{\mathrm{1}})}{\cos(x_{\mathrm{1}})} - \frac{d_{\mathrm{Mf}} \cdot x_{\mathrm{2}}}{m \cdot l \cdot \cos(x_{\mathrm{1}})}\right)}{\left(1 - \frac{(M + m)}{m \cdot \cos^2(x_{\mathrm{1}})}\right)}
+    \end{bmatrix}
+\end{align}
