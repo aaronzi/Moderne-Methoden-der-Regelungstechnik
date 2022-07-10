@@ -2,7 +2,7 @@
 
 \subsection{Einfache Zustandsrückführung} \label{sec:Ackermann-Formel}
 
-Die erste umgesetzte Regelstrategie ist die einfache Zustandsrückführung unter Anwendung der Ackermann-Formel. Ziel ist es, das Pendel-System mit einem Anfangswinkel ungleich Null Grad erneut in die instabile Ruhelage zu bringen. Dafür werden mit Hilfe der Ackermann-Formel k-Faktoren berechnet, welche anschließend mit den Zuständen $x_{\mathrm{1}}$ bis $x_{\mathrm{4}}$ multipliziert und auf den Systemeingang zurückgeführt werden (\autoref{fig:Bild7}). Der Wagen wird dabei immer in den Ausgangszustand von $x_{\mathrm{M}}$ zurück geregelt.
+Die erste umgesetzte Regelstrategie ist die einfache Zustandsrückführung unter Anwendung der Ackermann-Formel für Systeme mit einem Eingang. Ziel ist es, das Pendel-System mit einem Anfangswinkel ungleich Null Grad erneut in die instabile Ruhelage zu bringen. Dafür werden mit Hilfe der Ackermann-Formel k-Faktoren berechnet, welche anschließend mit den Zuständen $x_{\mathrm{1}}$ bis $x_{\mathrm{4}}$ multipliziert und auf den Systemeingang zurückgeführt werden (\autoref{fig:Bild7}). Der Wagen wird dabei immer in den Ausgangszustand von $x_{\mathrm{M}}$ zurück geregelt.
 
 \begin{figure}[H]
     \centering
@@ -14,22 +14,22 @@ Die erste umgesetzte Regelstrategie ist die einfache Zustandsrückführung unter
 Im ersten Schritt wird der Nachweis der Steuerbarkeit des Systems benötigt. Dieser wurde bereits in \autoref{sec:Steuerbarkeit} erbracht.
 Im zweiten Schritt erfolgt die Bestimmung der Eigenwerte der Systemmatrix A. Hierzu wird das charakteristische Polynom benötigt, welches mithilfe der Laplace-Transformation der Vektorzustandsdifferentialgleichungen $\underline{\dot{x}}$ und der anschließenden Umformung hergeleitet wird.\\\\
 Laplace-Transformation und Umformung:
-
 \begin{align*}
     \underline{\dot{x}} &= \underline{A}\cdot\underline{x}+\underline{B}\cdot\underline{u}\quad\laplace \quad s\cdot \underline{X}(s)-\underline{x}_{\mathrm{0}}=\underline{A}\cdot \underline{X}(s)+\underline{B}\cdot \underline{U}(s) \\
     \underline{X}(s) &= (s\cdot \underline{I} - \underline{A})^{-1}\cdot\underline{x}_{\mathrm{0}}+(s\cdot \underline{I} - \underline{A})^{-1}\cdot\underline{B}\cdot\underline{U}(s)
 \end{align*}
 
-Das charakteristische Polynom folgt aus der Determinante von: ($s\cdot\underline{I}-\underline{A}$). Die Matrix $\underline{I}$ stellt die Einheitsmatrix dar. Die Nullstellen des Polynoms gleichen den Eigenwerte der Systemmatrix A.\\\\
-Charakteristische Polynom und Eigenwertdefinition:
+Das charakteristische Polynom folgt aus der Determinante von: ($s\cdot\underline{I}-\underline{A}$). Die Matrix $\underline{I}$ stellt die Einheitsmatrix dar. Die Nullstellen des Polynoms gleichen den Eigenwerte der Systemmatrix A.
 
+\clearpage
+
+Charakteristische Polynom und Eigenwertdefinition:
 \begin{align*}
     \underline{P}(s) &= det(s\cdot\underline{I}-\underline{A}) \\
     \underline{P}(s_{\mathrm{P}}) &= \underline{0} = eig(\underline{A})
 \end{align*}
 
 Allgemeine Form:
-
 \begin{align*}
         \underline{P}(s) &= s^n+\alpha_{n-1}\cdot s^{\mathrm{n-1}}+...+\alpha_{\mathrm{1}}\cdot s + \alpha_{\mathrm{0}} \\
         \underline{P}(s) &= (s-s_{\mathrm{P1}})\cdot(s-s_{\mathrm{P2}})\cdot ... \cdot (s-s_{\mathrm{Pn}})
@@ -37,7 +37,6 @@ Allgemeine Form:
 
 Die Berechnung der Eigenwerte der Systemmatrix erfolgt analog zu den vorangegangenen Betrachtungen.\\\\
 Eigenwerte des Systems:
-
 \begin{align}\label{eq:Gleichung36}
     eig(\underline{A}) &= eig
     \begin{bmatrix}
@@ -270,7 +269,7 @@ Wird das linearisierte Zustandsraummodell (\autoref{eq:Gleichung33}) und die Fak
 
 Der Faktor $F$ ist ein skalarer Wert, da ein SISO-System vorliegt.
 
-\subsection{I-Regelung}
+\subsection{I-Regelung} \label{sec:iregler}
 Bei der Regelung mit Referenzwert-Vorsteuerung entsteht ein Regelfehler, welcher zu einem ungenauen Ergebnis führt. Der Regelfehler folgt aus der Differenz des Referenzwertes am Systemeingang ($\underline{y}_{\mathrm{ref}}$) und dem zugehörigen Endwert am Systemausgang ($\underline{y}$). Um den Regelfehler zu minimieren, wird dieser entsprechend aufintegriert. Die Folge ist ein größerer Stellgrößenaufwand. Das Reglergesetz und die entsprechende Systemstruktur sind in \autoref{eq:Gleichung59} und \autoref{fig:Bild11} dargestellt mit den Faktoren $\underline{k}_{\mathrm{I}}$ (I-Verstärkungskoeffizient) und $\underline{k}_{\mathrm{x}}$ (Zustandsrückführungskoeffizient).\\\\
 Reglergesetz:
 
@@ -410,8 +409,10 @@ Zustandsrückführungskoeffizienten:
     \begin{bmatrix}
         -180.9111 & -35.8968 & -64.1713 & -48.8165
     \end{bmatrix}
-\end{align}\\
+\end{align}
+
 I-Verstärkungskoeffizienten:
+
 \begin{align}\label{eq:Gleichugn70}
     \underline{k}_{\mathrm{I}} &= [-41.0452]
 \end{align}

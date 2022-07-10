@@ -27,7 +27,7 @@ function nichtlinear_vergleich_u()
 
     xlabel('Zeit t [s]','interpreter','latex')
     ylabel('Eingangskraft u [N]','interpreter','latex')
-    legend('Ackermann','Vorsteuerung','I-Regler')
+    legend('Einfacher Regler','Vorsteuerung','I-Regler')
     grid on
 
     pos = get(gcf, 'Position');

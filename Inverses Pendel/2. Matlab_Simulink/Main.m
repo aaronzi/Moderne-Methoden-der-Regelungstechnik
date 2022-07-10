@@ -111,13 +111,18 @@ A_Tilde = vertcat(A_Tilde, [-C_k_LMI 0]);
 B_Tilde = [B; 0];
 
 [k_LMI_Tilde, k_LMIsys] = LMI_Berechnung_k(A_Tilde, B_Tilde, alpha);
-eig(A_Tilde-B_Tilde.*k_LMI_Tilde);
+sP_LMI = eig(A_Tilde-B_Tilde.*k_LMI_Tilde);
 
 
+%{
 % Plot der Polstellen
-plot(eig(A_Tilde-B_Tilde*k_LMI_Tilde),'*');
+plot(sP_LMI,'*');
 grid on
-
+xlabel("Real(x)");
+ylabel("Imag(x)");
+title("Lokalisierung der Polstellen");
+legend("Polstellen des Systems", "Location", "northeast");
+%}
 
 
 %% Beobachterentwurf (LMI's)
@@ -125,9 +130,16 @@ grid on
 alpha = 4;
 
 [L_LMI, L_LMIsys] = LMI_Berechnung_L(A, C ,alpha);
+sP_Obs = eig(A-L_LMI*C);
 
 
+%{
 % Plot der Polstellen
-plot(eig(A-L_LMI*C), '*');
+plot(sP_Obs, '*');
 grid on;
+xlabel("Real(x)");
+ylabel("Imag(x)");
+title("Lokalisierung der Polstellen");
+legend("Polstellen des Beobachters", "Location", "northeast");
+%}
 

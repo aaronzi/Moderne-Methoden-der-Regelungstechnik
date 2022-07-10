@@ -8,7 +8,7 @@ function linear_lmi_i_regler_xM()
         legendString = strings(6,1);
         for j=1:6
             assignin('base','start_deg',j*4);
-            simOut = sim('LMI_I_Regelung_linear.slx','StartTime','0','StopTime','3.5','FixedStep','1/1e4');
+            simOut = sim('Regelung_mit_Beobachter_linear','StartTime','0','StopTime','3.5','FixedStep','1/1e4');
             mat_x = simOut.x_vec(1,:).Data;
             vec_xM = mat_x(:,3);
             t_vec = simOut.tout;

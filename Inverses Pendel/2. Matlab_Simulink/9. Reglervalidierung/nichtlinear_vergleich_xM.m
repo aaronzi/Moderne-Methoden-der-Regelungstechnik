@@ -30,7 +30,7 @@ function nichtlinear_vergleich_xM()
 
     xlabel('Zeit t [s]','interpreter','latex')
     ylabel('Position $x_M$ [m]','interpreter','latex')
-    legend('Ackermann','Vorsteuerung','I-Regler')
+    legend('Einfacher Regler','Vorsteuerung','I-Regler')
     grid on
 
     pos = get(gcf, 'Position');

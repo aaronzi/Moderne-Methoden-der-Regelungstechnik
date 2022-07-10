@@ -1,4 +1,4 @@
-\section{Reglervalidierung}
+\section{Reglervalidierung} \label{sec:reglervalidierung}
 
 Ziel der Reglervalidierung ist das Bestätigen des Regelverhaltens der modellierten drei Regler aus dem \autoref{sec:Zustandsreglerentwurf}. Dies wird mit Hilfe des Matlab Tools \textit{Simulink} durchgeführt. Die zuvor in Matlab Berechneten Matrizen (siehe \zB \autoref{eq:Gleichung41}) werden an das Simulink-Modell übergeben und dort genutzt. Die Simulationsergebnisse werden anschließend auf ihre Plausibilität geprüft. Dazu werden zum einen die Eingangsparameter (Anfangsauslenkung und Referenzposition) variiert und zum anderen wird der jeweilige Regler am linearen als auch am nichtlinearen Modell getestet.
 
@@ -94,7 +94,7 @@ Das dritte Diagramm (\autoref{fig:Bild20}) zeigt die benötigte Kraft des Motors
 \newline
 Zusammenfassend kann bestätigt werden, dass sich der Regler erwartungsgemäß verhält und die Grenzen der Anlage bezüglich maximaler Position und Kraft nicht überschritten werden.
 
-\subsubsection{Zustandsregler mit I-Regelung}
+\subsubsection{Zustandsregler mit I-Regelung} \label{sec:val_i_regler}
 
 Der dritte untersuchte Regler ist der Zustandsregler mit I-Regelung. Die Simulink-Struktur des Reglers ist in \autoref{fig:Bild21} gezeigt. Wie schon in \autoref{sec:val-vor} können Referenzpositionen vorgegeben werden. Im Unterschied zur Vorsteuerung soll jedoch durch das Aufintegrieren des Regelfehlers die Möglichkeit bestehen die Polstellen weiter nach Rechts zu schieben und somit den Regler zu beschleunigen. Dies gilt zu zeigen. \\
 In Diagrammform werden erneut der Winkel des Pendels $\varphi$, die Wagenposition $x_{\mathrm{M}}$ und die benötigte Eingangskraft $u$ \bzw $F_{\mathrm{a}}$ dargestellt. Zusätzlich wird die Validierung für verschiedene Referenzpositionen $y_{ref}$ vorgenommen. \\
