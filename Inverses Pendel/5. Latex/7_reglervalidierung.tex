@@ -1,6 +1,6 @@
 \section{Reglervalidierung} \label{sec:reglervalidierung}
 
-Ziel der Reglervalidierung ist das Bestätigen des Regelverhaltens der modellierten drei Regler aus dem \autoref{sec:Zustandsreglerentwurf}. Dies wird mit Hilfe des Matlab Tools \textit{Simulink} durchgeführt. Die zuvor in Matlab Berechneten Matrizen (siehe \zB \autoref{eq:Gleichung41}) werden an das Simulink-Modell übergeben und dort genutzt. Die Simulationsergebnisse werden anschließend auf ihre Plausibilität geprüft. Dazu werden zum einen die Eingangsparameter (Anfangsauslenkung und Referenzposition) variiert und zum anderen wird der jeweilige Regler am linearen als auch am nichtlinearen Modell getestet.
+Ziel der Reglervalidierung ist das Bestätigen des Regelverhaltens der modellierten drei Regler aus dem \autoref{sec:Zustandsreglerentwurf}. Dies wird mit Hilfe des Matlab Tools \textit{Simulink} durchgeführt. Die zuvor in Matlab berechneten Matrizen (siehe \zB \autoref{eq:Gleichung41}) werden an das Simulink-Modell übergeben und dort genutzt. Die Simulationsergebnisse werden anschließend auf ihre Plausibilität geprüft. Dazu werden zum einen die Eingangsparameter (Anfangsauslenkung und Referenzposition) variiert und zum anderen wird der jeweilige Regler am linearen als auch am nichtlinearen Modell getestet.
 
 \subsection{Validierung des linearen Modells}
 
@@ -58,7 +58,7 @@ Ziel ist auch hier das Bestätigen des Einhaltens der Grenzen der Anlage für di
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=1.0\textwidth]{Bilder/Reglervalidierung/Vorsteuerung_Regler.pdf}}
-    \caption[Regler mit Vorsteuerung Simulink (linear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit Vorsteuerung (lineares Zustandsraummodell)}
+    \caption[Regler mit Vorsteuerung Simulink (linear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit Vorsteuerung (lineares Zustandsraummmodell)}
     \label{fig:Bild17}
 \end{figure}
 
@@ -86,11 +86,11 @@ Ziel ist auch hier das Bestätigen des Einhaltens der Grenzen der Anlage für di
 \newpage
 Die für die oben gezeigten Diagramme gewählten Reglerpolstellen sind in \autoref{eq:Gleichung56} gezeigt. \\
 \newline
-\autoref{fig:Bild18} bestätigt analog zum Regler mit einfacher Zustandsrückführung (Ackermann-Formel), dass der Regler mit Vorsteuerung wie definiert eine Anfangsauslenkung zu $0^\circ$ (obere Ruhelage) ausregeln kann. Der Winkel ist nach \ca 2,5 s wieder in der Ruhelage angelangt. \\
+\autoref{fig:Bild18} bestätigt analog zum Regler mit einfacher Zustandsrückführung (Ackermann-Formel), dass der Regler mit Vorsteuerung, wie definiert, eine Anfangsauslenkung zu $0^\circ$ (obere Ruhelage) ausregeln kann. Der Winkel ist nach \ca 2,5 s wieder in der Ruhelage angelangt. \\
 \newline
 Das Verhalten des Wagens ist gezeigt in \autoref{fig:Bild19}. Zu erkennen ist, dass je nach vorgegebenem Referenzwert die jeweilige Referenzposition am Ende des Regelvorgangs erreicht wird. Weiterhin bestätigt die Abbildung, dass selbst für einen Auslenkungswinkel von $24^\circ$ und eine Referenzposition von 0,9 m die maximale Wagenposition nicht überschritten wird. \\
 \newline
-Das dritte Diagramm (\autoref{fig:Bild20}) zeigt die benötigte Kraft des Motors am Schlitten, um den Wagen in entsprechender Zeit an die zuvor gezeigte Position zu bewegen. Zu erkennen ist, dass für größere Referenzpositionen bei großen Winkeln eine kleinere Eingangskraft benötigt wird. Dafür steigt jedoch bei kleinen Anfangsauslenkungen und großen Referenzwerten die benötigte Eingangskraft. In diesem Fall jedoch mit einem negativen Vorzeichen. Beschriebenen Verhalten entspricht den Erwartungen. Zuletzt ist festzuhalten, dass bereits nach rund 1,25 s der Motor keine Kraft mehr liefern muss.\\
+Das dritte Diagramm (\autoref{fig:Bild20}) zeigt die benötigte Kraft des Motors am Schlitten, um den Wagen in entsprechender Zeit an die zuvor gezeigte Position zu bewegen. Zu erkennen ist, dass für größere Referenzpositionen bei großen Winkeln eine kleinere Eingangskraft benötigt wird. Dafür steigt jedoch bei kleinen Anfangsauslenkungen und großen Referenzwerten die benötigte Eingangskraft. In diesem Fall jedoch mit einem negativen Vorzeichen. Das beschriebene Verhalten entspricht den Erwartungen. Zuletzt ist festzuhalten, dass bereits nach rund 1,25 s der Motor keine Kraft mehr liefern muss.\\
 \newline
 Zusammenfassend kann bestätigt werden, dass sich der Regler erwartungsgemäß verhält und die Grenzen der Anlage bezüglich maximaler Position und Kraft nicht überschritten werden.
 
@@ -115,7 +115,7 @@ Das Verhalten des Wagens ist gezeigt in \autoref{fig:Bild23}. Zu erkennen ist, d
 \newline
 Das dritte Diagramm (\autoref{fig:Bild24}) zeigt die benötigte Kraft des Motors, um den Wagen an die zuvor gezeigte Position zu bewegen. Zu erkennen ist, dass für größere Referenzpositionen bei großen Winkeln eine kleinere Eingangskraft benötigt wird. Dafür steigt jedoch bei kleinen Anfangsauslenkungen und großen Referenzwerten die benötigte Eingangskraft. In diesem Fall jedoch mit einem negativen Vorzeichen. Zuletzt ist festzuhalten, dass bereits nach rund 1,25 s der Motor keine Kraft mehr liefern muss.\\
 \newline
-Zusammenfassend kann bestätigt werden, dass sich der Regler für die deutlich weiter rechts positionierten Polstellen immer noch erwartungsgemäß verhält und die Grenzen der Anlage bezüglich maximaler Position und Kraft nicht überschritten werden.
+Zusammenfassend kann bestätigt werden, dass sich der Regler bei festgelegten Polstellen immer noch erwartungsgemäß verhält und die Grenzen der Anlage bezüglich maximaler Position und Kraft nicht überschritten werden.
 
 \begin{figure}[H]
     \centering
@@ -144,7 +144,6 @@ Im folgenden werden die drei implementierten Regelstrategien verglichen. Dabei s
 Um eine gewisse Vergleichbarkeit sicherzustellen, wurden alle drei Simulink-Modelle der Regler inklusive Regelstrecke mit der gleichen Anfangsauslenkung simuliert. Weiterhin wurde auch die selbe Referenzposition beim Zustandsregler mit Vorsteuerung und beim Regler mit I-Regelung genutzt. \\
 In Diagrammform werden nachfolgend der Winkel des Pendels $\varphi$, die Wagenposition $x_{\mathrm{M}}$ und die benötigte Eingangskraft $u$ \bzw $F_{\mathrm{a}}$ für die drei Zustandsregler dargestellt. \\
 Es ist wichtig die gewählten Polstellen für den jeweiligen Regler zu berücksichtigen und diese mit in den Vergleich einzubeziehen. Nachfolgen sind die Polstellen aufgeführt:
-
 \begin{align*}
     \underline{s}_{\mathrm{P}_{Acker.}} &= 
     \begin{bmatrix}
@@ -159,8 +158,8 @@ Es ist wichtig die gewählten Polstellen für den jeweiligen Regler zu berücksi
         -3.2 & -3.2 & -3.2 & -3.2 
     \end{bmatrix}
 \end{align*}
-
-Die Wahl der Polstellen beruht auf der Optimierung der der Regelgeschwindigkeit bei maximalem Ausreizen der Systemgrenzen.
+\newline
+Die Wahl der Polstellen beruht auf der Optimierung der Regelgeschwindigkeit bei maximalem Ausreizen der Systemgrenzen.
 
 \begin{figure}[H]
     \centering
@@ -183,10 +182,10 @@ Die Wahl der Polstellen beruht auf der Optimierung der der Regelgeschwindigkeit 
     \label{fig:Bild27}
 \end{figure}
 
-\autoref{fig:Bild25} zeigt, dass der Winkel des Pendels bei der Regelung mit Vorsteuerung für die oben gewählten Polstellen am schnellsten wieder in der Ruhelage ausgeregelt ist. Dieses Verhalten lässt sich dadurch begründen, dass die Polstellen bei der Vorsteuerung etwas weiter nach links gelegt wurden im Vergleich zum Regler mit einfacher Zustandsrückführung (Ackermann), wodurch der Regler schneller wird. Grundsätzlich würden die Kurvenverläufe der beiden genannten Regler annähernd identisch sein, wenn die Polstellen die gleichen sind und bei der Vorsteuerung die Referenzposition zu Null gewählt wird. Verschiebt man bei positiver Anfangsauslenkung jedoch die Referenzposition nach rechts, so würde der Regler mit Vorsteuerung deutlich schneller wieder in die Ruhelage regeln, da er nicht dafür sorgen muss, dass der Wagen wieder auf der Nullposition stehen bleibt. Der Zustandsregler mit I-Regelung scheint im Gegensatz generell etwas langsamer zu sein, selbst wenn die Polstellen für alle Regelstrategien gleich gewählt werden. \\
+\autoref{fig:Bild25} zeigt, dass der Winkel des Pendels bei der Regelung mit Vorsteuerung für die oben gewählten Polstellen am schnellsten wieder in der Ruhelage ausgeregelt ist. Dieses Verhalten lässt sich dadurch begründen, dass die Polstellen bei der Vorsteuerung etwas weiter nach links gelegt wurden im Vergleich zum Regler mit einfacher Zustandsrückführung, wodurch der Regler schneller wird. Grundsätzlich würden die Kurvenverläufe der beiden genannten Regler annähernd identisch sein, wenn die Polstellen die gleichen sind und bei der Vorsteuerung die Referenzposition zu Null gewählt wird. Verschiebt man bei positiver Anfangsauslenkung jedoch die Referenzposition nach rechts, so würde der Regler mit Vorsteuerung deutlich schneller wieder in die Ruhelage regeln, da er nicht dafür sorgen muss, dass der Wagen wieder auf der Nullposition stehen bleibt. Der Zustandsregler mit I-Regelung scheint im Gegensatz generell etwas langsamer zu sein, selbst wenn die Polstellen für alle Regelstrategien gleich gewählt werden. \\
 Weiterhin ist zu erkennen, das bei der I-Regelung ein stärkeres Schwingen auftritt, welches durch das Aufintegrieren des Regelfehlers zu erklären ist. \\
 \newline
-In \autoref{fig:Bild26} ist vor allem der wesentliche Unterschied zwischen dem Regler mit einfacher Zustandsrückführung und den Reglern mit Zustandsrückführung und Referenzwertvorgabe zu erkennen. Bei der Vorsteuerung und I-Regelung kann in den jeweiligen Graphen die gewählte Referenzposition am rechten Ende des Diagramms abgelesen werden. Der Zustandsregler mit Ackermann-Formel regelt die Wagenposition wieder auf Null zurück. \\
+In \autoref{fig:Bild26} ist vor allem der wesentliche Unterschied zwischen dem Regler mit einfacher Zustandsrückführung und den Reglern mit Zustandsrückführung und Referenzwertvorgabe zu erkennen. Bei der Vorsteuerung und I-Regelung kann in den jeweiligen Graphen die gewählte Referenzposition am rechten Ende des Diagramms abgelesen werden. Der einfache Zustandsregler regelt die Wagenposition wieder auf Null zurück. \\
 Auch hier kann das stärkere Schwingverhalten des I-Reglers identifiziert werden. \\
 \newline
 Der wesentliche Grund für die Wahl der Polstellen wird in \autoref{fig:Bild27} ersichtlich. Für eine einheitliche Auslenkung des Pendels ist die Eingangskraft $u$ annähernd gleich bei den drei Reglern. Für die in den vorangegangenen Unterabschnitten ermittelten maximalen Auslenkungen ist die Eingangskraft $u$ \bzw $F_{\mathrm{a}}$ im Maximum knapp unter 80 N groß. Somit wird das System bei den gewählten Polstellen maximal ausgereizt. \\
@@ -194,38 +193,38 @@ Wie auch schon bei der Betrachtung des Winkels $\varphi$ und der Wagenposition $
 
 \newpage
 
-\subsection{Validierung des nicht-linearen Modells}
-Im folgenden werden die drei Regler für das nicht-lineare Zustandsraummodell validiert. Die Simulink Implementierung der nicht-linearen Regelstrecke ist in \autoref{fig:Bild2} dargestellt. \\
+\subsection{Validierung des nichtlinearen Modells}
+Im folgenden werden die drei Regler für das nichtlineare Zustandsraummodell validiert. Die Simulink Implementierung der nichtlinearen Regelstrecke ist in \autoref{fig:Bild2} dargestellt. \\
 \newline
-Wie im vorangegangenen Unterabschnitt werden Diagramme für den Winkel des Pendels $\varphi$, die Wagenposition $x_{\mathrm{M}}$ und die benötigte Eingangskraft $u$ \bzw $F_{\mathrm{a}}$ für die drei Zustandsregler gezeigt. Es wird jedoch auf Kommentare verzichtet, da die Anwendung der Regler auf das nicht-lineare Zustandsraummodell zu analogen Ergebnissen führt, was bereits in \autoref{sec:systemvergleich} nachgewiesen wurde.
+Wie im vorangegangenen Unterabschnitt werden Diagramme für den Winkel des Pendels $\varphi$, die Wagenposition $x_{\mathrm{M}}$ und die benötigte Eingangskraft $u$ \bzw $F_{\mathrm{a}}$ für die drei Zustandsregler gezeigt. Es wird jedoch auf Kommentare verzichtet, da die Anwendung der Regler auf das nichtlineare Zustandsraummodell zu analogen Ergebnissen führt, was bereits in \autoref{sec:systemvergleich} nachgewiesen wurde.
 
 \subsubsection{Zustandsregler mit einfacher Rückführung}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=1.0\textwidth]{Bilder/Reglervalidierung/Ackermann_Regler_nl.pdf}}
-    \caption[Zustandsregler mit einfacher Rückführung - Simulink (nicht-linear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit einfacher Zustandsrückführung (nicht-lineares Zustandsraummodell)}
+    \caption[Zustandsregler mit einfacher Rückführung - Simulink (nichtlinear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit einfacher Zustandsrückführung (nichtlineares Zustandsraummodell)}
     \label{fig:Bild28}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.6\textwidth]{Bilder/Reglervalidierung/nichtlinear_ackermann_phi.pdf}}
-    \caption[$\varphi$ für Regler mit einfacher Rückführung (nicht-linear)]{$\varphi$ für verschiedene Anfangsauslenkungen am Zustandsregler mit einfacher Rückführung für das nicht-lineare Zustandsraummodell}
+    \caption[$\varphi$ für Regler mit einfacher Rückführung (nichtlinear)]{$\varphi$ für verschiedene Anfangsauslenkungen am Zustandsregler mit einfacher Rückführung für das nichtlineare Zustandsraummodell}
     \label{fig:Bild29}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.6\textwidth]{Bilder/Reglervalidierung/nichtlinear_ackermann_xM.pdf}}
-    \caption[$x_{\mathrm{M}}$ für Regler mit einfacher Rückführung (nicht-linear)]{$x_{\mathrm{M}}$ für verschiedene Anfangsauslenkungen am Zustandsregler mit einfacher Rückführung für das nicht-lineare Zustandsraummodell}
+    \caption[$x_{\mathrm{M}}$ für Regler mit einfacher Rückführung (nichtlinear)]{$x_{\mathrm{M}}$ für verschiedene Anfangsauslenkungen am Zustandsregler mit einfacher Rückführung für das nichtlineare Zustandsraummodell}
     \label{fig:Bild30}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.6\textwidth]{Bilder/Reglervalidierung/nichtlinear_ackermann_u.pdf}}
-    \caption[u für Regler mit einfacher Rückführung (nicht-linear)]{u für verschiedene Anfangsauslenkungen am Zustandsregler mit einfacher Rückführung für das nicht-lineare Zustandsraummodell}
+    \caption[u für Regler mit einfacher Rückführung (nichtlinear)]{u für verschiedene Anfangsauslenkungen am Zustandsregler mit einfacher Rückführung für das nichtlineare Zustandsraummodell}
     \label{fig:Bild31}
 \end{figure}
 
@@ -234,28 +233,28 @@ Wie im vorangegangenen Unterabschnitt werden Diagramme für den Winkel des Pende
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=1.0\textwidth]{Bilder/Reglervalidierung/Vorsteuerung_Regler_nl.pdf}}
-    \caption[Regler mit Vorsteuerung Simulink (nicht-linear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit Vorsteuerung (nicht-lineares Zustandsraummodell)}
+    \caption[Regler mit Vorsteuerung Simulink (nichtlinear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit Vorsteuerung (nichtlineares Zustandsraummodell)}
     \label{fig:Bild32}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/nichtlinear_vorsteuerung_phi.pdf}}
-    \caption[$\varphi$ für Regler mit Vorsteuerung (nicht-linear)]{$\varphi$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung für das nicht-lineare Zustandsraummodell}
+    \caption[$\varphi$ für Regler mit Vorsteuerung (nichtlinear)]{$\varphi$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung für das nichtlineare Zustandsraummodell}
     \label{fig:Bild33}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/nichtlinear_vorsteuerung_xM.pdf}}
-    \caption[$x_{\mathrm{M}}$ für Regler mit Vorsteuerung (nicht-linear)]{$x_{\mathrm{M}}$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung für das nicht-lineare Zustandsraummodell}
+    \caption[$x_{\mathrm{M}}$ für Regler mit Vorsteuerung (nichtlinear)]{$x_{\mathrm{M}}$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung für das nichtlineare Zustandsraummodell}
     \label{fig:Bild34}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/nichtlinear_vorsteuerung_u.pdf}}
-    \caption[u für Regler mit Vorsteuerung (nicht-linear)]{u für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung für das nicht-lineare Zustandsraummodell}
+    \caption[u für Regler mit Vorsteuerung (nichtlinear)]{u für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit Vorsteuerung für das nichtlineare Zustandsraummodell}
     \label{fig:Bild35}
 \end{figure}
 
@@ -264,28 +263,28 @@ Wie im vorangegangenen Unterabschnitt werden Diagramme für den Winkel des Pende
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=1.0\textwidth]{Bilder/Reglervalidierung/I_Regler_nl.pdf}}
-    \caption[Regler mit I-Regelung Simulink (nicht-linear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit I-Regelung (nicht-lineares Zustandsraummodell)}
+    \caption[Regler mit I-Regelung Simulink (nichtlinear)]{Simulink Regler-Blockschaltbild für den Zustandsregler mit I-Regelung (nichtlineares Zustandsraummodell)}
     \label{fig:Bild36}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/nichtlinear_i_regler_phi.pdf}}
-    \caption[$\varphi$ für Regler mit I-Regelung (nicht-linear)]{$\varphi$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung für das nicht-lineare Zustandsraummodell}
+    \caption[$\varphi$ für Regler mit I-Regelung (nichtlinear)]{$\varphi$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung für das nichtlineare Zustandsraummodell}
     \label{fig:Bild37}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/nichtlinear_i_regler_xM.pdf}}
-    \caption[$x_{\mathrm{M}}$ für Regler mit I-Regelung (nicht-linear)]{$x_{\mathrm{M}}$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung für das nicht-lineare Zustandsraummodell}
+    \caption[$x_{\mathrm{M}}$ für Regler mit I-Regelung (nichtlinear)]{$x_{\mathrm{M}}$ für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung für das nichtlineare Zustandsraummodell}
     \label{fig:Bild38}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.76\textwidth]{Bilder/Reglervalidierung/nichtlinear_i_regler_u.pdf}}
-    \caption[u für Regler mit I-Regelung (nicht-linear)]{u für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung für das nicht-lineare Zustandsraummodell}
+    \caption[u für Regler mit I-Regelung (nichtlinear)]{u für verschiedene Referenzpositionen $y_{ref}$ und Anfangsauslenkungen am Zustandsregler mit I-Regelung für das nichtlineare Zustandsraummodell}
     \label{fig:Bild39}
 \end{figure}
 
@@ -294,20 +293,20 @@ Wie im vorangegangenen Unterabschnitt werden Diagramme für den Winkel des Pende
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.65\textwidth]{Bilder/Reglervalidierung/nichtlinear_vergleich_phi.pdf}}
-    \caption[Reglervergleich für $\varphi$ (nicht-linear)]{$\varphi$ für Regler mit einfacher Zustandsrückführung, Regler mit Vorsteuerung und Regler mit I-Regelung bei einer Anfangsauslenkungen von $20^\circ$ und einer Referenzposition $y_{ref} = 0,1 m$ am nicht-linearen Zustandsraummodell}
+    \caption[Reglervergleich für $\varphi$ (nichtlinear)]{$\varphi$ für Regler mit einfacher Zustandsrückführung, Regler mit Vorsteuerung und Regler mit I-Regelung bei einer Anfangsauslenkungen von $20^\circ$ und einer Referenzposition $y_{ref} = 0,1 m$ am nichtlinearen Zustandsraummodell}
     \label{fig:Bild40}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.65\textwidth]{Bilder/Reglervalidierung/nichtlinear_vergleich_xM.pdf}}
-    \caption[Reglervergleich für $x_{\mathrm{M}}$ (nicht-linear)]{$x_{\mathrm{M}}$ für Regler mit einfacher Zustandsrückführung, Regler mit Vorsteuerung und Regler mit I-Regelung bei einer Anfangsauslenkungen von $20^\circ$ und einer Referenzposition $y_{ref} = 0,1 m$ am nicht-linearen Zustandsraummodell}
+    \caption[Reglervergleich für $x_{\mathrm{M}}$ (nichtlinear)]{$x_{\mathrm{M}}$ für Regler mit einfacher Zustandsrückführung, Regler mit Vorsteuerung und Regler mit I-Regelung bei einer Anfangsauslenkungen von $20^\circ$ und einer Referenzposition $y_{ref} = 0,1 m$ am nichtlinearen Zustandsraummodell}
     \label{fig:Bild41}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.65\textwidth]{Bilder/Reglervalidierung/nichtlinear_vergleich_u.pdf}}
-    \caption[Reglervergleich für $u$ (nicht-linear)]{$u$ für Regler mit einfacher Zustandsrückführung, Regler mit Vorsteuerung und Regler mit I-Regelung bei einer Anfangsauslenkungen von $20^\circ$ und einer Referenzposition $y_{ref} = 0,1 m$ am nicht-linearen Zustandsraummodell}
+    \caption[Reglervergleich für $u$ (nichtlinear)]{$u$ für Regler mit einfacher Zustandsrückführung, Regler mit Vorsteuerung und Regler mit I-Regelung bei einer Anfangsauslenkungen von $20^\circ$ und einer Referenzposition $y_{ref} = 0,1 m$ am nichtlinearen Zustandsraummodell}
     \label{fig:Bild42}
 \end{figure}
