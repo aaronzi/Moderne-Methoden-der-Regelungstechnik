@@ -104,18 +104,7 @@ nichtlinear_vergleich_u();
 % ---------------------------------------------------------------------- %
 
 
-%% einfacher Regler (linear) mit LMI's
-% für Phi
-% linear_lmi_regler_phi();
-
-% für xM
-% linear_lmi_regler_xM();
-
-% für u
-% linear_lmi_regler_u();
-
-
-%% I-Regler (linear) mit LMI's
+%% I-Regler (linear) mit LMI's (und Beobachter)
 % für Phi
 linear_lmi_i_regler_phi();
 
@@ -124,3 +113,16 @@ linear_lmi_i_regler_xM();
 
 % für u
 linear_lmi_i_regler_u();
+
+%% Vergleich y und y_head
+% für Phi
+vergleich_phi_phi_head();
+
+% für xM
+vergleich_xM_xM_head();
+
+% für xM_Punkt
+vergleich_xM_punkt_xM_punkt_head();
+
+%% Rekonstruktion phi_punkt über Beobachter
+rekonstruktion_phi_punkt();

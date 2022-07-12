@@ -6,9 +6,14 @@ warning('off','all')
 
 %% ORDNER HINZUFÜGEN
 addpath('./1. Konstanten/', './2. Lineares_und_nichtlineares_Modell/', './3. Steuerbarkeit/');
-addpath('./4. Ackermann-Formel/', './5. Tildevektoren/', './6. Beobachtbarkeit/');
+addpath('./4. Ackermann-Formel/', './5. Tildevektoren_SISO/', './6. Beobachtbarkeit/');
 addpath('./7. LMI/', './8. Simulationen/', "./9. Reglervalidierung/");
 
+
+%% ORDNER HINZUFÜGEN
+addpath('./1. Konstanten/', './2. Lineares_und_nichtlineares_Modell/', './3. Steuerbarkeit/');
+addpath('./4. Ackermann-Formel/', './5. Tildevektoren_SISO/', './6. Beobachtbarkeit/');
+addpath('./7. LMI/', './8. Simulationen/', "./9. Reglervalidierung/");
 
 %% KONSTANTEN
 global c;                   % Konstanten als global deklarieren
@@ -33,6 +38,7 @@ x_Ruhe = [0; 0; 0; 0];      % Ruhelage
 %% ZUSTANDSREGELUNG OHNE FOLGEREGELUNG - EINFACHE RÜCKFÜHRUNG
 sP_Acker = [-4 -4 -4 -4];               % Wunschpolstellen für Regelung mit einfacher Rückführung
 k_Acker = Ackermann(A, B, sP_Acker);    % Berechnung der Faktoren k für Regelung mit einfacher Rückführung
+C_Acker = [0 0 1 0];                    % Ausgangsmatrix C für Regelung mit einfacher Rückführung
 
 %{
 % Lokalisierung der Polstellen
@@ -49,10 +55,10 @@ hold off;
 
 
 %% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - VORSTEUERUNG
-sP_Vor = [-4.5 -4.5 -4.5 -4.5];                     % Wunschpolstellen für Regelung mit Vorsteuerung
-k_Vor = Ackermann(A, B, sP_Vor);                    % Berechnung der Faktoren k für Regelung mit Vorsteuerung
-C_Vor = [0 0 1 0];                                  % Ausgangsmatrix C für Regelung mit Vorsteuerung
-F = (C_Vor*(-A+B*k_Vor)^-1*B)^-1;                   % Berechnung des Faktors F
+sP_Vorsteuerung = [-4.5 -4.5 -4.5 -4.5];            % Wunschpolstellen für Regelung mit Vorsteuerung
+k_Vorsteuerung = Ackermann(A, B, sP_Vorsteuerung);  % Berechnung der Faktoren k für Regelung mit Vorsteuerung
+C_Vorsteuerung = [0 0 1 0];                         % Ausgangsmatrix C für Regelung mit Vorsteuerung
+F = (C_Vorsteuerung*(-A+B*k_Vorsteuerung)^-1*B)^-1; % Berechnung des Faktors F
 
 %{
 % Lokalisierung der Polstellen
@@ -69,9 +75,9 @@ hold off;
 
 
 %% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - I-REGELUNG
-sP_I_Reg = [-3.2 -3.2 -3.2 -3.2 -3.2];                                     % Wunschpolstellen für Regelung mit I-Regelung
-C_I_Reg = [0 0 1 0];                                                       % Ausgangsmatrix C für Regelung mit I-Regelung
-[k_Tilde, A_Tilde, B_Tilde] = Tilde(A, B, C_I_Reg, sP_I_Reg);              % Berechnung der Faktoren k_Tilde
+sP_I_Regelung = [-3.2 -3.2 -3.2 -3.2 -3.2];                                     % Wunschpolstellen für Regelung mit I-Regelung
+C_I_Regelung = [0 0 1 0];                                                       % Ausgangsmatrix C für Regelung mit I-Regelung
+[k_Tilde, A_Tilde, B_Tilde] = Tilde_SISO(A, B, C_I_Regelung, sP_I_Regelung);    % Berechnung der Faktoren k_Tilde
 
 %{
 % Lokalisierung der Polstellen
@@ -93,31 +99,47 @@ hold off;
 
 %% k-Faktoren LMI (I-Regelung)
 % für exponentielle Stabilität
-alpha = 0.6;                    % Decay-Rate
+C_k_LMI = [0 0 1 0];
+alpha = 0.6;
+
+% A_Tilde_Vektor
+A_Tilde = A;
+A_Tilde = horzcat(A_Tilde, zeros(size(A,1),1));
+A_Tilde = vertcat(A_Tilde, [-C_k_LMI 0]);
+    
+% B_Tilde_Vektor
+B_Tilde = [B; 0];
 
 [k_LMI_Tilde, k_LMIsys] = LMI_Berechnung_k(A_Tilde, B_Tilde, alpha);
+sP_LMI = eig(A_Tilde-B_Tilde.*k_LMI_Tilde);
+
 
 %{
-% Eigenwerte berechnen
-eig(A_Tilde-B_Tilde*k_LMI_Tilde);
-
 % Plot der Polstellen
-plot(eig(A_Tilde-B_Tilde*k_LMI_Tilde),'*');
+plot(sP_LMI,'*');
 grid on
+xlabel("Real(x)");
+ylabel("Imag(x)");
+title("Lokalisierung der Polstellen");
+legend("Polstellen des Systems", "Location", "northeast");
 %}
 
 
 %% Beobachterentwurf (LMI's)
 % für exponentielle Stabilität
-alpha = 4;                      % Decay Rate
+alpha = 4;
 
 [L_LMI, L_LMIsys] = LMI_Berechnung_L(A, C ,alpha);
+sP_Obs = eig(A-L_LMI*C);
+
 
 %{
-% Eigenwerte berechnen
-eig(A-L_LMI*C);
-
 % Plot der Polstellen
-plot(eig(A-L_LMI*C), '*');
+plot(sP_Obs, '*');
 grid on;
+xlabel("Real(x)");
+ylabel("Imag(x)");
+title("Lokalisierung der Polstellen");
+legend("Polstellen des Beobachters", "Location", "northeast");
 %}
+
