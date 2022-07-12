@@ -1,20 +1,20 @@
 % EINGABEN
-% x             symbolischer Spaltenvektor x
-% Fa            symbolische Kraft
-% xRuhe         Ruhelage als Zeilenvektor
-% f1 - f4       Funktionhandle des nichtlinearisierten Zustandsraummodells
+% c             Funktionshandle auf Konstanten
+% x_Ruhe        Ruhelage als Zeilenvektor
+% D             Duty Cycle
+% delta_i_pv    Funktionshandle zur Funktion delta_i_pv
+% S             Eingangsstrahlung auf PV-Zellen
+% T_c           Temperatur der Zellen
 
 % AUSGABEN
-% A             linearisierte Matrix A
-% B             linearisierte Matrix B
+% A             linearisierte Systemmatrix A
+% B             linearisierte Eingangsmatrix B
+% C             linearisierte Ausgangsmatrix C
 
-function [A, B, C, D] = Lineares_Zustandsraummodell(x, Fa, xRuhe, f1, f2, f3, f4)
+function [A, B, C] = Lineares_Zustandsraummodell(c, x_Ruhe, D, delta_i_pv, S, T_c)
 
     % Linearisierung
-    A = jacobian([f1(x, Fa); f2(x, Fa); f3(x, Fa); f4(x, Fa)], [x(1), x(2), x(3), x(4)]);
-    A = double(subs(A, {x(1), x(2), x(3), x(4)}, {xRuhe(1), xRuhe(2), xRuhe(3), xRuhe(4)}));
-    B = jacobian([f1(x, Fa); f2(x, Fa); f3(x, Fa); f4(x, Fa)], Fa);
-    B = double(subs(B, {x(1), x(2), x(3), x(4)}, {xRuhe(1), xRuhe(2), xRuhe(3), xRuhe(4)}));
-    C = [1 0 0 0; 0 0 1 0; 0 0 0 1];
-    D = 0;
+    A = [1/c.C*delta_i_pv(x_Ruhe(1), S, T_c) -1/c.C*D; 1/c.L*D 0];
+    B = [-1/c.C*x_Ruhe(2); 1/c.L*x_Ruhe(1)];
+    C = [1 0; 0 1];
 end

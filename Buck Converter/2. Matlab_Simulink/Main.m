@@ -5,36 +5,44 @@ warning('off','all')
 
 
 %% ORDNER HINZUFÜGEN
-addpath('./1. Konstanten/', './2. Lineares_und_nichtlineares_Modell/', './3. Steuerbarkeit/');
-addpath('./4. Ackermann-Formel/', './5. Tildevektoren_SISO/', './6. Beobachtbarkeit/');
-addpath('./7. LMI/', './8. Simulationen/', "./9. Reglervalidierung/");
+addpath('./1. Konstanten/', '2. Lineares_und_nichtlineares_Modell\', '3. Steuerbarkeit\');
 
-
-%% ORDNER HINZUFÜGEN
-addpath('./1. Konstanten/', './2. Lineares_und_nichtlineares_Modell/', './3. Steuerbarkeit/');
-addpath('./4. Ackermann-Formel/', './5. Tildevektoren_SISO/', './6. Beobachtbarkeit/');
-addpath('./7. LMI/', './8. Simulationen/', "./9. Reglervalidierung/");
 
 %% KONSTANTEN
 global c;                   % Konstanten als global deklarieren
 c = Konstanten();           % Konstanten aufrufen
 
 
+%% NOTWENDIGE GLEICHUNGEN
+i_ph = @(S, T_c) (S/c.S_STC) * c.i_ph_sc_STC * (1 + c.alpha_T * (T_c - c.T_c_STC));
+i_d = @(x1, S, T_c) i_s(S, T_c) * (exp(x1/(c.N_s * c.v_T_STC * c.A_n)) - 1);
+i_s = @(S, T_c) (i_ph(S, T_c) - (c.v_oc_STC/c.R_h))/(exp(c.v_oc_STC/(c.A_n * c.v_T_STC)) - 1);
+
+i_pv = @(x1, S, T_c) c.N_p * (i_ph(S, T_c) - i_d(x1, S, T_c) - x1/(c.N_s * c.R_h));
+delta_i_pv = @(x1, S, T_c) -c.N_p/(c.N_s * c.v_T_STC * c.A_n) * i_s(S, T_c) * exp(x1/(c.N_s * c.v_T_STC * c.A_n)) - (c.N_p/(c.N_s * c.R_h));
+
+
 %% ZUSTANDSRAUMMODELL (NICHT LINEARISIERT)
-syms x [4 1];               % symbolische (4x1)-Matrix
-syms Fa;                    % symbolische Eingangskraft
-[f1, f2, f3, f4] = Nichtlineares_Zustandsraummodell(c);
+syms x [2 1];               % symbolische (2x1)-Matrix
+syms D;                     % symbolische Duty Cycle
+[f1, f2] = Nichtlineares_Zustandsraummodell(i_pv);
 
 
 %% ZUSTANDSRAUMMODELL (LINEARISIERT) 
-x_Ruhe = [0; 0; 0; 0];      % Ruhelage
-[A, B, C, D] = Lineares_Zustandsraummodell(x, Fa, x_Ruhe, f1, f2, f3, f4);
+v_PV = 1049.1;
+i_L = 2902.1;
+D = c.v_DC/v_PV;	        % Duty Cycle
+x_Ruhe = [v_PV; i_L];       % Ruhelage
+S = 800;                    % Eingangsstrahlung
+T_c = 290;                  % Zellentemperatur
+
+[A, B, C] = Lineares_Zustandsraummodell(c, x_Ruhe, D, delta_i_pv, S, T_c);
 
 
 %% ÜBERPÜRFUNG DER STEUERBARKEIT
 [Q] = Steuerbarkeit(A, B);
 
-
+%{
 %% ZUSTANDSREGELUNG OHNE FOLGEREGELUNG - EINFACHE RÜCKFÜHRUNG
 sP_Acker = [-4 -4 -4 -4];               % Wunschpolstellen für Regelung mit einfacher Rückführung
 k_Acker = Ackermann(A, B, sP_Acker);    % Berechnung der Faktoren k für Regelung mit einfacher Rückführung
@@ -143,3 +151,4 @@ title("Lokalisierung der Polstellen");
 legend("Polstellen des Beobachters", "Location", "northeast");
 %}
 
+%}
