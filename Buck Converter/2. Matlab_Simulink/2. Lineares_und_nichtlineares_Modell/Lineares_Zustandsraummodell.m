@@ -11,10 +11,10 @@
 % B             linearisierte Eingangsmatrix B
 % C             linearisierte Ausgangsmatrix C
 
-function [A, B, C] = Lineares_Zustandsraummodell(c, x_Ruhe, D, delta_i_pv, S, T_c)
+function [A, B, C] = Lineares_Zustandsraummodell(c, x_Ruhe, D, Test)
 
     % Linearisierung
-    A = [1/c.C*delta_i_pv(x_Ruhe(1), S, T_c) -1/c.C*D; 1/c.L*D 0];
-    B = [-1/c.C*x_Ruhe(2); 1/c.L*x_Ruhe(1)];
+    A = [(1/c.C)*Test -(1/c.C)*D; (1/c.L)*D 0];
+    B = [-(1/c.C)*x_Ruhe(2); (1/c.L)*x_Ruhe(1)];
     C = [1 0; 0 1];
 end
