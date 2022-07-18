@@ -5,7 +5,7 @@ warning('off','all');
 
 
 %% ORDNER HINZUFÜGEN
-addpath('./1. Konstanten/', '2. Lineares_und_nichtlineares_Modell\', '3. Steuerbarkeit\', '8. Simulationen\');
+addpath('./1. Konstanten/', '2. Lineares_und_nichtlineares_Modell\', '3. Steuerbarkeit\', '4. Tildevektoren\', '5. LMI', '6. Simulationen\', '7. Reglervalidierung');
 
 
 %% KONSTANTEN
@@ -14,144 +14,98 @@ c = Konstanten();           % Konstanten aufrufen
 
 
 %% NOTWENDIGE GLEICHUNGEN
-i_ph = @(S, T_c) (S/c.S_STC) * c.i_ph_sc_STC * (1 + c.alpha_T * (T_c - c.T_c_STC));             % für Modul
-i_s = @(S, T_c) (i_ph(S, T_c) - (c.v_oc_STC/c.R_h))/(exp(c.v_oc_STC/(c.A_n * c.v_T_STC)) - 1);  % für Modul
-i_d = @(x1, S, T_c) i_s(S, T_c) * (exp(x1/(c.N_s*c.v_T_STC * c.A_n)) - 1);                      % für Modul
+v_oc = @(T_c) c.v_oc_STC * (1 + c.beta_T * (T_c - c.T_c_STC));
+i_ph = @(S, T_c) (S/c.S_STC) * c.i_ph_sc_STC * (1 + c.alpha_T * (T_c - c.T_c_STC));
+i_s = @(S, T_c) (i_ph(S, T_c) - (v_oc(T_c)/c.R_h))/(exp(v_oc(T_c)/(c.A_n * c.v_T_STC)) - 1);
+i_d = @(x1, S, T_c) i_s(S, T_c) * (exp(x1/(c.N_s*c.v_T_STC * c.A_n)) - 1);
 
 i_pv = @(x1, S, T_c) c.N_p * (i_ph(S, T_c) - i_d(x1, S, T_c) - x1/(c.N_s * c.R_h));
 delta_i_pv = @(x1, S, T_c) -c.N_p/(c.N_s * c.v_T_STC * c.A_n) * i_s(S, T_c) * exp(x1/(c.N_s * c.v_T_STC * c.A_n)) - (c.N_p/(c.N_s * c.R_h));
 
 
 %% ZUSTANDSRAUMMODELL (NICHT LINEARISIERT)
-syms x [2 1];               % symbolische (2x1)-Matrix
-syms D;                     % symbolische Duty Cycle
+syms x [2 1];                                       % symbolische (2x1)-Matrix
+syms d;                                             % symbolische Duty Cycle
 [f1, f2] = Nichtlineares_Zustandsraummodell(i_pv);
 
 
 %% ZUSTANDSRAUMMODELL (LINEARISIERT)
+% Vorgaben
 % v_DC = 900V
-% v_PV = v_DC / D
-D = 0.75;
-S = 800;                    % Eingangsstrahlung
-T_c = 290;                  % Zellentemperatur
+d = c.v_DC/c.v_VP_MPP;          % Duty Cycle
+S = 800;                        % Eingangsstrahlung
+T_c = 290;                      % Zellentemperatur
+f_sw = 5e3;                     % Schaltfrequenz
 
-v_PV = c.v_DC / D;
-i_L = i_pv(v_PV, S, T_c) / D;
-x_Ruhe = [v_PV; i_L];       % Ruhelage
-delta_i_pv_test = delta_i_pv(v_PV, S, T_c);
-[A, B, C] = Lineares_Zustandsraummodell(c, x_Ruhe, D, delta_i_pv_test);
+% Ruhelagen
+v_PV = c.v_VP_MPP;              % PV-Spannung
+i_L = i_pv(v_PV, S, T_c) / d;   % Strom i_L
+x_Ruhe = [v_PV; i_L];           % Vektor der Ruhelage
+
+% Berechnung von L & C
+delta_i_L = 0.005 * c.i_PV_MPP;                         % Stromschwankungen
+delta_v_PV = 0.005 * c.v_VP_MPP;                        % Spannungsschwankungen
+L_buck = (c.v_DC * (1 - d))/(delta_i_L * f_sw);         % Berechnung L
+C_buck = (c.i_PV_MPP * (1 - d))/(delta_v_PV * f_sw);    % Berechnung C
+
+% Lineares Zustandsraummodell
+[A, B, C, D] = Lineares_Zustandsraummodell(x_Ruhe, d, delta_i_pv, S, T_c, L_buck, C_buck);
 
 
 %% ÜBERPÜRFUNG DER STEUERBARKEIT
 [Q] = Steuerbarkeit(A, B);
 
-%{
-%% ZUSTANDSREGELUNG OHNE FOLGEREGELUNG - EINFACHE RÜCKFÜHRUNG
-sP_Acker = [-4 -4 -4 -4];               % Wunschpolstellen für Regelung mit einfacher Rückführung
-k_Acker = Ackermann(A, B, sP_Acker);    % Berechnung der Faktoren k für Regelung mit einfacher Rückführung
-C_Acker = [0 0 1 0];                    % Ausgangsmatrix C für Regelung mit einfacher Rückführung
 
-%{
+%% ZUSTANDSREGELUNG OHNE FOLGEREGELUNG - EINFACHE RÜCKFÜHRUNG
+alpha = 0.5;
+[k_LMI_1, k_LMIsys_1] = LMI_Berechnung_k(A, B, alpha);
+sP_LMI_1 = eig(A-B*k_LMI_1);
+
 % Lokalisierung der Polstellen
 hold on;
 plot(real(eig(A)), imag(eig(A)), "bx", "LineWidth", 2);
-plot(real(-4+0j), imag(-4+0j), "rx", "LineWidth", 2);
+plot(real(sP_LMI_1), imag(sP_LMI_1), "rx", "LineWidth", 2);
 xlabel("Real(x)");
 ylabel("Imag(x)");
 title("Lokalisierung der Polstellen");
 legend("Eigenwerte der Systemmatrix", "Wunschpolstellen", "Location", "northeast");
 grid on;
 hold off;
-%}
 
 
 %% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - VORSTEUERUNG
-sP_Vorsteuerung = [-4.5 -4.5 -4.5 -4.5];            % Wunschpolstellen für Regelung mit Vorsteuerung
-k_Vorsteuerung = Ackermann(A, B, sP_Vorsteuerung);  % Berechnung der Faktoren k für Regelung mit Vorsteuerung
-C_Vorsteuerung = [0 0 1 0];                         % Ausgangsmatrix C für Regelung mit Vorsteuerung
-F = (C_Vorsteuerung*(-A+B*k_Vorsteuerung)^-1*B)^-1; % Berechnung des Faktors F
+alpha = 0.5;
+[k_LMI_2, k_LMIsys_2] = LMI_Berechnung_k(A, B, alpha);
+sP_LMI_2 = eig(A-B*k_LMI_2);
+C_Vor = [1 0];                         % Ausgangsmatrix C für Regelung mit Vorsteuerung
+F = (C_Vor*(-A+B*k_LMI_2)^-1*B)^-1;    % Berechnung des Faktor
 
-%{
 % Lokalisierung der Polstellen
 hold on;
 plot(real(eig(A)), imag(eig(A)), "bx", "LineWidth", 2);
-plot(real(-4.5+0j), imag(-4.5+0j), "rx", "LineWidth", 2);
+plot(real(sP_LMI_2), imag(sP_LMI_2), "rx", "LineWidth", 2);
 xlabel("Real(x)");
 ylabel("Imag(x)");
 title("Lokalisierung der Polstellen");
 legend("Eigenwerte der Systemmatrix", "Wunschpolstellen", "Location", "northeast");
 grid on;
 hold off;
-%}
 
 
-%% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - I-REGELUNG
-sP_I_Regelung = [-3.2 -3.2 -3.2 -3.2 -3.2];                                     % Wunschpolstellen für Regelung mit I-Regelung
-C_I_Regelung = [0 0 1 0];                                                       % Ausgangsmatrix C für Regelung mit I-Regelung
-[k_Tilde, A_Tilde, B_Tilde] = Tilde_SISO(A, B, C_I_Regelung, sP_I_Regelung);    % Berechnung der Faktoren k_Tilde
+%% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - I-
+C_I_Reg = [1 0];  
+[A_Tilde, B_Tilde] = Tilde(A, B, C_I_Reg);
+alpha = 0.5;
+[k_LMI_3_Tilde, k_LMIsys_3] = LMI_Berechnung_k(A_Tilde, B_Tilde, alpha);
+sP_LMI_3 = eig(A_Tilde-B_Tilde*k_LMI_3_Tilde);
 
-%{
 % Lokalisierung der Polstellen
 hold on;
 plot(real(eig(A)), imag(eig(A)), "bx", "LineWidth", 2);
-plot(real(-3.2+0j), imag(-3.2+0j), "rx", "LineWidth", 2);
+plot(real(sP_LMI_3), imag(sP_LMI_3), "rx", "LineWidth", 2);
 xlabel("Real(x)");
 ylabel("Imag(x)");
 title("Lokalisierung der Polstellen");
 legend("Eigenwerte der Systemmatrix", "Wunschpolstellen", "Location", "northeast");
 grid on;
 hold off;
-%}
-
-
-%% Beobachtbarkeit
-[Q_obs] = Beobachtbarkeit(A, C);
-
-
-%% k-Faktoren LMI (I-Regelung)
-% für exponentielle Stabilität
-C_k_LMI = [0 0 1 0];
-alpha = 0.6;
-
-% A_Tilde_Vektor
-A_Tilde = A;
-A_Tilde = horzcat(A_Tilde, zeros(size(A,1),1));
-A_Tilde = vertcat(A_Tilde, [-C_k_LMI 0]);
-    
-% B_Tilde_Vektor
-B_Tilde = [B; 0];
-
-[k_LMI_Tilde, k_LMIsys] = LMI_Berechnung_k(A_Tilde, B_Tilde, alpha);
-sP_LMI = eig(A_Tilde-B_Tilde.*k_LMI_Tilde);
-
-
-%{
-% Plot der Polstellen
-plot(sP_LMI,'*');
-grid on
-xlabel("Real(x)");
-ylabel("Imag(x)");
-title("Lokalisierung der Polstellen");
-legend("Polstellen des Systems", "Location", "northeast");
-%}
-
-
-%% Beobachterentwurf (LMI's)
-% für exponentielle Stabilität
-alpha = 4;
-
-[L_LMI, L_LMIsys] = LMI_Berechnung_L(A, C ,alpha);
-sP_Obs = eig(A-L_LMI*C);
-
-
-%{
-% Plot der Polstellen
-plot(sP_Obs, '*');
-grid on;
-xlabel("Real(x)");
-ylabel("Imag(x)");
-title("Lokalisierung der Polstellen");
-legend("Polstellen des Beobachters", "Location", "northeast");
-%}
-
-%}
