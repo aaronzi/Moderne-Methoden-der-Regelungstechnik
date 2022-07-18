@@ -1,13 +1,13 @@
 % EINGABEN
-% A           Systemmatrix  
-% B           Eingangsmatrix  
-% alpha       Decay-Rate
+% A             Systemmatrix  
+% B             Eingangsmatrix  
+% alpha         Decay-Rate
 
 % AUSGABEN
-% k           Verstärkungungen für Zustandsrückführung
-% k_LMIsys    Lösung des LMI-System
+% k             Verstärkungungen für Zustandsrückführung
+% k_LMIsys      Lösung des LMI-System
 
-function [K, k_LMIsys] = LMI_Berechnung_k(A, B, alpha)
+function [k, k_LMIsys] = LMI_Berechnung_k(A, B, alpha)
 
 % Initialisierung des LMI-Systems
 setlmis([]);
@@ -39,4 +39,4 @@ k_LMIsys = getlmis;
 X_sol = dec2mat(k_LMIsys, xfeas, X);    % Lösung für X
 M_sol = dec2mat(k_LMIsys, xfeas, M);    % Lösung für M
 
-K = M_sol * inv(X_sol);                 % Berechnung von k
+k = M_sol * inv(X_sol);                 % Berechnung von k

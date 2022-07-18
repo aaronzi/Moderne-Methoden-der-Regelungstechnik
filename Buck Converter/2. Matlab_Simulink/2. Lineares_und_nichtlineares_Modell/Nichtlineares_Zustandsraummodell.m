@@ -8,6 +8,6 @@
 function [f1, f2] = Nichtlineares_Zustandsraummodell(c, i_pv)
 
     % Zeilen für nichtlinearisiertes Zustandsraummodell
-    f1 = @(x, D) 1/c.C * i_pv(x(1), S, T_c) - 1/c.C * x(2) * D;
-    f2 = @(x, D) 1/c.L * x(1) * D - 1/c.L * c.v_DC;
+    f1 = @(x, d) 1/C * i_pv(x(1), S, T_c) - 1/C * x(2) * d;
+    f2 = @(x, d) 1/C * x(1) * d - 1/L * c.v_DC;
 end

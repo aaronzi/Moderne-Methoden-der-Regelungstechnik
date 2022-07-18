@@ -4,7 +4,6 @@
 
 % AUSGABEN
 % Q             Steuerbarkeitsmatrix
-% Det_Q         Determinante der Steuerbarkeitsmatrix
 
 function [Q] = Steuerbarkeit(A, B)
 
