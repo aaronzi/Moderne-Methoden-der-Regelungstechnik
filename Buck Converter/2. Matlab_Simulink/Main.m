@@ -6,6 +6,7 @@ warning('off','all');
 
 %% ORDNER HINZUFÜGEN
 addpath('./1. Konstanten/', '2. Lineares_und_nichtlineares_Modell\', '3. Steuerbarkeit\', '4. Tildevektoren\', '5. LMI', '6. Simulationen\', '7. Reglervalidierung');
+addpath("7. Reglervalidierung\1. Vergleich_linear_nichtlinear\");
 
 
 %% KONSTANTEN
@@ -29,7 +30,7 @@ syms d;                                             % symbolische Duty Cycle
 [f1, f2] = Nichtlineares_Zustandsraummodell(i_pv);
 
 
-%% ZUSTANDSRAUMMODELL (LINEARISIERT)
+%% ZUSTANDSRAUMMODELL (LINEARISIERT)diffusion effect
 % Vorgaben
 % v_DC = 900V
 d = c.v_DC/c.v_VP_MPP;          % Duty Cycle

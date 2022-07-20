@@ -1,0 +1,9 @@
+Vergleich_linear_nichtlinear_Uebersicht
+	- Überschrift über Simulink-Modell entfernen
+	- Zuschneiden der Größe
+
+Vergleich_linear_nichtlinear_Nichtlineare_Strecke
+	- Zuschneiden der Größe
+
+Vergleoich_linear_nichtlinear_Lineare_Strecke
+	- Zuschneiden der Größe

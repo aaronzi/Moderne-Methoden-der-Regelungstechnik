@@ -1,6 +1,16 @@
-% addpath(genpath('./Reglervalidierung/')); % Befehl muss einmal am Anfang
-% ausgeführt werden!
-%% Ackermann (linear)
+%% FUNKTIONSAUFRUFE FÜR PLOTS
+%% Vergleich lineares und nichtlineares Modell
+% PV-Spannungen
+linear_nichtlinear_vergleich_v_PV();
+
+% Ströme i_L
+linear_nichtlinear_vergleich_i_L();
+
+
+% ------------------------------------------------------------------------%
+
+
+%% Einfache Zustandsrückführung
 % Phi bei verschiedenen Anfangswinkeln
 linear_ackermann_phi();
 
