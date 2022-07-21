@@ -35,19 +35,19 @@ syms d;                                             % symbolische Duty Cycle
 %% ZUSTANDSRAUMMODELL (LINEARISIERT)
 % Vorgaben
 % v_DC = 900V
-d = c.v_DC/c.v_VP_MPP;          % Duty Cycle
+d = c.v_DC/c.v_PV_MPP;          % Duty Cycle
 S = 1000;                       % Eingangsstrahlung
 T_c = 298;                      % Zellentemperatur
-f_sw = 5e3;                     % Schaltfrequenz
+f_sw = 50e3;                    % Schaltfrequenz
 
 % Ruhelagen
-v_PV = c.v_VP_MPP;              % PV-Spannung
+v_PV = c.v_PV_MPP;              % PV-Spannung
 i_L = i_pv(v_PV, S, T_c) / d;   % Strom i_L
 x_Ruhe = [v_PV; i_L];           % Vektor der Ruhelage
 
 % Berechnung von L & C
 delta_i_L = 0.005 * c.i_PV_MPP;                         % Stromschwankungen
-delta_v_PV = 0.005 * c.v_VP_MPP;                        % Spannungsschwankungen
+delta_v_PV = 0.005 * c.v_PV_MPP;                        % Spannungsschwankungen
 L_buck = (c.v_DC * (1 - d))/(delta_i_L * f_sw);         % Berechnung L
 C_buck = (c.i_PV_MPP * (1 - d))/(delta_v_PV * f_sw);    % Berechnung C
 
@@ -63,9 +63,7 @@ d_dyn = d;                      % Dynamischer Duty Cycle
 
 
 %% ZUSTANDSREGELUNG OHNE FOLGEREGELUNG - EINFACHE RÜCKFÜHRUNG
-A = [-161.3546 -47.7841; 462.2532 0];
-B = [-1.9318e5; 5.7955e5];
-alpha = 30;                                                  % Decay-Rate
+alpha = 4;                                                    % Decay-Rate
 [k_LMI_1, k_LMIsys_1] = LMI_Berechnung_k(A, B, alpha);        % Berechnung der k-Faktoren  
 sP_LMI_1 = eig(A-B*k_LMI_1);                                  % Eigenwerte berechnen
 

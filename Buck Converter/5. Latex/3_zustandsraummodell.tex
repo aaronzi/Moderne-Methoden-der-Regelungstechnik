@@ -1,0 +1,201 @@
+\section{Zustandsraumdarstellung} \label{sec:Zustandsraumdarstellung}
+Um das Verhalten mittels mathematischer Beziehungen zu veranschaulichen, wird die Zustandsraumdarstellung verwendet. Folgende messbaren Ein- und Ausgänge werden festgelegt:\\
+\newline
+Systemeingänge:
+\begin{align*}
+    \underline{u} &= d
+\end{align*}
+\newline
+Systemzustände:
+\begin{align}
+    \underline{x} &=
+    \begin{bmatrix}
+        x_{\mathrm{1}} \\
+        x_{\mathrm{2}}
+    \end{bmatrix} = 
+    \begin{bmatrix}
+        v_{\mathrm{PV}} \\
+        i_{\mathrm{L}}
+    \end{bmatrix}
+    \label{eq:Gleichung8}
+\end{align}
+\newline
+Die Ausgänge des Systems gleichen den beiden Zuständen.\\
+\newline
+Systemausgänge:
+\begin{align*}
+    \underline{y} &= 
+    \begin{bmatrix}
+        v_{\mathrm{PV}} \\
+        i_{\mathrm{L}}
+    \end{bmatrix}
+\end{align*}
+
+\subsection{Nichtlinear}
+\label{sec:Nichtlinear}
+Die nachstehend gezeigten Zustandsänderungsgleichungen des Mittelwertmodells werden für weitere Betrachtungen als bekannt vorausgesetzt und deren Herleitung als korrekt angenommen.\\
+\newline
+Mittelwertmodell:
+\begin{align*}
+    \dot{x}_{\mathrm{1}} &= \frac{1}{C}\cdot i_{\mathrm{pv}}(x_{\mathrm{1}}, S, T_{\mathrm{c}})-\frac{1}{C}\cdot x_{\mathrm{2}}\cdot d \\\\
+    \dot{x}_{\mathrm{2}} &= \frac{1}{L}\cdot x_{\mathrm{1}}\cdot d-\frac{1}{L}\cdot v_{\mathrm{DC}}
+\end{align*}
+\newline
+mit:
+\begin{align*}
+    L = 1.76mH;\quad C = 15.7mF;\quad d = 0.8579;\quad v_{\mathrm{DC}} = 900V;\quad S = 800\frac{W}{m^2};\quad T_{\mathrm{c}} = 290K
+\end{align*}
+
+\subsection{Linear}
+\label{sec:Linear}
+\subsubsection{Ruhelagen}
+\label{sec:Ruhelagen}
+Die Ruhelagen des Systems werden ermittlen, indem das Mittelwertmodell aus \autoref{sec:Nichtlinear} gleich Null gesetzt wird und anschließend die Auflösung nach den Zuständen $x_{\mathrm{1}}$ und $x_{\mathrm{2}}$ erfolgt.\\
+\newline
+Vorgabe:
+\begin{align*}
+    \dot{x}_{\mathrm{1}}^* &= \dot{x}_{\mathrm{1}}(x_{\mathrm{1}}^*, x_{\mathrm{2}}^*) \overset{!}{=} 0 \\\\
+    \dot{x}_{\mathrm{2}}^* &= \dot{x}_{\mathrm{2}}(x_{\mathrm{1}}^*, x_{\mathrm{2}}^*) \overset{!}{=} 0
+\end{align*}
+\newline
+Bestimmung von $\dot{x}_{\mathrm{1}}^*$:
+\begin{align}
+    0 &= \frac{1}{L}\cdot x_{\mathrm{1}}^*\cdot d-\frac{1}{L}\cdot v_{\mathrm{DC}} \nonumber \\ \nonumber \\
+    \frac{1}{L}\cdot v_{\mathrm{DC}} &= \frac{1}{L}\cdot x_{\mathrm{1}}^*\cdot d \nonumber \\ \nonumber \\
+    x_{\mathrm{1}}^* &= \frac{v_{\mathrm{DC}}}{d}
+    \label{eq:Gleichung9}
+\end{align}
+\newline
+Bestimmung von $\dot{x}_{\mathrm{2}}^*$:
+\begin{align}
+    0 &= \frac{1}{C}\cdot i_{\mathrm{pv}}(x_{\mathrm{1}}^*, S, T_{\mathrm{c}})-\frac{1}{C}\cdot x_{\mathrm{2}}^*\cdot d \nonumber \\ \nonumber \\
+    \frac{1}{C}\cdot x_{\mathrm{2}}^*\cdot d &= \frac{1}{C}\cdot i_{\mathrm{pv}}(x_{\mathrm{1}}^*, S, T_{\mathrm{c}}) \nonumber \\ \nonumber \\
+    \dot{x}_{\mathrm{2}}^* &= \frac{i_{\mathrm{pv}}(x_{\mathrm{1}}^*, S, T_{\mathrm{c}})}{d}
+    \label{eq:Gleichung10}
+\end{align}
+\clearpage
+Die spezifischen Ruhelagen aufgrund der vorgegebenen Parameter resultieren zu:\\
+\newline
+Ruhelagen des Systems:
+\begin{align}
+    \underline{\underline{x_{\mathrm{1}}^*}} &= \frac{900V}{0.8579} \approx \underline{\underline{1049.13V}} \nonumber \\ \nonumber \\
+    \underline{\underline{x_{\mathrm{2}}^*}} &= \frac{i_{\mathrm{pv}}(1049.13V, 800\frac{W}{m^2}, 290K)}{0.8579} \approx\underline{\underline{2782.28A}} \nonumber \\ \nonumber \\
+    \underline{x}^* &= 
+    \begin{bmatrix}
+        x_{\mathrm{1}}^* \\
+        x_{\mathrm{2}}^*
+    \end{bmatrix} \approx
+    \begin{bmatrix}
+        1049.13V \\
+        2782.28A
+    \end{bmatrix}
+    \label{eq:Gleichung11}
+\end{align}
+
+\subsubsection{Linearisierungsvorschrift}
+\label{sec:Linearisierungsvorschrift}
+Die Vorschrift zur Linearisierung ist in \autoref{eq:Gleichung12} hinterlegt.\\
+\newline
+Linearisierungsvorschrift nach Taylor:
+\begin{align}
+    \begin{split}
+        \dot{\underline{x}}^{*}+\Delta{\dot{\underline{x}}} &=\underline{f}(\underline{x}^{*}+\Delta{\underline{x}},\underline{u}^{*}+\Delta{\underline{u}})\\\\
+        &=\underline{f}(\underline{x}^{*},\underline{u}^{*})+\left[\frac{\partial f_{\mathrm{i}}}{\partial x_{\mathrm{j}}}\right]_{(\underline{x}^{*}, \underline{u}^{*})}\cdot\Delta{\underline{x}}+\left[\frac{\partial f_{\mathrm{i}}}{\partial u_{\mathrm{j}}}\right]_{(\underline{x}^{*},\underline{u}^{*})}\cdot\Delta{\underline{u}}+\underline{R}(\Delta{\underline{x}^2}, \Delta{\underline{u}^2})
+    \end{split}
+    \label{eq:Gleichung12}
+\end{align}
+\newline
+Durch die Annahme über das Verhalten der nichtlinearen Restglieder folgt die Struktur der Linearisierung aus \autoref{eq:Gleichung13}.\\
+\newline
+Zusammengefasste Struktur:
+\begin{align}
+    \begin{split}
+        \Delta\dot{\underline{x}} &= \left[\frac{\partial f_{\mathrm{i}}}{\partial x_{\mathrm{j}}}\right]_{(\underline{x}^{*}, \underline{u}^{*})}\cdot\Delta{\underline{x}}+\left[\frac{\partial f_{\mathrm{i}}}{\partial u_{\mathrm{j}}}\right]_{(\underline{x}^{*},\underline{u}^{*})}\cdot\Delta{\underline{u}}\\\\
+        \Delta{\underline{y}} &= \left[\frac{\partial h_{\mathrm{i}}}{\partial x_{\mathrm{j}}}\right]_{(\underline{x}^{*}, \underline{u}^{*})}\cdot\Delta{\underline{x}}+\left[\frac{\partial h_{\mathrm{i}}}{\partial u_{\mathrm{j}}}\right]_{(\underline{x}^{*},\underline{u}^{*})}\cdot\Delta{\underline{u}}
+    \end{split}
+    \label{eq:Gleichung13}
+\end{align}
+
+\subsubsection{Zustandsraummodell}
+\label{sec:Zustandsraummodell}
+Durch die Anwendung der Linearisierungsvorschrift aus \autoref{eq:Gleichung13} auf das Mittelwertmodell aus \autoref{sec:Nichtlinear} resultiert das linearisierte Zustandsraummodell zu:\\
+Grundstruktur des linearisierten Zustandraummodells:
+\begin{align}
+    \begin{split}
+    \Delta\underline{\dot{x}} &= 
+    \begin{bmatrix}
+        \frac{1}{C}\cdot\frac{\partial i_{\mathrm{pv}}(x_{\mathrm{1}}, S, T_{\mathrm{c}})}{\partial x_{\mathrm{1}}}\big |_{x_{\mathrm{1}}^*} & -\frac{1}{C}\cdot u^* \\\\
+        \frac{1}{L}\cdot u^* & 0
+    \end{bmatrix} \cdot \Delta \underline{x} +
+    \begin{bmatrix}
+        -\frac{1}{C}\cdot x_{\mathrm{2}}^* \\\\
+        \frac{1}{L}\cdot x_{\mathrm{1}}^*
+    \end{bmatrix} \cdot
+    \Delta \underline{u}
+     \\\\
+    \Delta \underline{y} &= 
+    \begin{bmatrix}
+        1 & \quad 0 \\\\
+        0 & \quad 1
+    \end{bmatrix} \cdot \Delta \underline{x} + \underline{0} \cdot \Delta\underline{u}
+    \end{split}
+    \label{eq:Gleichung14}
+\end{align}
+\newline
+mit:
+\begin{align*}
+    \Delta \underline{x} &= \underline{x} - \underline{x}_{\mathrm{c}} \\\\
+    \Delta \underline{u} &= \Delta \underline{d} = \underline{d}_{\mathrm{dyn}}-\underline{d}
+\end{align*}
+\newline
+Die Terme $\underline{x}_{\mathrm{c}}$ und $\underline{d}$ gleichen den Ruhelagen aus \autoref{eq:Gleichung11} und $d = 0.8579$. Das vollständige lineare Zustandsraummodell ist in \autoref{eq:Gleichung15} dargestellt und folgt durch die Berechnungen der einzelnen Terme aus \autoref{eq:Gleichung14}.\\
+\newline
+Linearisiertes Zustandsraummodell:
+\begin{align}
+    \begin{split}
+    \Delta\underline{\dot{x}} &= 
+    \begin{bmatrix}
+        -71.2554 & -54.5419 \\\\
+        486.5101 & 0
+    \end{bmatrix} \cdot \Delta \underline{x} +
+    \begin{bmatrix}
+        -1.769\cdot 10^5 \\\\
+        5.9499\cdot 10^5
+    \end{bmatrix} \cdot
+    \Delta \underline{u} \\\\
+    \Delta \underline{y} &= 
+    \begin{bmatrix}
+        1 & \quad 0 \\\\
+        0 & \quad 1
+    \end{bmatrix} \cdot \Delta \underline{x} + \underline{0} \cdot \Delta\underline{u}
+    \end{split}
+    \label{eq:Gleichung15}
+\end{align}
+
+\subsubsection{Überprüfung der Steuerbarkeit}
+\label{sec:Ueberpruefung_der_Steuerbarkeit}
+Zur Überprüfung der Steuerbarkeit wird im ersten Schritt die Steuerbarkeitsmatrix $Q_{\mathrm{s}}$ nach der Vorschrift aus \autoref{eq:Gleichung16} berechnet. Im Anschluss erfolgt die Berechnung der Determinante (quadratische Matrix) oder des Rangs (nichtquadratische Matrix).\\
+\newline
+Vorschrift:
+\begin{align}
+    \underline{Q}_{\mathrm{s}} &= \left(\underline{B} \quad \underline{A}\cdot\underline{B} \quad ... \quad \underline{A}^{(n-1)}\cdot\underline{B}\right)
+    \label{eq:Gleichung16}
+\end{align}
+Steuerbarkeitsmatrix $Q_{\mathrm{s}}$:
+\begin{align}
+    \underline{Q}_{\mathrm{s}} &=
+    \begin{bmatrix}
+        -0.0177\cdot 10^7 & -1.9847\cdot 10^7 \\\\
+        0.0595\cdot 10^7 & -8.6062\cdot 10^7
+    \end{bmatrix}
+    \label{eq:Gleichung17}
+\end{align}
+\newline
+Die Matrix ist quadratisch, somit ist die Determinante maßgebend und muss ungleich Null sein.\\
+\newline
+Determinante von $\underline{Q}_{\mathrm{s}}$:
+\begin{align*}
+    \underline{\underline{det(\underline{Q}_{\mathrm{s}})}} &= \underline{\underline{ 2.7033\cdot 10^{13}}}
+\end{align*}
+\newline
+Das System ist steuerbar, da gilt: $det(\underline{Q}_{\mathrm{s}}) \neq 0$.
