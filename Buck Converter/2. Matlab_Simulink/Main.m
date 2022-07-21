@@ -6,7 +6,9 @@ warning('off','all');
 
 %% ORDNER HINZUFÜGEN
 addpath('./1. Konstanten/', '2. Lineares_und_nichtlineares_Modell\', '3. Steuerbarkeit\', '4. Tildevektoren\', '5. LMI', '6. Simulationen\', '7. Reglervalidierung');
-addpath("7. Reglervalidierung\1. Vergleich_linear_nichtlinear\");
+addpath("7. Reglervalidierung\1. Vergleich_linear_nichtlinear\", "7. Reglervalidierung\2. Einfache_Zustandsrueckfuehrung_linear\", "7. Reglervalidierung\3. Einfache_Zustandsrueckfuehrung_nichtlinear\");
+addpath("7. Reglervalidierung\4. Zustandsregelung_mit_Vorsteuerung_linear\", "7. Reglervalidierung\5. Zustandsregelung_mit_Vorsteuerung_nichtlinear\");
+addpath("7. Reglervalidierung\6. Zustandsregelung_mit_I-Regelung_linear\", "7. Reglervalidierung\7. Zustandsregelung_mit_I-Regelung_nichtlinear\");
 
 
 %% KONSTANTEN
@@ -30,12 +32,12 @@ syms d;                                             % symbolische Duty Cycle
 [f1, f2] = Nichtlineares_Zustandsraummodell(i_pv);
 
 
-%% ZUSTANDSRAUMMODELL (LINEARISIERT)diffusion effect
+%% ZUSTANDSRAUMMODELL (LINEARISIERT)
 % Vorgaben
 % v_DC = 900V
 d = c.v_DC/c.v_VP_MPP;          % Duty Cycle
-S = 800;                        % Eingangsstrahlung
-T_c = 290;                      % Zellentemperatur
+S = 1000;                       % Eingangsstrahlung
+T_c = 298;                      % Zellentemperatur
 f_sw = 5e3;                     % Schaltfrequenz
 
 % Ruhelagen
@@ -52,15 +54,20 @@ C_buck = (c.i_PV_MPP * (1 - d))/(delta_v_PV * f_sw);    % Berechnung C
 % Lineares Zustandsraummodell
 [A, B, C, D] = Lineares_Zustandsraummodell(x_Ruhe, d, delta_i_pv, S, T_c, L_buck, C_buck);
 
+% Werte für Simulation
+d_dyn = d;                      % Dynamischer Duty Cycle
+
 
 %% ÜBERPÜRFUNG DER STEUERBARKEIT
 [Q] = Steuerbarkeit(A, B);
 
 
 %% ZUSTANDSREGELUNG OHNE FOLGEREGELUNG - EINFACHE RÜCKFÜHRUNG
-alpha = 0.5;
-[k_LMI_1, k_LMIsys_1] = LMI_Berechnung_k(A, B, alpha);
-sP_LMI_1 = eig(A-B*k_LMI_1);
+A = [-161.3546 -47.7841; 462.2532 0];
+B = [-1.9318e5; 5.7955e5];
+alpha = 30;                                                  % Decay-Rate
+[k_LMI_1, k_LMIsys_1] = LMI_Berechnung_k(A, B, alpha);        % Berechnung der k-Faktoren  
+sP_LMI_1 = eig(A-B*k_LMI_1);                                  % Eigenwerte berechnen
 
 % Lokalisierung der Polstellen
 hold on;
@@ -75,11 +82,20 @@ hold off;
 
 
 %% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - VORSTEUERUNG
-alpha = 0.5;
-[k_LMI_2, k_LMIsys_2] = LMI_Berechnung_k(A, B, alpha);
-sP_LMI_2 = eig(A-B*k_LMI_2);
-C_Vor = [1 0];                         % Ausgangsmatrix C für Regelung mit Vorsteuerung
-F = (C_Vor*(-A+B*k_LMI_2)^-1*B)^-1;    % Berechnung des Faktor
+alpha = 0.5;                                                    % Decay-Rate
+[k_LMI_2, k_LMIsys_2] = LMI_Berechnung_k(A, B, alpha);          % Berechnung der k-Faktoren
+sP_LMI_2 = eig(A-B*k_LMI_2);                                    % Eigenwerte berechnen    
+C_Vor = [1 0];                                                  % Ausgangsmatrix C für Regelung mit Vorsteuerung
+F = (C_Vor*(-A+B*k_LMI_2)^-1*B)^-1;                             % Berechnung des Vorfilters F
+
+% Berechnungen für lineare und nichtlineare Simualtion
+y_ref_Vor = 800;                                               % geforderte Referenzspannung
+if y_ref_Vor > (c.N_s * v_oc(T_c))
+    y_ref_Vor = (c.N_s * v_oc(T_c));                            % maximale Referenzspannung        
+elseif y_ref_Vor < 0
+    y_ref_Vor = 0;                                              % minimale Referenzspannung
+end
+delta_y_ref_Vor = y_ref_Vor - x_Ruhe(1);                        % Delta des Referenzwertes
 
 % Lokalisierung der Polstellen
 hold on;
@@ -94,11 +110,15 @@ hold off;
 
 
 %% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - I-
-C_I_Reg = [1 0];  
-[A_Tilde, B_Tilde] = Tilde(A, B, C_I_Reg);
-alpha = 0.5;
-[k_LMI_3_Tilde, k_LMIsys_3] = LMI_Berechnung_k(A_Tilde, B_Tilde, alpha);
-sP_LMI_3 = eig(A_Tilde-B_Tilde*k_LMI_3_Tilde);
+C_I_Reg = [1 0];                                                            % Ausgangsmatrix C für I-Regelung
+[A_Tilde, B_Tilde] = Tilde(A, B, C_I_Reg);                                  % Berechnung der Tilde-Vektoren
+alpha = 0.5;                                                                % Decay-Rate
+[k_LMI_3_Tilde, k_LMIsys_3] = LMI_Berechnung_k(A_Tilde, B_Tilde, alpha);    % Berechnung der k-Faktoren
+sP_LMI_3 = eig(A_Tilde-B_Tilde*k_LMI_3_Tilde);                              % Eigenwerte berechnen
+
+% Berechnungen für lineare Simualtion
+y_ref_I_Reg = 1600;                                                         % geforderte Referenzspannung
+delta_y_ref_I_Reg = y_ref_I_Reg - x_Ruhe(1);                                % Delta des Referenzwertes
 
 % Lokalisierung der Polstellen
 hold on;

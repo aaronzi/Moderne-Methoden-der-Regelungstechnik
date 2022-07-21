@@ -8,6 +8,11 @@ warning('off','all')
 addpath('./1. Konstanten/', './2. Lineares_und_nichtlineares_Modell/', './3. Steuerbarkeit/');
 addpath('./4. Ackermann-Formel/', './5. Tildevektoren/', './6. Beobachtbarkeit/');
 addpath('./7. LMI/', './8. Simulationen/', "./9. Reglervalidierung/");
+addpath("9. Reglervalidierung\1. Vergleich_linear_nichtlinear\", "9. Reglervalidierung\2. Einfache_Zustandsrueckfuehrung_linear\");
+addpath("9. Reglervalidierung\3. Einfache_Zustandsrueckfuehrung_nichtlinear\", "9. Reglervalidierung\4. Referenzwertvorsteuerung_linear\");
+addpath("9. Reglervalidierung\5. Referenzwertvorsteuerung_nichtlinear\", "9. Reglervalidierung\6. I-Regelung_linear\");
+addpath("9. Reglervalidierung\7. I-Regelung_nichtlinear\", "9. Reglervalidierung\8. Vergleich_linear\");
+addpath("9. Reglervalidierung\9. Vergleich_nichtlinear\", "9. Reglervalidierung\10. Beobachter\", "9. Reglervalidierung\11. Vergleich_Beobachter\");
 
 
 %% KONSTANTEN
