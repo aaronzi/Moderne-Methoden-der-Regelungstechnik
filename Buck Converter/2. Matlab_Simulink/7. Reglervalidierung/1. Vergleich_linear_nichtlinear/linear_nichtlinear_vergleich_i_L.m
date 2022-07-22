@@ -3,7 +3,7 @@ function linear_nichtlinear_vergleich_i_L()
     warning('off','all')
 
     % PFAD DER SIMULATION 
-    simOut = sim('Vergleich_linear_nichtlinear','StartTime','0','StopTime','0.25','FixedStep','1/1e4');
+    simOut = sim('Vergleich_linear_nichtlinear','StartTime','0','StopTime','0.15','FixedStep','1/1e4');
 
     % NICHTLINEAR
     vec_i_L_nichtlinear = simOut.y_nichtlinear.i_L.Data;
