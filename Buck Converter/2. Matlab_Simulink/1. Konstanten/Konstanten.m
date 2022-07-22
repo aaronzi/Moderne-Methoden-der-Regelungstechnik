@@ -28,7 +28,7 @@ function c = Konstanten()
 
     % Maximalwerte
     c.i_PV_MPP = 2902.13;               % Strom im MPP [A]
-    c.v_VP_MPP = 1049.13;               % Spannung im MPP [V]
+    c.v_PV_MPP = 1049.13;               % Spannung im MPP [V]
     c.P_MPP = 30447.11;                 % Leistung im MPP [W] => c.p_MPP = c.v_PV_MPP * c.i_PV_MPP 
 
     % Bauteile

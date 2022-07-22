@@ -1,149 +1,90 @@
-\section{Modellierung: Energiemethode nach Lagrange}
-
-\subsection{Ansatz}
-
-Die nachfolgende Gleichung zeigt den Lagrange Ansatz unter Berücksichtigung der dissipativen Funktion. Diese besagt in Erweiterung zu der Lagrange-Formulierung, dass Energie in einem Vorgang in Wärme umgewandelt wird. Mit Hilfe der dissipativen Funktion können Reibungsverluste bei der Energiemethode nach Lagrange berücksichtigt werden.
-
-\begin{align} \label{eq:Gleichung1}
-    \frac{d}{dt} \left(\frac{\partial L}{\partial \dot{q_{\mathrm{i}}}}\right) - \frac{\partial L}{\partial q_{\mathrm{i}}} + \frac{\partial D}{\partial \dot{q_{\mathrm{i}}}} = F_{\mathrm{i}}
-\end{align}
-
-\subsection{Freiheitsgrade und Zwangsbedingungen}
-
-In \autoref{fig:Bild1} sind zwei Massepunkte im $\mathbb{R}^2$ zu erkennen. Somit gilt grundsätzlich:
-\begin{itemize}
-    \item 2 Punkte: 4 Freiheitsgrade (FHG)
-\end{itemize}
-
-Das inverse Pendel besitzt jedoch auch zwei Zwangsbedingungen, die wie folgt formuliert werden können:
-
-\begin{itemize}
-    \item Der Wagen kann sich nur horizontal bewegen: \\ $y_{\mathrm{M}} = 0$
-    \item Die Masse $m$ am Ende des Pendels ist mit dem Wagen gekoppelt: \\ $(y_{\mathrm{M}} - y_{\mathrm{m}})^2 + (x_{\mathrm{M}} - x_{\mathrm{m}})^2 = l^2$
-\end{itemize}
-
-Somit bleiben am Ende noch zwei Freiheitsgrade (FHG) übrig.
-
-\subsection{Generalisierte Koordinaten}
-
-Aus den verbliebenen Freiheitsgraden werden die beiden generalisierten Koordinaten abgeleitet.
-
-\begin{itemize}
-    \item $q_{\mathrm{1}} = x_{\mathrm{M}}$
-    \item $q_{\mathrm{2}} = \varphi$
-\end{itemize}
-
-\subsection{Berechnung der kinetischen und potentiellen Energie}
-
-Der Ansatz zur Berechnung einer kinetischen Energie ist nachfolgend gezeigt.
-
-\begin{align}\label{eq:Gleichung2}
-    E_{\mathrm{kin}} = \frac{1}{2} \cdot m \cdot v^2
-\end{align}
-
-Zu berücksichtigen ist, dass beide Massen ($m$ und $M$) eine kinetische Energie besitzen (\autoref{eq:Gleichung3} und \autoref{eq:Gleichung4}).
-
+\section{Modellierung des Buck-Converters}
+\label{sec:Modellierung}
+\subsection{Ströme}
+\label{sec:Stroeme}
+Zur Modellierung des Ausgangsstroms einer PV-Anlage sind Kenntnisse über die einzelnen Anlagenströme notwendig. Zur ersten Betrachtung werden die Ströme einer Zelle dargelegt.\\
+\newline
+Gesamtstrom einer Zelle:
 \begin{align}
-    E_{\mathrm{kin}} &= \frac{1}{2} \cdot M \cdot \dot{x}_{\mathrm{M}}^2 + \frac{1}{2} \cdot m \cdot v_{\mathrm{m}}^2 \label{eq:Gleichung3} \\
-    E_{\mathrm{kin}} &= \frac{1}{2} \cdot M \cdot \dot{x}_{\mathrm{M}}^2 + \frac{1}{2} \cdot m \cdot \left(\dot{x}_{\mathrm{m}}^2 + \dot{y}_{\mathrm{m}}^2\right) \label{eq:Gleichung4}
+    i_{\mathrm{pv,z}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) &= i_{\mathrm{ph}}(S, T_{\mathrm{c}}) - i_{\mathrm{d}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) - \frac{v_{\mathrm{pv,z}}}{R_{\mathrm{h}}}
+    \label{eq:Gleichung1}
 \end{align}
-
-Weiter gilt:
-
+\newline
+mit:\\
+\newline
+Strom $i_{\mathrm{ph}}$ aufgrund äußerer Bestrahlung:
 \begin{align*}
-    x_{\mathrm{m}} &= x_{\mathrm{M}} + l \cdot \sin({\varphi}) \\
-    y_{\mathrm{m}} &= l \cdot \cos({\varphi}) \\
-    \dot{x_{\mathrm{m}}} &= \dot{x_{\mathrm{M}}} + l \cdot \dot{\varphi} \cdot \cos{\varphi} \\
-    \dot{y_{\mathrm{m}}} &= -l \cdot \dot{\varphi} \cdot \sin({\varphi})
+    i_{\mathrm{ph}}(S, T_{\mathrm{c}}) &= \frac{S}{S_{\mathrm{STC}}}\cdot i_{\mathrm{ph,sc,STC}}\cdot\left(1+\alpha_{\mathrm{T}}\cdot\left(T_{\mathrm{c}}-T_{\mathrm{c,STC}}\right)\right)
 \end{align*}
-
-Daraus resultiert:
-
-\begin{dmath*}
-    E_{\mathrm{kin}} = \frac{1}{2} \cdot M \cdot \dot{x}_{\mathrm{M}}^2 + \frac{1}{2} \cdot m \cdot \left(\left(\dot{x}_{\mathrm{M}} + l \cdot \dot{\varphi} \cdot \cos({\varphi})\right)^2 + \left( -l \cdot \dot{\varphi} \cdot \sin({\varphi})\right)^2\right) \\
-    = \frac{1}{2} \cdot M \cdot \dot{x}_{\mathrm{M}}^2 + \frac{1}{2} \cdot m \cdot \left(\dot{x}_{\mathrm{M}}^2 + 2 \cdot \dot{x}_{\mathrm{M}} \cdot l \cdot \dot{\varphi} \cdot \cos({\varphi}) + l^2 \cdot \dot{\varphi}^2 \cdot \cos^2(\varphi) + l^2 \cdot \dot{\varphi}^2 \cdot \sin^2(\varphi)\right) \\
-    = \frac{1}{2} \cdot M \cdot \dot{x}_{\mathrm{M}}^2 + \frac{1}{2} \cdot m \cdot \dot{x}_{\mathrm{M}}^2 + m \cdot \dot{x}_{\mathrm{M}} \cdot l \cdot \dot{\varphi} \cdot \cos({\varphi}) + \frac{1}{2} \cdot m \cdot l^2 \cdot \dot{\varphi}^2 \cdot \cos^2(\varphi) + \frac{1}{2} \cdot m \cdot l^2 \cdot \dot{\varphi}^2 \cdot \sin^2(\varphi)
-\end{dmath*}
-
-Durch das Zusammenfassen der vorangegangenen Beziehung folgt \autoref{eq:Gleichung5} für die gesamte kinetische Energie des Systems.
-
-\begin{align} \label{eq:Gleichung5}
-    E_{\mathrm{kin}} = \frac{1}{2} \cdot \dot{x}_{\mathrm{M}}^2 \cdot (M + m) + \frac{1}{2} \cdot m \cdot \left( 2 \cdot \dot{x}_{\mathrm{M}} \cdot l \cdot \dot{\varphi} \cdot \cos({\varphi}) + l^2 \cdot \dot{\varphi}^2\right)
-\end{align}
-
-Ausschließlich die Masse $m$ am Pendelende besitzt eine für den Lagrange-Formalismus relevante potentielle Energie (\autoref{eq:Gleichung6}).
-
+\newline
+Sättigungsstrom $i_{\mathrm{s}}$ des Dioden-Diffusionseffekts:
+\begin{align*}
+    i_{\mathrm{s}}(S, T_{\mathrm{c}}) &= \frac{i_{\mathrm{ph}}(S, T_{\mathrm{c}})-\frac{v_{\mathrm{oc}}(T_{\mathrm{c}})}{R_{\mathrm{h}}}}{e^{\frac{v_{\mathrm{oc}}(T_{\mathrm{c}})}{A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1}
+\end{align*}
+\newline
+Diodenstrom $i_{\mathrm{d}}$:
+\begin{align*}
+    i_{\mathrm{d}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) &= i_{\mathrm{s}}(S, T_{\mathrm{c}})\cdot \left(e^{\frac{v_{\mathrm{pv,z}}}{A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1\right)
+\end{align*}
+\newline
+Thermische Leerlaufspannung $v_{\mathrm{oc}}$:
+\begin{align*}
+    v_{\mathrm{oc}}(T_{\mathrm{c}}) &= v_{\mathrm{oc,STC}}\cdot\left(1+\beta_{\mathrm{T}}\cdot\left(T_{\mathrm{c}}-T_{\mathrm{c,STC}}\right)\right)
+\end{align*}
+\newline
+Durch das Einsetzen der vorangegangenen Gleichungen in \autoref{eq:Gleichung1} folgt für den Strom einer Zelle:
 \begin{align}
-    E_{\mathrm{pot}} &= m \cdot g \cdot h \nonumber \\
-    E_{\mathrm{pot}} &= m \cdot g \cdot y_{\mathrm{m}} \nonumber \\
-    E_{\mathrm{pot}} &= m \cdot g \cdot l \cdot \cos({\varphi}) \label{eq:Gleichung6}
+    i_{\mathrm{pv,z}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) &= i_{\mathrm{ph}}(S, T_{\mathrm{c}})-i_{\mathrm{s}}(S, T_{\mathrm{c}})\cdot\left(e^{\frac{v_{\mathrm{pv,z}}}{A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1\right)-\frac{v_{\mathrm{pv,z}}}{R_{\mathrm{h}}}
+    \label{eq:Gleichung2}
 \end{align}
-
-\subsection{Herleitung der Bewegungsgleichungen}
-
-Die Lagrange-Funktion wird aus der Differenz der kinetischen und der potentiellen Energie berechnet (\autoref{eq:Gleichung7}).
-
-\begin{align} 
-        L &= E_{\mathrm{kin}} - E_{\mathrm{pot}}  \label{eq:Gleichung7} \\ 
-        L &= \frac{1}{2} \cdot \dot{x}_{\mathrm{M}}^2 \cdot (M + m) + \frac{1}{2} \cdot m \cdot \left( 2 \cdot \dot{x}_{\mathrm{M}} \cdot l \cdot \dot{\varphi} \cdot \cos({\varphi}) + l^2 \cdot \dot{\varphi}^2\right) - m \cdot g \cdot l \cdot \cos({\varphi}) \label{eq:Gleichung8}
+\newline
+Um Stromgleichungen für eine PV-Anlage bestehend aus mehreren Modulen zu motivieren, werden die Anzahl der seriellen und parallelen Zellen pro Modul mit der Anzahl der seriellen und parallelen Module multipliziert. Folgender Zusammenhang gilt:\\
+\newline
+Berechnung der Gesamtzahl serieller ($N_{\mathrm{s}}$) und paralleler ($N_{\mathrm{p}}$) Zellen pro PV-Anlage:
+\begin{align*}
+    N_{\mathrm{s}} &= N_{\mathrm{cell,s}}\cdot N_{\mathrm{mod,s}} \\ \nonumber \\
+    N_{\mathrm{p}} &= N_{\mathrm{cell,p}}\cdot N_{\mathrm{mod,p}}
+\end{align*}
+\newline
+Aus der Erkenntnis der vorangegangenen zwei Gleichungen resultiert für Strom und Spannung der PV-Anlage:\\
+\newline
+Strom und Spannung der PV-Anlage:
+\begin{align*}
+    i_{\mathrm{pv}} &= N_{\mathrm{p}}\cdot i_{\mathrm{pv,z}} \\ \nonumber \\
+    v_{\mathrm{pv}} &= N_{\mathrm{s}}\cdot v_{\mathrm{pv,z}}
+\end{align*}
+\newline
+Durch das Einfügen der Zusammenhänge in \autoref{eq:Gleichung2} resultiert der Gesamtstrom der PV-Anlage zu:\\
+\newline
+Gesamtstrom der PV-Anlage:
+\begin{align}
+    i_{\mathrm{pv}}(v_{\mathrm{pv}}, S, T_{\mathrm{c}}) &= N_{\mathrm{p}}\cdot i_{\mathrm{ph}}(S, T_{\mathrm{c}})-N_{\mathrm{p}}\cdot i_{\mathrm{s}}(S, T_{\mathrm{c}})\cdot\left(e^{\frac{v_{\mathrm{pv}}}{N_{\mathrm{s}}\cdot A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1\right)-\frac{N_{\mathrm{p}}\cdot v_{\mathrm{pv}}}{N_{\mathrm{s}}\cdot R_{\mathrm{h}}}
+    \label{eq:Gleichung3}
 \end{align}
+\newline
+Die Parameter $S$ (Eingangsstrahlung), $T_{\mathrm{c}}$ (Temperatur der Zellen) und $v_{\mathrm{pv}}$ (PV-Spannung) werden im späteren Verlauf spezifiziert und zur Berechnung herangezogen.
 
-Im ersten Schritt wird die Bewegungsgleichung des Wagens hergeleitet. Dafür wird zunächst \autoref{eq:Gleichung8} nach der ersten zeitlichen Ableitung der generalisierten Koordinate $x_{\mathrm{M}}$ partiell differenziert:
-
-\begin{align}\label{eq:Gleichung9}
-    \frac{\partial L}{\partial \dot{x}_{\mathrm{M}}} = (M + m) \cdot \dot{x}_{\mathrm{M}} + m \cdot l \cdot \dot{\varphi} \cdot \cos(\varphi)
+\subsection{Induktivitäten und Kapazitäten}
+\label{sec:Induktivitaten_und_Kapazitaeten}
+Zur Auslegung der Induktivitäten und Kapazitäten des Buck-Converters am MPP werden der Duty Cycle ($d$), die Schaltfrequenz ($f_{\mathrm{sw}}$), der Strom ($i_{\mathrm{PV,MPP}}$) und die Spannung ($v_{\mathrm{PV,MPP}}$) als bekannt vorausgesetzt. Im ersten Schritt werden die maximal zulässigen Strom- und Spannungsschwankungen an den Bauteilen berechnet. Dabei wird eine Schwankung von $\pm$ 0.5 $\%$ zugelassen.\\
+Strom- und Spannungsschwankungen an den Bauteilen:
+\begin{align*}
+    \Delta i_{\mathrm{L}} &= 0.005 \cdot i_{\mathrm{PV,MPP}} \\\\
+    \Delta v_{\mathrm{PV}} &= 0.005 \cdot v_{\mathrm{PV,MPP}}
+\end{align*}
+\newline
+Zur Berechnung der Induktivität (L) und der Kapazität (C) werden die \autoref{eq:Gleichung4} und \autoref{eq:Gleichung5} angewendet.\\
+\newline
+Berechnung von L und C:
+\begin{align}
+    L &= \frac{v_{\mathrm{DC}}\cdot(1-d)}{\Delta i_{\mathrm{L}}\cdot f_{\mathrm{sw}}} \label{eq:Gleichung4}\\ \nonumber \\
+    C &= \frac{i_{\mathrm{PV,MPP}}\cdot(1-d)}{\Delta v_{\mathrm{PV}}\cdot f_{\mathrm{sw}}} \label{eq:Gleichung5}
 \end{align}
-
-Die vorangegangene Gleichung wird zeitlich differenziert:
-
-\begin{align}\label{eq:Gleichung10}
-    \frac{d}{dt}\left(\frac{\partial L}{\partial \dot{x}_{\mathrm{M}}}\right) = (M + m) \cdot \ddot{x}_{\mathrm{M}} + m \cdot l \cdot \left(\ddot{\varphi} \cdot \cos(\varphi) - \dot{\varphi}^2 \cdot \sin(\varphi) \right)
-\end{align}
-
-Im zweiten Schritt wird die Lagrange-Funktion nach der generalisierten Koordinate $x_{\mathrm{M}}$ abgeleitet.
-
-\begin{align}\label{eq:Gleichung11}
-    \frac{\partial L}{\partial x_{\mathrm{M}}} = 0
-\end{align}
-
-Abschließend wird die dissipative Funktion nach der 1. Ableitung der generalisierten Koordinate $x_{\mathrm{M}}$ differenziert.
-
-\begin{align}\label{eq:Gleichung12}
-    \frac{\partial D}{\partial \dot{x_{\mathrm{M}}}} = d \cdot \dot{x_{\mathrm{M}}}
-\end{align}
-
-Durch das Einsetzen der \autoref{eq:Gleichung9} bis \autoref{eq:Gleichung12} in den Ansatz aus \autoref{eq:Gleichung1} resultiert die vollständige Bewegungsgleichung des Wagens.
-
-\begin{align}\label{eq:Gleichung13}
-    (M + m) \cdot \ddot x_{\mathrm{M}} + m \cdot l \cdot \left( \ddot \varphi \cdot \cos({\varphi}) - \dot \varphi^2 \cdot \sin({\varphi})\right) + d \cdot \dot x_{\mathrm{M}} = F_{\mathrm{a}}
-\end{align}
-
-Analog wird die Bewegungsgleichung des Pendels entwickelt. Hierbei wird zunächst \autoref{eq:Gleichung8} nach der 1. Ableitung der generalisierten Koordinate $\varphi$ partiell differenziert.
-
-\begin{align}\label{eq:Gleichung14}
-    \frac{\partial L}{\partial \dot{\varphi}} = m \cdot l \cdot \dot{x}_{\mathrm{M}} \cdot \cos(\varphi) + m \cdot l^2 \cdot \dot{\varphi}
-\end{align}
-
-Die vorangegangene Gleichung wird nach der Zeit abgeleitet:
-
-\begin{align}\label{eq:Gleichung15}
-    \frac{d}{dt}\left(\frac{\partial L}{\partial \dot{\varphi}}\right) = m \cdot l \cdot \left(\ddot{x}_{\mathrm{M}} \cdot  \cos(\varphi) - \dot{x}_{\mathrm{M}} \cdot \sin(\varphi) \cdot \dot{\varphi}\right) + m \cdot l^2 \cdot \ddot{\varphi}
-\end{align}
-
-Als nächstes wird für die Bewegungsgleichung des Pendels die Lagrange-Funktion nach der generalisierten Koordinate $\varphi$ abgeleitet:
-
-\begin{align}\label{eq:Gleichung16}
-    \frac{\partial L}{\partial \varphi} = -m \cdot l \cdot \dot{\varphi} \cdot \dot{x}_{\mathrm{M}} \cdot \sin(\varphi) + m \cdot g \cdot l \cdot \sin(\varphi)
-\end{align}
-
-Abschließend wird die dissipative Funktion analog nach der 1. Ableitung der generalisierten Koordinate $\varphi$ differenziert:
-
-\begin{align}\label{eq:Gleichung17}
-    \frac{\partial D}{\partial \dot{\varphi}} = d_{\mathrm{Mf}} \cdot \dot{\varphi}
-\end{align}
-
-Über das Anwenden von \autoref{eq:Gleichung1} folgt die Bewegungsgleichung des Pendels zu:
-
-\begin{align}\label{eq:Gleichung18}
-    \ddot{x}_{\mathrm{M}} \cdot \cos(\varphi) + l \cdot \ddot{\varphi} - g \cdot \sin(\varphi) + \frac{d_{\mathrm{Mf}} \cdot \dot{\varphi}}{m \cdot l} = 0
+\newline
+Die für die Simulation angesetzten Bauteilgrößen resultieren zu:\\
+\newline
+Berechnung der Bauteilgrößen:
+\begin{align}
+     \underline{\underline{L}} &= \frac{900V\cdot(1-0.8579)}{0.005\cdot 2902.13A\cdot 5kHz} \approx \underline{\underline{1.76mH}} \label{eq:Gleichung6} \\ \nonumber \\
+     \underline{\underline{C}} &= \frac{2902.13A\cdot (1-0.8579)}{0.005\cdot 1049.13V\cdot 5kHz} \approx \underline{\underline{15.7mF}} \label{eq:Gleichung7}
 \end{align}
