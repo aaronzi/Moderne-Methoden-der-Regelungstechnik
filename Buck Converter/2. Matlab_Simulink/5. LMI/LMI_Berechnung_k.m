@@ -26,10 +26,13 @@ M = lmivar(varType_fullRectangular, [m n]);  % M-Matrix
 %   X A' + A X  - M'B' - BM + 2 alpha X < 0
 %   X > 0
 
-lmiterm([1 1 1 X], A, 1, 's');      
+% 1. LMI
+lmiterm([1 1 1 X], A, 1, 's');             
 lmiterm([1 1 1 X], 2*alpha, 1);
-lmiterm([1 1 1 M], -B, 1, 's');      
-lmiterm([-2 1 1 X], 1, 1);              % X > 0
+lmiterm([1 1 1 M], -B, 1, 's');
+
+% 2. LMI
+lmiterm([-2 1 1 X], 1, 1);              % (X > 0)
 
 % LMI lösen
 k_LMIsys = getlmis; 
