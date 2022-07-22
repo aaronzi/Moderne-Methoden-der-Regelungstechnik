@@ -38,7 +38,7 @@ syms d;                                             % symbolische Duty Cycle
 d = c.v_DC/c.v_PV_MPP;          % Duty Cycle
 S = 1000;                       % Eingangsstrahlung
 T_c = 298;                      % Zellentemperatur
-f_sw = 50e3;                    % Schaltfrequenz
+f_SW = 5e3;                     % Schaltfrequenz
 
 % Ruhelagen
 v_PV = c.v_PV_MPP;              % PV-Spannung
@@ -48,35 +48,43 @@ x_Ruhe = [v_PV; i_L];           % Vektor der Ruhelage
 % Berechnung von L & C
 delta_i_L = 0.005 * c.i_PV_MPP;                         % Stromschwankungen
 delta_v_PV = 0.005 * c.v_PV_MPP;                        % Spannungsschwankungen
-L_buck = (c.v_DC * (1 - d))/(delta_i_L * f_sw);         % Berechnung L
-C_buck = (c.i_PV_MPP * (1 - d))/(delta_v_PV * f_sw);    % Berechnung C
+L_buck = (c.v_DC * (1 - d))/(delta_i_L * f_SW);         % Berechnung L
+C_buck = (c.i_PV_MPP * (1 - d))/(delta_v_PV * f_SW);    % Berechnung C
 
 % Lineares Zustandsraummodell
 [A, B, C, D] = Lineares_Zustandsraummodell(x_Ruhe, d, delta_i_pv, S, T_c, L_buck, C_buck);
-
-% Werte für Simulation
-d_dyn = d;                      % Dynamischer Duty Cycle
 
 
 %% ÜBERPÜRFUNG DER STEUERBARKEIT
 [Q] = Steuerbarkeit(A, B);
 
 
+%% VERGLEICH LINEAR UND NICHTLINEARES MODELL
+% Werte für Simulation
+d_dyn = d;                      % Dynamischer Duty Cycle
+
+
 %% ZUSTANDSREGELUNG OHNE FOLGEREGELUNG - EINFACHE RÜCKFÜHRUNG
-alpha = 4;                                                    % Decay-Rate
+alpha = 0.5;                                                  % Decay-Rate
 [k_LMI_1, k_LMIsys_1] = LMI_Berechnung_k(A, B, alpha);        % Berechnung der k-Faktoren  
 sP_LMI_1 = eig(A-B*k_LMI_1);                                  % Eigenwerte berechnen
 
 % Lokalisierung der Polstellen
+%{
 hold on;
 plot(real(eig(A)), imag(eig(A)), "bx", "LineWidth", 2);
 plot(real(sP_LMI_1), imag(sP_LMI_1), "rx", "LineWidth", 2);
 xlabel("Real(x)");
 ylabel("Imag(x)");
-title("Lokalisierung der Polstellen");
 legend("Eigenwerte der Systemmatrix", "Wunschpolstellen", "Location", "northeast");
 grid on;
 hold off;
+
+pos = get(gcf, 'Position');
+set(gcf, 'Position',pos-[0 0 0 100])
+filename = fullfile('Polstellen_einfache_Rueckfuehrung.pdf');
+exportgraphics(gcf,filename,'ContentType','vector');
+%}
 
 
 %% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - VORSTEUERUNG
@@ -87,6 +95,7 @@ C_Vor = [1 0];                                                  % Ausgangsmatrix
 F = (C_Vor*(-A+B*k_LMI_2)^-1*B)^-1;                             % Berechnung des Vorfilters F
 
 % Berechnungen für lineare und nichtlineare Simualtion
+%{
 y_ref_Vor = 800;                                               % geforderte Referenzspannung
 if y_ref_Vor > (c.N_s * v_oc(T_c))
     y_ref_Vor = (c.N_s * v_oc(T_c));                            % maximale Referenzspannung        
@@ -94,20 +103,27 @@ elseif y_ref_Vor < 0
     y_ref_Vor = 0;                                              % minimale Referenzspannung
 end
 delta_y_ref_Vor = y_ref_Vor - x_Ruhe(1);                        % Delta des Referenzwertes
+%}
 
 % Lokalisierung der Polstellen
+%{
 hold on;
 plot(real(eig(A)), imag(eig(A)), "bx", "LineWidth", 2);
 plot(real(sP_LMI_2), imag(sP_LMI_2), "rx", "LineWidth", 2);
 xlabel("Real(x)");
 ylabel("Imag(x)");
-title("Lokalisierung der Polstellen");
 legend("Eigenwerte der Systemmatrix", "Wunschpolstellen", "Location", "northeast");
 grid on;
 hold off;
 
+pos = get(gcf, 'Position');
+set(gcf, 'Position',pos-[0 0 0 100])
+filename = fullfile('Polstellen_Referenzwertvorsteuerung.pdf');
+exportgraphics(gcf,filename,'ContentType','vector');
+%}
 
-%% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - I-
+
+%% ZUSTANDSRÜCKFÜHRUNG MIT FOLGEREGELUNG - I-REGELUNG
 C_I_Reg = [1 0];                                                            % Ausgangsmatrix C für I-Regelung
 [A_Tilde, B_Tilde] = Tilde(A, B, C_I_Reg);                                  % Berechnung der Tilde-Vektoren
 alpha = 0.5;                                                                % Decay-Rate
@@ -115,16 +131,24 @@ alpha = 0.5;                                                                % De
 sP_LMI_3 = eig(A_Tilde-B_Tilde*k_LMI_3_Tilde);                              % Eigenwerte berechnen
 
 % Berechnungen für lineare Simualtion
+%{
 y_ref_I_Reg = 1600;                                                         % geforderte Referenzspannung
 delta_y_ref_I_Reg = y_ref_I_Reg - x_Ruhe(1);                                % Delta des Referenzwertes
+%}
 
 % Lokalisierung der Polstellen
+%{
 hold on;
 plot(real(eig(A)), imag(eig(A)), "bx", "LineWidth", 2);
 plot(real(sP_LMI_3), imag(sP_LMI_3), "rx", "LineWidth", 2);
 xlabel("Real(x)");
 ylabel("Imag(x)");
-title("Lokalisierung der Polstellen");
 legend("Eigenwerte der Systemmatrix", "Wunschpolstellen", "Location", "northeast");
 grid on;
 hold off;
+
+pos = get(gcf, 'Position');
+set(gcf, 'Position',pos-[0 0 0 100])
+filename = fullfile('Polstellen_I_Regelung.pdf');
+exportgraphics(gcf,filename,'ContentType','vector');
+%}
