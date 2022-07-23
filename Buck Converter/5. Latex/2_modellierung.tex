@@ -7,7 +7,7 @@ Zur Modellierung des Ausgangsstroms einer PV-Anlage sind Kenntnisse über die ei
 Gesamtstrom einer Zelle:
 \begin{align}
     i_{\mathrm{pv,z}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) &= i_{\mathrm{ph}}(S, T_{\mathrm{c}}) - i_{\mathrm{d}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) - \frac{v_{\mathrm{pv,z}}}{R_{\mathrm{h}}}
-    \label{eq:Gleichung1}
+    \label{eq:Gleichung2}
 \end{align}
 \newline
 mit:\\
@@ -27,7 +27,7 @@ Diodenstrom $i_{\mathrm{d}}$:
     i_{\mathrm{d}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) &= i_{\mathrm{s}}(S, T_{\mathrm{c}})\cdot \left(e^{\frac{v_{\mathrm{pv,z}}}{A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1\right)
 \end{align*}
 \newline
-Thermische Leerlaufspannung $v_{\mathrm{oc}}$:
+Thermische Leerlaufspannung $v_{\mathrm{oc}}$ pro Zelle:
 \begin{align*}
     v_{\mathrm{oc}}(T_{\mathrm{c}}) &= v_{\mathrm{oc,STC}}\cdot\left(1+\beta_{\mathrm{T}}\cdot\left(T_{\mathrm{c}}-T_{\mathrm{c,STC}}\right)\right)
 \end{align*}
@@ -35,7 +35,7 @@ Thermische Leerlaufspannung $v_{\mathrm{oc}}$:
 Durch das Einsetzen der vorangegangenen Gleichungen in \autoref{eq:Gleichung1} folgt für den Strom einer Zelle:
 \begin{align}
     i_{\mathrm{pv,z}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) &= i_{\mathrm{ph}}(S, T_{\mathrm{c}})-i_{\mathrm{s}}(S, T_{\mathrm{c}})\cdot\left(e^{\frac{v_{\mathrm{pv,z}}}{A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1\right)-\frac{v_{\mathrm{pv,z}}}{R_{\mathrm{h}}}
-    \label{eq:Gleichung2}
+    \label{eq:Gleichung3}
 \end{align}
 \newline
 Um Stromgleichungen für eine PV-Anlage bestehend aus mehreren Modulen zu motivieren, werden die Anzahl der seriellen und parallelen Zellen pro Modul mit der Anzahl der seriellen und parallelen Module multipliziert. Folgender Zusammenhang gilt:\\
@@ -54,37 +54,37 @@ Strom und Spannung der PV-Anlage:
     v_{\mathrm{pv}} &= N_{\mathrm{s}}\cdot v_{\mathrm{pv,z}}
 \end{align*}
 \newline
-Durch das Einfügen der Zusammenhänge in \autoref{eq:Gleichung2} resultiert der Gesamtstrom der PV-Anlage zu:\\
+Durch das Einfügen der Zusammenhänge in \autoref{eq:Gleichung3} resultiert der Gesamtstrom der PV-Anlage zu:\\
 \newline
 Gesamtstrom der PV-Anlage:
 \begin{align}
     i_{\mathrm{pv}}(v_{\mathrm{pv}}, S, T_{\mathrm{c}}) &= N_{\mathrm{p}}\cdot i_{\mathrm{ph}}(S, T_{\mathrm{c}})-N_{\mathrm{p}}\cdot i_{\mathrm{s}}(S, T_{\mathrm{c}})\cdot\left(e^{\frac{v_{\mathrm{pv}}}{N_{\mathrm{s}}\cdot A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1\right)-\frac{N_{\mathrm{p}}\cdot v_{\mathrm{pv}}}{N_{\mathrm{s}}\cdot R_{\mathrm{h}}}
-    \label{eq:Gleichung3}
+    \label{eq:Gleichung4}
 \end{align}
 \newline
 Die Parameter $S$ (Eingangsstrahlung), $T_{\mathrm{c}}$ (Temperatur der Zellen) und $v_{\mathrm{pv}}$ (PV-Spannung) werden im späteren Verlauf spezifiziert und zur Berechnung herangezogen.
 
 \subsection{Induktivitäten und Kapazitäten}
 \label{sec:Induktivitaten_und_Kapazitaeten}
-Zur Auslegung der Induktivitäten und Kapazitäten des Buck-Converters am MPP werden der Duty Cycle ($d$), die Schaltfrequenz ($f_{\mathrm{sw}}$), der Strom ($i_{\mathrm{PV,MPP}}$) und die Spannung ($v_{\mathrm{PV,MPP}}$) als bekannt vorausgesetzt. Im ersten Schritt werden die maximal zulässigen Strom- und Spannungsschwankungen an den Bauteilen berechnet. Dabei wird eine Schwankung von $\pm$ 0.5 $\%$ zugelassen.\\
+Zur Auslegung der Induktivitäten und Kapazitäten des Buck-Converters am MPP werden der Duty Cycle ($d$), die Schaltfrequenz ($f_{\mathrm{SW}}$), der Strom ($i_{\mathrm{PV,MPP}}$) und die Spannung ($v_{\mathrm{PV,MPP}}$) als bekannt vorausgesetzt. Im ersten Schritt werden die maximal zulässigen Strom- und Spannungsschwankungen an den Bauteilen berechnet. Dabei wird eine Schwankung von $\pm$ 0.5 $\%$ zugelassen.\\
 Strom- und Spannungsschwankungen an den Bauteilen:
 \begin{align*}
     \Delta i_{\mathrm{L}} &= 0.005 \cdot i_{\mathrm{PV,MPP}} \\\\
     \Delta v_{\mathrm{PV}} &= 0.005 \cdot v_{\mathrm{PV,MPP}}
 \end{align*}
 \newline
-Zur Berechnung der Induktivität (L) und der Kapazität (C) werden die \autoref{eq:Gleichung4} und \autoref{eq:Gleichung5} angewendet.\\
+Zur Berechnung der Induktivität (L) und der Kapazität (C) werden die \autoref{eq:Gleichung5} und \autoref{eq:Gleichung6} angewendet.\\
 \newline
 Berechnung von L und C:
 \begin{align}
-    L &= \frac{v_{\mathrm{DC}}\cdot(1-d)}{\Delta i_{\mathrm{L}}\cdot f_{\mathrm{sw}}} \label{eq:Gleichung4}\\ \nonumber \\
-    C &= \frac{i_{\mathrm{PV,MPP}}\cdot(1-d)}{\Delta v_{\mathrm{PV}}\cdot f_{\mathrm{sw}}} \label{eq:Gleichung5}
+    L &= \frac{v_{\mathrm{DC}}\cdot(1-d)}{\Delta i_{\mathrm{L}}\cdot f_{\mathrm{sw}}} \label{eq:Gleichung5}\\ \nonumber \\
+    C &= \frac{i_{\mathrm{PV,MPP}}\cdot(1-d)}{\Delta v_{\mathrm{PV}}\cdot f_{\mathrm{sw}}} \label{eq:Gleichung6}
 \end{align}
 \newline
 Die für die Simulation angesetzten Bauteilgrößen resultieren zu:\\
 \newline
 Berechnung der Bauteilgrößen:
 \begin{align}
-     \underline{\underline{L}} &= \frac{900V\cdot(1-0.8579)}{0.005\cdot 2902.13A\cdot 5kHz} \approx \underline{\underline{1.76mH}} \label{eq:Gleichung6} \\ \nonumber \\
-     \underline{\underline{C}} &= \frac{2902.13A\cdot (1-0.8579)}{0.005\cdot 1049.13V\cdot 5kHz} \approx \underline{\underline{15.7mF}} \label{eq:Gleichung7}
+     \underline{\underline{L}} &= \frac{900V\cdot(1-0.8579)}{0.005\cdot 2902.13A\cdot 5kHz} \approx \underline{\underline{1.76mH}} \label{eq:Gleichung7} \\ \nonumber \\
+     \underline{\underline{C}} &= \frac{2902.13A\cdot (1-0.8579)}{0.005\cdot 1049.13V\cdot 5kHz} \approx \underline{\underline{15.7mF}} \label{eq:Gleichung8}
 \end{align}
