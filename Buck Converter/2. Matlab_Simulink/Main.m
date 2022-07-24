@@ -9,6 +9,7 @@ addpath('./1. Konstanten/', '2. Lineares_und_nichtlineares_Modell\', '3. Steuerb
 addpath("7. Reglervalidierung\1. Vergleich_linear_nichtlinear\", "7. Reglervalidierung\2. Einfache_Zustandsrueckfuehrung_linear\", "7. Reglervalidierung\3. Einfache_Zustandsrueckfuehrung_nichtlinear\");
 addpath("7. Reglervalidierung\4. Zustandsregelung_mit_Vorsteuerung_linear\", "7. Reglervalidierung\5. Zustandsregelung_mit_Vorsteuerung_nichtlinear\");
 addpath("7. Reglervalidierung\6. Zustandsregelung_mit_I-Regelung_linear\", "7. Reglervalidierung\7. Zustandsregelung_mit_I-Regelung_nichtlinear\");
+addpath("7. Reglervalidierung\8. Reglervergleich_linear\", "7. Reglervalidierung\9. Reglervergleich_nichtlinear\");
 
 
 %% KONSTANTEN

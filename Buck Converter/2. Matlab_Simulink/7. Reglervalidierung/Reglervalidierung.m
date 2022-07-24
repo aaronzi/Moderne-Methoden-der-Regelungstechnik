@@ -11,72 +11,42 @@ linear_nichtlinear_vergleich_i_L();
 
 
 %% Einfache Zustandsrückführung (linear)
-% PV_Spannung
-linear_einfache_rueckfuehrung_v_PV();
-
-% Strom i_L
-linear_einfache_rueckfuehrung_i_L();
-
-% Eingang u
-linear_einfache_rueckfuehrung_u();
+linear_einfache_rueckfuehrung();
 
 
 %% Einfache Zustandsrückführung (nichtlinear)
-% PV-Spannung
-%nichtlinear_einfache_rueckfuehrung_v_PV();
-
-% Strom i_L
-%nichtlinear_einfache_rueckfuehrung_i_L();
-
-% Eingang u
-%nichtlinear_einfache_rueckfuehrung_u();
+nichtlinear_einfache_rueckfuehrung();
 
 
 % ------------------------------------------------------------------------%
 
 
 %% Referenzwertvorsteuerung (linear)
-% PV-Spannung
-linear_referenzwertvorsteuerung_v_PV();
-
-% Strom i_L
-linear_referenzwertvorsteuerung_i_L();
-
-% Eingang u
-linear_referenzwertvorsteuerung_u();
+linear_referenzwertvorsteuerung();
 
 
 %% Referenzwertvorsteuerung (nichtlinear)
-% PV-Spannung
-%nichtlinear_referenzwertvorsteuerung_v_PV();
-
-% Strom i_L
-%nichtlinear_referenzwertvorsteuerung_i_L();
-
-% Eingang u
-%nichtlinear_referenzwertvorsteuerung_u();
+nichtlinear_referenzwertvorsteuerung();
 
 
 % ------------------------------------------------------------------------%
 
 
 %% I-Regelung mit Referenzwertvorsteuerung (linear)
-% PV-Spannung
-linear_i_regelung_v_PV();
-
-% Strom i_L
-linear_i_regelung_i_L();
-
-% Eingang u
-linear_i_regelung_u();
+linear_i_regelung();
 
 
 %% I-Regelung mit Referenzwertvorsteuerung (nichtlinear)
-% PV-Spannung
-%nichtlinear_i_regelung_v_PV();
+nichtlinear_i_regelung();
 
-% Strom i_L
-%nichtlinear_i_regelung_i_L();
 
-% Eingang u
-%nichtlinear_i_regelung_u();
+% ------------------------------------------------------------------------%
+
+
+%% Reglervergleich (linear)
+linear_reglervergleich();
+
+
+%% Reglervergleich (nichtlinear)
+nichtlinear_reglervergleich();
+
