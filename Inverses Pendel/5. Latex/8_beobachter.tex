@@ -18,6 +18,7 @@ Da aber dennoch alle Zustände für die Zustandsregelung benötigt werden, wird 
 Mit dessen Hilfe ist es möglich innere Zustände zu rekonstruieren. Dies erfolgt über ein \textbf{Modell} und dem \textbf{Vergleich} der rekonstruierten Zustände mit den gemessenen Ausgängen (\autoref{fig:Bild44}).\\
 \newline
 Ansatz von Luenberger:
+
 \[
     \underline{\dot{\hat{x}}} = 
     \underbrace{% 
@@ -52,11 +53,13 @@ Naheliegend ist zunächst die Überlegung anzustellen, wann sich der Gesamtzusta
 \textit{Ein System ist beobachtbar, falls mit der Messung von $\underline{u}$ und $\underline{y}$ nach endlicher Zeit $t$ der unbekannte Zustandsvektor $\underline{x}$ vom System rekonstruiert werden kann.} \\
 \newline
 Der Beobachter lässt sich auf die Klasse der linearen zeitinvarianten Systeme (LTI) anwenden:
+
 \begin{align}
     \underline{\dot{\hat{x}}} = \underline{A} \cdot \underline{\hat{x}} + \underline{B} \cdot \underline{u} + \underline{L} \cdot\left( \underline{y} - C \cdot \underline{\hat{x}}\right)
 \end{align}
 \newline
-Ein System ist vollständig beobachtbar, falls für die Beobachtbarkeitsmatrix
+Ein System ist vollständig beobachtbar, falls für die \textbf{Beobachtbarkeitsmatrix}
+
 \begin{align}
     Q_{\mathrm{Obs}} =
     \begin{pmatrix}
@@ -68,27 +71,33 @@ Ein System ist vollständig beobachtbar, falls für die Beobachtbarkeitsmatrix
 \end{align}
 \newline
 mit $n\in\mathbb{N}$, $p\in\mathbb{N}$, $A\in\mathbb{R}^{(n\times n)}$, $C\in\mathbb{R}^{(p\times n)}$ für SISO Systeme
+
 \begin{align}
     det(Q_{\mathrm{Obs}}) \neq 0
 \end{align}
+\newline
 und für MIMO \bzw SIMO Systeme
+
 \begin{align}
     rank(Q_{\mathrm{Obs}}) = n \quad \text{\bzw} \quad m
 \end{align}
 \newline
 gilt, wobei $n$ die Anzahl der linear unabhängigen Zeilen einer Matrix ist und $m$ die Anzahl der linear unabhängigen Spalten. Falls
+
 \begin{align*}
     n &> m: \\
     rank(X) &= m
 \end{align*}
 \newline
 und falls
+
 \begin{align*}
     m &> n: \\
     rank(X) &= n.
 \end{align*}
 \newline
-Die konkrete C-Matrix für das inverse Pendel
+Die konkrete \textbf{C-Matrix} für das inverse Pendel
+
 \begin{align}
     C_{\mathrm{Obs}} = 
     \begin{bmatrix}
@@ -98,8 +107,8 @@ Die konkrete C-Matrix für das inverse Pendel
     \end{bmatrix}
 \end{align}
 \newline
-besitzt p Zeilen, wobei sich die Anzahl der Zeilen nach den messbaren Zuständen richtet. Zu erkennen ist, dass ein SIMO System auf Beobachtbarkeit untersucht werden muss. Somit muss der Rang der Beobachtbarkeitsmatrix bestimmt werden.\\
-Das Aufstellen der Beobachtbarkeitsmatrix führt zu
+besitzt p Zeilen, wobei sich die Anzahl der Zeilen nach den messbaren Zuständen richtet. Zu erkennen ist, dass ein SIMO System auf Beobachtbarkeit untersucht werden muss. Somit muss der Rang der Beobachtbarkeitsmatrix bestimmt werden. Das Aufstellen der Beobachtbarkeitsmatrix führt zu
+
 \begin{align}
     Q_{\mathrm{Obs}} = 
     \begin{bmatrix}
@@ -117,17 +126,19 @@ Das Aufstellen der Beobachtbarkeitsmatrix führt zu
       -27.3408 & 2.0304 & 0 & -17.6849
     \end{bmatrix}.
 \end{align}
-
-Der Rang folgt zu:
-\begin{align}
-    rank(Q_{\mathrm{Obs}}) = 4
-\end{align}
 \newline
-Da $n > m$ muss $rank(Q_{\mathrm{Obs}}) = 4$ gelten. Da dies der Fall ist, ist das System beobachtbar.
+Der \textbf{Rang der Beobachtbarkeitsmatrix} folgt zu:
+
+\begin{equation}
+    \boxed{rank(Q_{\mathrm{Obs}}) = 4}
+\end{equation}
+\newline
+Da $n > m$ muss $rank(Q_{\mathrm{Obs}}) = 4$ gelten. Da dies der Fall ist, ist das System \textbf{beobachtbar}.
 
 \subsection{Beobachterentwurf}
 
 Wie bereits bei der Untersuchung der Beobachtbarkeit festgestellt wurde, handelt es sich bei dem zu beobachtenden System um ein SIMO System. Im Folgenden soll der Beobachter auf einen Zustandsregler mit I-Regelung (wie bereits in \autoref{sec:iregler} mit Referenzwertvorgabe für $x_{\mathrm{M}}$) angewendet werden. Damit der Beobachter auf diesen Regler angewendet werden kann, muss dieser zunächst implementiert werden. Dazu müssen bevor der Beobachterentwurf stattfinden kann, zunächst passende k-Faktoren über die Formulierung von linearen Matrixungleichungen gefunden werden. Als Ansatz gelten die \textbf{Quadratischen Ljapunov Funktionen}:
+
 \begin{align}
     V(\underline{x}) = \underline{x}^T \cdot \underline{P} \cdot \underline{x} \\
     V(\underline{x}) > \underline{0} \curvearrowright   \underline{P} > \underline{0} \quad mit \quad 
@@ -135,24 +146,25 @@ Wie bereits bei der Untersuchung der Beobachtbarkeit festgestellt wurde, handelt
 \end{align}
 \newline
 Die zeitliche Ableitung der Funktion folgt zu:
+
 \begin{align}
     \dot{V}(\underline{x}) &= \dot{\underline{x}}^T \cdot \underline{P} \cdot \underline{x} + \underline{x}^T \cdot \underline{P} \cdot \dot{\underline{x}}
 \end{align}
 \newline
 mit $\dot{\underline{x}} = (\underline{A}-\underline{B}\cdot\underline{k})\cdot\underline{x}$:
+
 \begin{align}
     \dot{V}(\underline{x}) &= ((\underline{A}-\underline{B}\cdot\underline{k})\cdot\underline{x})^T \cdot \underline{P} \cdot \underline{x} + \underline{x}^T \cdot \underline{P} \cdot (\underline{A}-\underline{B}\cdot\underline{k})\cdot\underline{x} \nonumber \\
     \dot{V}(\underline{x}) &= \underline{x}^T\cdot(\underline{A}^T\cdot\underline{P}-\underline{k}^T\cdot\underline{B}^T\cdot\underline{P}+\underline{P}\cdot\underline{A}-\underline{P}\cdot\underline{B}\cdot\underline{k})\cdot\underline{x}
 \end{align}
 \newline
-Gewählt wurde weiterhin der Ansatz für exponentielle Stabilität. Gesucht ist somit
+Gewählt wurde weiterhin der Ansatz für \textbf{exponentielle Stabilität}. Gesucht ist somit
+
 \begin{align}
     \dot{V}(\underline{x}) < -2\cdot\alpha \cdot V(\underline{x})
 \end{align}
 \newline
-mit $\alpha > 0$ als als vorgegebene Abklingrate (Decay-Rate).\\
-
-\clearpage
+mit $\alpha > 0$ als als vorgegebene \textbf{Abklingrate (Decay-Rate)}.\\
 
 Mit dem Kriterium für exponentielle Stabilität folgt:
 \[
@@ -174,6 +186,7 @@ Mit dem Kriterium für exponentielle Stabilität folgt:
 \end{align}
 \newline
 Dies ist erfüllt, falls die zusammengesetzte Matrix negativ definit ist, also 
+
 \begin{align*}
      \underline{A}^T\cdot\underline{P}-\underline{k}^T\cdot\underline{B}^T\cdot\underline{P}+\underline{P}\cdot\underline{A}-\underline{P}\cdot\underline{B}\cdot\underline{k}+2\cdot\alpha\cdot\underline{P} < \underline{0}
 \end{align*}
@@ -181,12 +194,14 @@ Dies ist erfüllt, falls die zusammengesetzte Matrix negativ definit ist, also
 gilt.\\
 \newline
 Die \autoref{eq:Gleichung82} enthält nichtlineare Terme. Zur Überführung in eine lineare Gleichung wird eine Variable $\underline{M}=\underline{k}\cdot\underline{x}$ eingeführt.
+
 \begin{align} \label{eq:Gleichung83}
     \underline{x}\cdot\underline{A}^T+\underline{A}\cdot\underline{x}-\underline{M}^T\cdot\underline{B}^T-\underline{B}\cdot\underline{M}+2\cdot\alpha\cdot\underline{x} < \underline{0} \\
     \underline{x} > \underline{0} \nonumber
 \end{align}
 \newline
-Analog zu \autoref{sec:iregler} wird die Matrix C wie folgt gewählt:
+Analog zu \autoref{sec:iregler} wird die \textbf{Matrix C} wie folgt gewählt:
+
 \begin{align*}
     C = 
     \begin{bmatrix}
@@ -195,6 +210,7 @@ Analog zu \autoref{sec:iregler} wird die Matrix C wie folgt gewählt:
 \end{align*}
 \newline
 Ebenfalls müssen wieder $\underline{\tilde{A}}$ und $\underline{\tilde{B}}$ bestimmt werden:
+
 \begin{align*}
     \underline{\tilde{A}} &= 
     \begin{bmatrix}
@@ -209,13 +225,13 @@ Ebenfalls müssen wieder $\underline{\tilde{A}}$ und $\underline{\tilde{B}}$ bes
 \end{align*}
 \newline
 Zuletzt wird $\alpha$ gewählt zu
-\begin{align*}
-    \alpha = 0.6.
-\end{align*}
-\newline
 
-Über die LMI-Funktionen in Matlab kann nun die lineare Matrixungleichung aus \autoref{eq:Gleichung83} gelöst werden.\\\\
-Die $\tilde{k}$-Matrix mit $\underline{k} = \underline{M}\cdot\underline{x}^{-1}$ resultiert zu:
+\begin{equation*}
+    \boxed{\alpha = 0.6}.
+\end{equation*}
+\newline
+Über die LMI-Funktionen in Matlab kann nun die \textbf{lineare Matrixungleichung} aus \autoref{eq:Gleichung83} gelöst werden. Die $\tilde{k}$-Matrix mit $\underline{k} = \underline{M}\cdot\underline{x}^{-1}$ resultiert zu:
+
 \begin{align}
     \underline{\tilde{k}} &= 
     \begin{bmatrix}
@@ -223,29 +239,29 @@ Die $\tilde{k}$-Matrix mit $\underline{k} = \underline{M}\cdot\underline{x}^{-1}
     \end{bmatrix}
 \end{align}
 \newline
-Gemäß \autoref{eq:Gleichung62} folgen die Verstärkungskoeffizienten wie nachfolgend gezeigt:\\\\
-Zustandsrückführungskoeffizienten:
-\begin{align}
+Gemäß \autoref{eq:Gleichung62} folgen die Verstärkungskoeffizienten (unterteilt in \textbf{Zustandsrückführungskoeffizienten} und \textbf{I-Verstärkungskoeffizienten}) wie nachfolgend gezeigt:
+
+\begin{empheq}[box=\widefbox]{align}
     \underline{k}_{\mathrm{x}} &= 
     \begin{bmatrix}
         -314.9301 & -58.3101 & -108.2878 & -84.0734
     \end{bmatrix}
-\end{align}
-\newline
-I-Verstärkungskoeffizienten:
-\begin{align}
+\end{empheq}
+
+\begin{empheq}[box=\widefbox]{align}
     \underline{k}_{\mathrm{I}} &= [-59.0425]
-\end{align}
+\end{empheq}
 \newline
-Die Polstellen des Reglers können abschließend berechnet werden über:
-\begin{align}
+Die \textbf{Polstellen des Reglers} können abschließend berechnet werden über:
+
+\begin{empheq}[box=\widefbox]{align}
     \begin{split}
         \underline{s}_{\mathrm{P}} &= eig(\underline{\tilde{A}} - \underline{\tilde{B}}\cdot\underline{\tilde{k}}) \\&=
         \begin{bmatrix}
             -9.4 + 5.1i & -9.4 - 5.1i & -1.2 + 0i & -1.5 + 1.2i & -1.5 - 1.2i
         \end{bmatrix}
     \end{split}
-\end{align}
+\end{empheq}
 
 \begin{figure}[H]
     \centering
@@ -256,18 +272,19 @@ Die Polstellen des Reglers können abschließend berechnet werden über:
 
 Nachdem der Regler nun erfolgreich über LMI's implementiert wurde, kann nun mit dem Beobachterentwurf fortgesetzt werden.\\
 Eine wichtige Erkenntnis wurde bis jetzt vorenthalten. zwischen dem Zustandsreglerentwurf und dem Beobachterentwurf besteht eine \textbf{Dualität}. Das heißt konkret, das erneut der Ansatz mit quadratischen Ljapunov-Funktionen angesetzt werden kann, um den Beobachter umzusetzen.
+
 \begin{align}
     V(\underline{e}) = \underline{e}^T \cdot \underline{P} \cdot \underline{e} \quad mit \quad V(\underline{e}) > 0 \quad , \quad \underline{e} \neq 0 
 \end{align}
 \newline
 Auch hier wird ein Beobachter mit Abklingrate gewählt, um diesmal einen exponentiellen Verlauf des Beobachterfehlers zu ermöglichen. Über $\alpha$ kann die Abklingrate des Fehlers genau eingestellt werden. Gesucht ist nun:
+
 \begin{align}
     \dot{V}(\underline{e}) + 2 \cdot \alpha \cdot V(\underline{e}) < 0
 \end{align}
+\newline
+Somit kann analog zum Regler eine LMI Formulierung mit $\underline{N}=\underline{P}\cdot\underline{L}$ vorgenommen werden.
 
-\clearpage
-
-Somit kann analog zum Regler eine LMI Formulierung mit $\underline{N}=\underline{P}\cdot\underline{L}$ vorgenommen werden. 
 \begin{align} \label{eq:Gleichung90}
     \begin{split}
         \underline{A}^T\cdot\underline{P} + \underline{P}\cdot\underline{A} - \underline{N}\cdot\underline{C} - \underline{C}^T\cdot\underline{N} + 2\cdot\alpha\cdot\underline{P} < 0 \\
@@ -276,31 +293,33 @@ Somit kann analog zum Regler eine LMI Formulierung mit $\underline{N}=\underline
 \end{align}
 \newline
 Zuletzt wird $\alpha$ gewählt zu
-\begin{align*}
-    \alpha _{Obs} = 4.0.
-\end{align*}
+
+\begin{equation*}
+    \boxed{\alpha _{Obs} = 4.0}.
+\end{equation*}
 \newline
-Über die LMI-Funktionen in Matlab kann nun die lineare Matrixungleichung aus \autoref{eq:Gleichung90} gelöst werden.\\\\
-Die L-Matrix mit $\underline{L} = \underline{P}^{-1}\cdot\underline{N}$ resultiert zu:
-\begin{align}
-    L &= 
+Über die LMI-Funktionen in Matlab kann nun die lineare Matrixungleichung aus \autoref{eq:Gleichung90} gelöst werden. Die \textbf{L-Matrix} mit $\underline{L} = \underline{P}^{-1}\cdot\underline{N}$ resultiert zu:
+
+\begin{empheq}[box=\widefbox]{align}
+    L = 
     \begin{bmatrix}
         9.7627 & -0.1421 & 1.1786 \\
         72.8250 & -0.6596 & 11.3192 \\
         0.2876 & 4.5000 & 1.0417 \\
         -3.2221 & -0.0416 & 2.1657
     \end{bmatrix}
-\end{align}
+\end{empheq}
 \newline
-Die Polstellen des Beobachters können abschließend berechnet werden über:
-\begin{align}
+Die \textbf{Polstellen des Beobachters} können abschließend berechnet werden über:
+
+\begin{empheq}[box=\widefbox]{align}
     \begin{split}
         \underline{s}_{\mathrm{P}} &= eig(\underline{A} - \underline{L}\cdot\underline{C}) \\&=
         \begin{bmatrix}
             -4.9 + 5.0i & -4.9 - 5.0i & -4.5 + 0.03i & -4.5 - 0.03i
         \end{bmatrix}
     \end{split}
-\end{align}
+\end{empheq}
 
 \begin{figure}[H]
     \centering
@@ -309,7 +328,8 @@ Die Polstellen des Beobachters können abschließend berechnet werden über:
     \label{fig:Bild46}
 \end{figure}
 
-Wichtig dabei ist zu beachten, dass das Systemverhalten des Beobachter schneller sein muss, als die des geschlossenen Regelkreises. Es gilt:
+Wichtig ist dabei zu beachten, dass das Systemverhalten des Beobachter schneller sein muss, als das des geschlossenen Regelkreises. Es gilt:
+
 \begin{align}
     \left| Re\{ \underline{s}_{\mathrm{P}_{Obs}}\}\right| > \left| Re\{ \underline{s}_{\mathrm{P}_{Regler}}\}\right| \cdot (2 ... 3)
 \end{align}

@@ -60,6 +60,7 @@
 \usepackage{amssymb}
 \usepackage{mathtools}
 \usepackage{breqn}
+\usepackage{empheq}
 
 % Listenumgebungen
 \usepackage{listings}
@@ -84,6 +85,8 @@
 \definecolor{ccS}{RGB}{0,0,0}
 \definecolor{ccB}{RGB}{68,73,159}
 \definecolor{ccD}{RGB}{0,0,80}
+\definecolor{grey}{RGB}{200,200,200}
+\definecolor{lightGrey}{RGB}{230,230,230}
 
 % Für erweiterte Tabellen
 \usepackage{longtable}
@@ -153,22 +156,21 @@
 \hypersetup{hidelinks}
 \urlstyle{same}
 
+% Include TEX-Files (Performance beim Testen)
+% \includeonly{8_beobachter}
+
 %--------------------------------------------------------------------------
 % Eigene Befehle
 %--------------------------------------------------------------------------
-% Test 
-% \renewcommand{\thesection}{\arabic{section}} % Section startet mit 1.0 und nicht mit 0.1
+\newcommand*\widefbox[1]{\fbox{\hspace{1em}#1\hspace{1em}}} % Box für align-Umgebung
 
 %------------sectioning command-------------------
 % The sectioning command one level down the hierarchy from \subsubsection is called \paragraph followed by \subparagraph
 % to include this in your table of contents
 
-% for paragraph
-\setcounter{tocdepth}{4}
+% Tiefe des Inhaltsverzeichnis
+\setcounter{tocdepth}{2}
 \setcounter{secnumdepth}{4}
-% for subparagraph
-\setcounter{tocdepth}{5}
-\setcounter{secnumdepth}{5}
 
 % Abkürzungen durch Kommandos setzen
 \newcommand{\bspw}{bspw.\xspace}
@@ -287,7 +289,7 @@
       \textbf{Fachsemester:}  & 2.\xspace FS                                        \\
       \textbf{Fach:}          & VA1 Moderne Methoden der Regelungstechnik           \\
       \textbf{Dozent:}        & Prof.\xspace Dr.\xspace -Ing.\xspace Horst Schulte  \\
-      \textbf{Abgabe am:}     & 19.\xspace Juli 2022                                \\ 
+      \textbf{Abgabe am:}     & 25.\xspace Juli 2022                                \\ 
    \end{tabular}
 \end{titlepage}
 \clearpage

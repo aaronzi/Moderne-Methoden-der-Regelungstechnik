@@ -1,11 +1,11 @@
 \section{Ausblick} \label{sec:ausblick}
 
-Wie bereits in \autoref{sec:Reglervalidierung} aufgefallen ist, schwingt das System sehr stark bei Reglern mit einfacher Zustandsrückführung und Zustandsreglern mit Referenzwertvorsteuerung. Grund da für ist der Betrag des Imaginärteils der Polstellen, welcher um ein Vielfaches größer ist als der Betrag des Realteils. Um den Imaginärteil zu verkleiner besteht die Möglichkeit die Polregion über LMI's weiter einzuschränken. Der aktuelle Ansatz nutzt lediglich eine Einschränkung über die Vorgabe eines $\alpha$-Wertes, um die Polstellen links einer vorgegebenen Position auf der Real-Achse zu platzieren.\\
+Wie bereits in \autoref{sec:Reglervalidierung} aufgefallen ist, schwingt das System sehr stark bei Reglern mit einfacher Zustandsrückführung und Zustandsreglern mit Referenzwertvorsteuerung. Grund dafür ist der Betrag des Imaginärteils der Polstellen, welcher um ein Vielfaches größer ist als der Betrag des Realteils. Um den Imaginärteil zu verkleiner besteht die Möglichkeit die Polregion über LMI's weiter einzuschränken. Der aktuelle Ansatz nutzt lediglich eine Einschränkung über die Vorgabe eines $\alpha$-Wertes, um die Polstellen links einer vorgegebenen Position auf der Real-Achse zu platzieren. Dies zwingt das System in einen stabilen Zustand.\\
 Das bisherige LMI könnte über zusätzliche Vorgaben erweitert werden, um die Polregion zu verkleinern \bzw zu optimieren. Dazu wird ein Parameter $r$ für die Auslegung eines Kreisradius um den Koordinatenursprung eingeführt sowie ein $\theta$, um einen Sektor links der Imaginärachse über die Wahl eines Winkels festzulegen. Die sich ergebende Polregion ist in \autoref{fig:Bild27} dargestellt.\\
 
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[domain=0:0]
+    \begin{tikzpicture}[framed][domain=0:0]
         \draw[very thin,color=black] (-0.1,-1.1);                               % Umgebung
         \draw[dashed] (0,-3) arc(270:90:3) -- cycle;                            % Halbkreis
         \draw[-stealth] (0,0) -- (-1.24,2.74);                                  % r-Pfeil
@@ -17,12 +17,11 @@ Das bisherige LMI könnte über zusätzliche Vorgaben erweitert werden, um die P
         \node[text width=1cm] at (0.6, -0.3) {0};                               % Koordinatenursprung
         \draw[-stealth] (-0.7,0) to [bend left] (-0.5,0.5);                     % theta-Pfeil
         \node[text width=1cm] at (-0.1, 0.2) {$\theta$};                        % theta
-        \draw[] (-0.8,-0.8) -- (-0.8,0.8);                                      % Begrenzung rechte Seite des Bereichs
-        \node[text width=1cm] at (0, 1.6) {$r$};                                % r
         \begin{scope}
-            \clip (-5,-4) rectangle (-0.8,4);
+            \clip (-5,-4) rectangle (-0.8,4);                                   % Clipping Maske zur Begrenzung des Bereichs
             \draw[pattern={crosshatch}, pattern color=grey] (0,0) -- (-2.12,2.12) arc[start angle=135, delta angle=90,radius=3] -- (0,0); % gefüllter Bereich
         \end{scope}
+        \draw[] (-0.8,-0.8) -- (-0.8,0.8);                                      % Begrenzung rechte Seite des Bereichs
         \node[text width=3cm] at (-1.2,0.5) {$S(\alpha,r,\theta)$};             % Beschriftung Bereich
         \draw[->] (-4.2,0) -- (2,0) node[right] {$Re$};                         % X-Achse
         \draw[->] (0,-4) -- (0,4) node[above] {$Im$};                           % Y-Achse
@@ -31,22 +30,24 @@ Das bisherige LMI könnte über zusätzliche Vorgaben erweitert werden, um die P
     \label{fig:Bild27}
 \end{figure}
 
-Die Formulierung der erweiterten LMI ist nachfolgend dargestellt:
+\clearpage
 
-\begin{align}
+Die Formulierung der erweiterten LMI's ist nachfolgend dargestellt:\\
+\begin{align*}
     \begin{split}
-        \Gamma^1 &= AX + XA^T - BM -M^TB^T + 2\alpha X \\
-        \Gamma^2 &=
+        0 &> AX + XA^T - BM -M^TB^T + 2\alpha X\\\\
+        0 &>
         \begin{pmatrix}
-            (AX + XA^T - BM - M^TB^T)\sin\theta & (AX + XA^T - BM + M^TB^T)\cos\theta \\
+            (AX + XA^T - BM - M^TB^T)\sin\theta & (AX - XA^T - BM + M^TB^T)\cos\theta \\\\
             (XA^T - AX - BM - M^TB^T)\cos\theta & (AX + XA^T - BM - M^TB^T)\sin\theta
-        \end{pmatrix} \\
-        \Gamma^3 &=
+        \end{pmatrix}\\\\
+        0 &> 
         \begin{pmatrix}
-            -rX & AX - BM \\
+            -rX & AX - B M \\\\
             XA^T - M^TB^T & -rX
-        \end{pmatrix}
+        \end{pmatrix} \\\\
+        X &> 0
     \end{split}
-\end{align}
-
-% Gainscheduling Regler
+\end{align*}
+\newline
+Wird durch die Referenzwertvorsteuerung eine Spannung angesteuert, welche signifikant von der Ruhelage abweicht, reicht die Performance der Regler nicht aus, um das System vernünftig zu stabilisieren. Hierzu ist es sinnvoll einen Gain-Scheduling Regler zu implementieren, welcher die Verstärkungsfaktoren als Funktion des Arbeitspunktes betrachtet und regelt. Die Reglerstruktur des Systems wird dadurch dynamischer und einsatzfähiger.

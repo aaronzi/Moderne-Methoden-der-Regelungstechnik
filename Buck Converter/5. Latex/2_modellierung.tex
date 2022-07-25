@@ -1,90 +1,87 @@
-\section{Modellierung des Buck-Converters}
-\label{sec:Modellierung}
-\subsection{Ströme}
-\label{sec:Stroeme}
-Zur Modellierung des Ausgangsstroms einer PV-Anlage sind Kenntnisse über die einzelnen Anlagenströme notwendig. Zur ersten Betrachtung werden die Ströme einer Zelle dargelegt.\\
-\newline
-Gesamtstrom einer Zelle:
+\section{Modellierung des Buck-Converters} \label{sec:Modellierung}
+
+\subsection{Ströme} \label{sec:Stroeme}
+
+Zur Modellierung des Ausgangsstroms einer PV-Anlage sind Kenntnisse über die einzelnen Anlagenströme notwendig. Zur ersten Betrachtung wird der \textbf{Strom einer einzelnen Zelle} dargelegt. Dieser berechnet sich zu
+
 \begin{align}
     i_{\mathrm{pv,z}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) &= i_{\mathrm{ph}}(S, T_{\mathrm{c}}) - i_{\mathrm{d}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) - \frac{v_{\mathrm{pv,z}}}{R_{\mathrm{h}}}
     \label{eq:Gleichung2}
 \end{align}
 \newline
-mit:\\
-\newline
-Strom $i_{\mathrm{ph}}$ aufgrund äußerer Bestrahlung:
+mit Strom $i_{\mathrm{ph}}$ unter Berücksichtigung der äußeren Bestrahlung dargestellt in nachfolgender Gleichung:
+
 \begin{align*}
-    i_{\mathrm{ph}}(S, T_{\mathrm{c}}) &= \frac{S}{S_{\mathrm{STC}}}\cdot i_{\mathrm{ph,sc,STC}}\cdot\left(1+\alpha_{\mathrm{T}}\cdot\left(T_{\mathrm{c}}-T_{\mathrm{c,STC}}\right)\right)
+    i_{\mathrm{ph}}(S, T_{\mathrm{c}}) &= \cfrac{S}{S_{\mathrm{STC}}}\cdot i_{\mathrm{ph,sc,STC}}\cdot\left(1+\alpha_{\mathrm{T}}\cdot\left(T_{\mathrm{c}}-T_{\mathrm{c,STC}}\right)\right)
 \end{align*}
 \newline
-Sättigungsstrom $i_{\mathrm{s}}$ des Dioden-Diffusionseffekts:
+Der \textbf{Sättigungsstrom} $i_{\mathrm{s}}$ des Dioden-Diffusionseffekts wird berechnet über
+
 \begin{align*}
-    i_{\mathrm{s}}(S, T_{\mathrm{c}}) &= \frac{i_{\mathrm{ph}}(S, T_{\mathrm{c}})-\frac{v_{\mathrm{oc}}(T_{\mathrm{c}})}{R_{\mathrm{h}}}}{e^{\frac{v_{\mathrm{oc}}(T_{\mathrm{c}})}{A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1}
+    i_{\mathrm{s}}(S, T_{\mathrm{c}}) &= \cfrac{i_{\mathrm{ph}}(S, T_{\mathrm{c}})-\cfrac{v_{\mathrm{oc}}(T_{\mathrm{c}})}{R_{\mathrm{h}}}}{e^{\cfrac{v_{\mathrm{oc}}(T_{\mathrm{c}})}{A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1}
 \end{align*}
 \newline
-Diodenstrom $i_{\mathrm{d}}$:
+und wird eingesetzt in die Formel zum \textbf{Diodenstrom} $i_{\mathrm{d}}$:
+
 \begin{align*}
-    i_{\mathrm{d}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) &= i_{\mathrm{s}}(S, T_{\mathrm{c}})\cdot \left(e^{\frac{v_{\mathrm{pv,z}}}{A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1\right)
+    i_{\mathrm{d}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) &= i_{\mathrm{s}}(S, T_{\mathrm{c}})\cdot \left(e^{\cfrac{v_{\mathrm{pv,z}}}{A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1\right)
 \end{align*}
 \newline
-Thermische Leerlaufspannung $v_{\mathrm{oc}}$ pro Zelle:
+Weiterhin errechnet sich die \textbf{thermische Leerlaufspannung} $v_{\mathrm{oc}}$ pro Zelle über
+
 \begin{align*}
-    v_{\mathrm{oc}}(T_{\mathrm{c}}) &= v_{\mathrm{oc,STC}}\cdot\left(1+\beta_{\mathrm{T}}\cdot\left(T_{\mathrm{c}}-T_{\mathrm{c,STC}}\right)\right)
+    v_{\mathrm{oc}}(T_{\mathrm{c}}) &= v_{\mathrm{oc,STC}}\cdot\left(1+\beta_{\mathrm{T}}\cdot\left(T_{\mathrm{c}}-T_{\mathrm{c,STC}}\right)\right).
 \end{align*}
 \newline
-Durch das Einsetzen der vorangegangenen Gleichungen in \autoref{eq:Gleichung2} folgt für den Strom einer Zelle:
-\begin{align}
-    i_{\mathrm{pv,z}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) &= i_{\mathrm{ph}}(S, T_{\mathrm{c}})-i_{\mathrm{s}}(S, T_{\mathrm{c}})\cdot\left(e^{\frac{v_{\mathrm{pv,z}}}{A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1\right)-\frac{v_{\mathrm{pv,z}}}{R_{\mathrm{h}}}
+Durch das Einsetzen der vorangegangenen Gleichungen in \autoref{eq:Gleichung2} folgt für den \textbf{Strom einer Zelle} zu
+
+\begin{empheq}[box=\widefbox]{align}
+    i_{\mathrm{pv,z}}(v_{\mathrm{pv,z}}, S, T_{\mathrm{c}}) &= i_{\mathrm{ph}}(S, T_{\mathrm{c}})-i_{\mathrm{s}}(S, T_{\mathrm{c}})\cdot\left(e^{\cfrac{v_{\mathrm{pv,z}}}{A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1\right)-\cfrac{v_{\mathrm{pv,z}}}{R_{\mathrm{h}}}.
     \label{eq:Gleichung3}
-\end{align}
+\end{empheq}
 \newline
-Um Stromgleichungen für eine PV-Anlage bestehend aus mehreren Modulen zu motivieren, werden die Anzahl der seriellen und parallelen Zellen pro Modul mit der Anzahl der seriellen und parallelen Module multipliziert. Folgender Zusammenhang gilt:\\
-\newline
-Berechnung der Gesamtzahl serieller ($N_{\mathrm{s}}$) und paralleler ($N_{\mathrm{p}}$) Zellen pro PV-Anlage:
+Um Stromgleichungen für eine PV-Anlage bestehend aus mehreren Modulen zu motivieren, werden die Anzahl der \textbf{seriellen und parallelen Zellen} pro Modul mit der Anzahl der seriellen und parallelen Module multipliziert.
+
 \begin{align*}
     N_{\mathrm{s}} &= N_{\mathrm{cell,s}}\cdot N_{\mathrm{mod,s}} \\ \nonumber \\
     N_{\mathrm{p}} &= N_{\mathrm{cell,p}}\cdot N_{\mathrm{mod,p}}
 \end{align*}
 \newline
-Aus der Erkenntnis der vorangegangenen zwei Gleichungen resultiert für Strom und Spannung der PV-Anlage:\\
-\newline
-Strom und Spannung der PV-Anlage:
+Aus der Erkenntnis der vorangegangenen zwei Gleichungen resultiert für \textbf{Strom und Spannung der PV-Anlage}:
+
 \begin{align*}
     i_{\mathrm{pv}} &= N_{\mathrm{p}}\cdot i_{\mathrm{pv,z}} \\ \nonumber \\
     v_{\mathrm{pv}} &= N_{\mathrm{s}}\cdot v_{\mathrm{pv,z}}
 \end{align*}
 \newline
-Durch das Einfügen der Zusammenhänge in \autoref{eq:Gleichung3} resultiert der Gesamtstrom der PV-Anlage zu:\\
-\newline
-Gesamtstrom der PV-Anlage:
-\begin{align}
-    i_{\mathrm{pv}}(v_{\mathrm{pv}}, S, T_{\mathrm{c}}) &= N_{\mathrm{p}}\cdot i_{\mathrm{ph}}(S, T_{\mathrm{c}})-N_{\mathrm{p}}\cdot i_{\mathrm{s}}(S, T_{\mathrm{c}})\cdot\left(e^{\frac{v_{\mathrm{pv}}}{N_{\mathrm{s}}\cdot A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1\right)-\frac{N_{\mathrm{p}}\cdot v_{\mathrm{pv}}}{N_{\mathrm{s}}\cdot R_{\mathrm{h}}}
+Durch das Einfügen der Zusammenhänge in \autoref{eq:Gleichung3} resultiert der \textbf{Gesamtstrom der PV-Anlage} zu:
+
+\begin{empheq}[box=\widefbox]{align}
+    i_{\mathrm{pv}}(v_{\mathrm{pv}}, S, T_{\mathrm{c}}) &= N_{\mathrm{p}}\cdot i_{\mathrm{ph}}(S, T_{\mathrm{c}})-N_{\mathrm{p}}\cdot i_{\mathrm{s}}(S, T_{\mathrm{c}})\cdot\left(e^{\cfrac{v_{\mathrm{pv}}}{N_{\mathrm{s}}\cdot A_{\mathrm{n}}\cdot v_{\mathrm{T,STC}}}}-1\right)-\cfrac{N_{\mathrm{p}}\cdot v_{\mathrm{pv}}}{N_{\mathrm{s}}\cdot R_{\mathrm{h}}}
     \label{eq:Gleichung4}
-\end{align}
+\end{empheq}
 \newline
 Die Parameter $S$ (Eingangsstrahlung), $T_{\mathrm{c}}$ (Temperatur der Zellen) und $v_{\mathrm{pv}}$ (PV-Spannung) werden im späteren Verlauf spezifiziert und zur Berechnung herangezogen.
 
-\subsection{Induktivitäten und Kapazitäten}
-\label{sec:Induktivitaten_und_Kapazitaeten}
-Zur Auslegung der Induktivitäten und Kapazitäten des Buck-Converters am MPP werden der Duty Cycle ($d$), die Schaltfrequenz ($f_{\mathrm{SW}}$), der Strom ($i_{\mathrm{PV,MPP}}$) und die Spannung ($v_{\mathrm{PV,MPP}}$) als bekannt vorausgesetzt. Im ersten Schritt werden die maximal zulässigen Strom- und Spannungsschwankungen an den Bauteilen berechnet. Dabei wird eine Schwankung von $\pm$ 0.5 $\%$ zugelassen.\\
-Strom- und Spannungsschwankungen an den Bauteilen:
+\subsection{Induktivitäten und Kapazitäten} \label{sec:Induktivitaten_und_Kapazitaeten}
+
+Zur Auslegung der Induktivitäten und Kapazitäten des Buck-Converters am MPP werden der Duty Cycle ($d$), die Schaltfrequenz ($f_{\mathrm{SW}}$), der Strom ($i_{\mathrm{PV,MPP}}$) und die Spannung ($v_{\mathrm{PV,MPP}}$) als bekannt vorausgesetzt. Im ersten Schritt werden die \textbf{maximal zulässigen Strom- und Spannungsschwankungen an den Bauteilen} berechnet. Dabei wird eine Schwankung von $\pm$ 0.5 $\%$ zugelassen.
+
 \begin{align*}
     \Delta i_{\mathrm{L}} &= 0.005 \cdot i_{\mathrm{PV,MPP}} \\\\
     \Delta v_{\mathrm{PV}} &= 0.005 \cdot v_{\mathrm{PV,MPP}}
 \end{align*}
 \newline
-Zur Berechnung der Induktivität (L) und der Kapazität (C) werden die \autoref{eq:Gleichung5} und \autoref{eq:Gleichung6} angewendet.\\
-\newline
-Berechnung von L und C:
+Zur Berechnung der \textbf{Induktivität ($L$)} und der \textbf{Kapazität ($C$)} werden \autoref{eq:Gleichung5} und \autoref{eq:Gleichung6} angewendet.
+
 \begin{align}
-    L &= \frac{v_{\mathrm{DC}}\cdot(1-d)}{\Delta i_{\mathrm{L}}\cdot f_{\mathrm{sw}}} \label{eq:Gleichung5}\\ \nonumber \\
-    C &= \frac{i_{\mathrm{PV,MPP}}\cdot(1-d)}{\Delta v_{\mathrm{PV}}\cdot f_{\mathrm{sw}}} \label{eq:Gleichung6}
+    L &= \cfrac{v_{\mathrm{DC}}\cdot(1-d)}{\Delta i_{\mathrm{L}}\cdot f_{\mathrm{sw}}} \label{eq:Gleichung5}\\ \nonumber \\
+    C &= \cfrac{i_{\mathrm{PV,MPP}}\cdot(1-d)}{\Delta v_{\mathrm{PV}}\cdot f_{\mathrm{sw}}} \label{eq:Gleichung6}
 \end{align}
 \newline
-Die für die Simulation angesetzten Bauteilgrößen resultieren zu:\\
-\newline
-Berechnung der Bauteilgrößen:
-\begin{align}
-     \underline{\underline{L}} &= \frac{900V\cdot(1-0.8579)}{0.005\cdot 2902.13A\cdot 5kHz} \approx \underline{\underline{1.76mH}} \label{eq:Gleichung7} \\ \nonumber \\
-     \underline{\underline{C}} &= \frac{2902.13A\cdot (1-0.8579)}{0.005\cdot 1049.13V\cdot 5kHz} \approx \underline{\underline{15.7mF}} \label{eq:Gleichung8}
-\end{align}
+Die für die Simulation angesetzten Bauteilgrößen resultieren zu
+
+\begin{empheq}[box=\widefbox]{align}
+     \underline{\underline{L}} &= \cfrac{900V\cdot(1-0.8579)}{0.005\cdot 2902.13A\cdot 5kHz} \approx \underline{\underline{1.76mH}} \label{eq:Gleichung7} \\ \nonumber \\
+     \underline{\underline{C}} &= \cfrac{2902.13A\cdot (1-0.8579)}{0.005\cdot 1049.13V\cdot 5kHz} \approx \underline{\underline{15.7mF}}. \label{eq:Gleichung8}
+\end{empheq}

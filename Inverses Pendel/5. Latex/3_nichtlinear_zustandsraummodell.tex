@@ -8,7 +8,7 @@ Zum Aufstellen des nichtlinearen Zustandsraummodells werden die \autoref{eq:Glei
     \ddot x_{\mathrm{M}} &= \frac{-d_{\mathrm{Mf}} \cdot \dot \varphi -m \cdot l^2 \cdot \ddot \varphi + m \cdot g \cdot l \cdot \sin({\varphi})}{m \cdot l \cdot \cos({\varphi})} \label{eq:Gleichung19} \\
     \ddot \varphi &= \frac{F_{\mathrm{a}} - (M+m) \cdot \ddot x_{\mathrm{M}} + m \cdot l \cdot \dot \varphi^2 \cdot \sin({\varphi}) -d \cdot \dot x_{\mathrm{M}}}{m \cdot l \cdot \cos({\varphi})} \label{eq:Gleichung20}
 \end{align}
-
+\newline
 Beide Gleichungen sind über die Wagenbeschleunigung $\ddot x_{\mathrm{M}}$ und der Winkelbeschleunigung $\ddot \varphi$ miteinander verkoppelt. Durch das gegenseitige Einsetzen werden die Abhängigkeiten eliminiert.
 
 \begin{align}
@@ -18,14 +18,13 @@ Beide Gleichungen sind über die Wagenbeschleunigung $\ddot x_{\mathrm{M}}$ und 
 
 \subsection{Zustandsraumdarstellung (nichtlinear)}
 
-Das zu untersuchende System weist vier Zustände auf, welche in Form eines Zustandsvektors $\underline{x}$ erfasst werden. Die Dokumentation der zeitlichen Ableitungen erfolgt im Vektor der Zustandsänderungen $\dot{\underline{x}}$. Der Eingangsvektor $\underline{u}$ gleicht der Eingangskraft des Systems $F_{\mathrm{a}}$.\\\\
-Eingangsvektor:
+Das zu untersuchende System weist vier Zustände auf, welche in Form eines Zustandsvektors $\underline{x}$ erfasst werden (siehe \autoref{eq:Gleichung24}). Die Dokumentation der zeitlichen Ableitungen erfolgt im Vektor der Zustandsänderungen $\dot{\underline{x}}$ (siehe \autoref{eq:Gleichung25}). Der Eingangsvektor $\underline{u}$ gleicht der Eingangskraft des Systems $F_{\mathrm{a}}$, wie in \autoref{eq:Gleichung23} gezeigt wird.
 
 \begin{align}\label{eq:Gleichung23}
     \underline{u} &= F_{\mathrm{a}}
 \end{align}
-
-Zustandsvektor:
+\newline
+Der Zustandsvektor ergibt sich zu:
 
 \begin{align}
     \underline{x} &=
@@ -43,8 +42,7 @@ Zustandsvektor:
     \end{bmatrix}
 \end{align}
 
-Vektor der Zustandsänderungen:
-
+Nach zeitlicher Ableitung des Zustandsvektors ergibt sich Der Vektor der Zustandsänderungen zu:
 \begin{align}\label{eq:Gleichung25}
     \dot{\underline{x}} &=
     \begin{bmatrix}
@@ -60,15 +58,15 @@ Vektor der Zustandsänderungen:
         \ddot{x}_{\mathrm{M}}
     \end{bmatrix}
 \end{align}
+\newline
+Mithilfe der \autoref{eq:Gleichung23} bis \autoref{eq:Gleichung25}, durch das Einsetzen in \autoref{eq:Gleichung21} und \autoref{eq:Gleichung22}, dem Zusammenfassen und Umstellen nach $\ddot x_{\mathrm{M}}$ und $\ddot \varphi$ folgt das \textbf{nichtlineare Zustandsraummodell} aus \autoref{eq:Gleichung26}.
 
-Mithilfe der \autoref{eq:Gleichung23} bis \autoref{eq:Gleichung25}, durch das Einsetzen in \autoref{eq:Gleichung21} und \autoref{eq:Gleichung22}, dem Zusammenfassen und Umstellen nach $\ddot x_{\mathrm{M}}$ und $\ddot \varphi$ folgt das nichtlineare Zustandsraummodell aus \autoref{eq:Gleichung26}.
-
-\begin{align}\label{eq:Gleichung26}
-    \dot{\underline{x}} &=
+\begin{empheq}[box=\widefbox]{align} \label{eq:Gleichung26}
+    \dot{\underline{x}} =
     \begin{bmatrix}
         x_2 \\
         \frac{\left(\frac{F_{\mathrm{a}} - g \cdot \tan(x_{\mathrm{1}}) \cdot (M + m) - d \cdot x_{\mathrm{4}}}{m \cdot l \cdot \cos(x_{\mathrm{1}})} + d_{\mathrm{Mf}} \cdot x_{\mathrm{2}} \cdot \left(\frac{M}{m^2 \cdot l^2 \cdot \cos^2(x_{\mathrm{1}})} + \frac{1}{m \cdot l^2 \cdot \cos^2(x_{\mathrm{1}})}\right) + x_{\mathrm{2}}^2 \cdot \tan(x_{\mathrm{1}})\right)}{\left(1 - \frac{1}{\cos^2(x_{\mathrm{1}})} - \frac{M}{m \cdot \cos^2(x_{\mathrm{1}})}\right)} \\
         x_{\mathrm{4}} \\
         \frac{\left(g \cdot \tan(x_{\mathrm{1}}) - \frac{F_{\mathrm{a}}}{m \cdot \cos^2(x_{\mathrm{1}})} + \frac{d \cdot x_{\mathrm{4}}}{m \cdot \cos^2(x_{\mathrm{1}})} - \frac{l \cdot x_{\mathrm{2}}^2 \cdot \tan(x_{\mathrm{1}})}{\cos(x_{\mathrm{1}})} - \frac{d_{\mathrm{Mf}} \cdot x_{\mathrm{2}}}{m \cdot l \cdot \cos(x_{\mathrm{1}})}\right)}{\left(1 - \frac{(M + m)}{m \cdot \cos^2(x_{\mathrm{1}})}\right)}
     \end{bmatrix}
-\end{align}
+\end{empheq}

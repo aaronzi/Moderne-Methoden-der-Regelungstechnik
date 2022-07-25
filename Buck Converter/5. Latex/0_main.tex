@@ -60,6 +60,7 @@
 \usepackage{amssymb}
 \usepackage{mathtools}
 \usepackage{breqn}
+\usepackage{empheq}
 
 % Listenumgebungen
 \usepackage{listings}
@@ -206,19 +207,15 @@
 %--------------------------------------------------------------------------
 % Eigene Befehle
 %--------------------------------------------------------------------------
-% Test 
-% \renewcommand{\thesection}{\arabic{section}} % Section startet mit 1.0 und nicht mit 0.1
+\newcommand*\widefbox[1]{\fbox{\hspace{1em}#1\hspace{1em}}} % Box für align-Umgebung
 
 %------------sectioning command-------------------
 % The sectioning command one level down the hierarchy from \subsubsection is called \paragraph followed by \subparagraph
 % to include this in your table of contents
 
-% for paragraph
-\setcounter{tocdepth}{4}
+% Tiefe des Inhaltsverzeichnis
+\setcounter{tocdepth}{2}
 \setcounter{secnumdepth}{4}
-% for subparagraph
-\setcounter{tocdepth}{5}
-\setcounter{secnumdepth}{5}
 
 % Abkürzungen durch Kommandos setzen
 \newcommand{\bspw}{bspw.\xspace}
